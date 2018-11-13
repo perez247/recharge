@@ -1,0 +1,103 @@
+<form #f="ngForm" [formGroup]="registerForm">
+  <ion-grid>
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    formControlName="userName" 
+                    placeholder="Username *"
+                  ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+                  <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
+                  <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+                </ion-text>
+
+          </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    formControlName="phoneNumber" 
+                    placeholder="Phone *"
+                    type="tel"
+                    maxlength="12"
+                  ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger" *ngIf="registerForm.get('phoneNumber').touched && registerForm.get('phoneNumber').invalid">
+                    <small *ngIf="registerForm.get('phoneNumber').errors['required']">Phone is required, </small> 
+                    <small *ngIf="registerForm.get('phoneNumber').errors['invalidNumber']">Phone is not a number, </small> 
+                    <small *ngIf="registerForm.get('phoneNumber').errors['invalidStringRange'] "> between 10 and 12 long,</small>
+                    <small *ngIf="registerForm.get('phoneNumber').errors['unique']"> Phone number has been taken</small> 
+                  </ion-text>
+
+          </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    formControlName="pin"
+                    placeholder="Pin *"
+                    type="password"
+                    maxlength="8"
+                    pattern="[0-9]*"
+                  ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger" *ngIf="registerForm.get('pin').touched && registerForm.get('pin').invalid">
+                  <small *ngIf="registerForm.get('pin').errors['required']">Pin is required, </small> 
+                  <small *ngIf="registerForm.get('pin').errors['invalidNumber']">Pin must be numbers, </small> 
+                  <small *ngIf="registerForm.get('pin').errors['invalidLenght']">numbers within 8 and 8</small> 
+                </ion-text>
+
+          </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    formControlName="confirmPin" 
+                    placeholder="Confirm Pin *"
+                    type="password"
+                    maxlength="8"
+                    pattern="[0-9]*"
+                  ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger" *ngIf="registerForm.get('confirmPin').touched && registerForm.get('confirmPin').invalid">
+                  <!-- {{registerForm.get('confirmPassword').errors | json}} -->
+                  <small *ngIf="registerForm.get('confirmPin').errors['invalidConfirmPassword']">Pins are not equal</small> 
+                </ion-text>
+
+          </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    formControlName="referer" 
+                    placeholder="Referer Phone/username"
+                  ></ion-input>
+                </ion-item>
+
+                <!-- <ion-text color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+                  <small> Username is required</small> 
+                </ion-text> -->
+
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+
+  
+  <ion-button [disabled]="registerForm.invalid" (click)="registerUser()" size="medium" expand="full">
+      Sign up
+  </ion-button>
+</form>

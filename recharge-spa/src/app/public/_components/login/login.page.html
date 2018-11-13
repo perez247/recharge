@@ -1,0 +1,50 @@
+<form #f="ngForm" (ngSubmit)="login()">
+  <ion-grid>
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    placeholder="Username/Phone"
+                    type="text"
+                    name="username"
+                    [(ngModel)]="user.username"
+                    #userName = "ngModel"
+                    required
+                  ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger" *ngIf="userName.touched && userName.invalid">
+                  <small> Username/Phone is required</small>
+                </ion-text>
+
+          </ion-col>
+      </ion-row>
+
+      <ion-row>
+          <ion-col>
+               <ion-item>
+                  <ion-input
+                    placeholder="Pin "
+                    type="password"
+                    maxlength="8"
+                    pattern="[0-9]*"
+                    name="pin"
+                    [(ngModel)]="user.pin"
+                    #pin = "ngModel"
+                    required
+                  ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger" *ngIf="pin.touched && pin.invalid">
+                    <small>Phone is required</small> 
+                  </ion-text>
+
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+
+  
+  <ion-button [disabled]="f.invalid" type="submit" size="medium" expand="full">
+      Sign In
+  </ion-button>
+</form>

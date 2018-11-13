@@ -1,0 +1,51 @@
+
+<ion-content padding>
+      
+  <ion-card-content text-center>
+    <ion-text color="primary">
+      <h1>Confirm Phone Number</h1>
+    </ion-text><br>
+    <ion-text>Kindly type in the code sent to your mobile phone</ion-text>
+
+    <form #f="ngForm">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+                <ion-item>
+                  <ion-input
+                    type="number"
+                    pattern="[0-9]*"
+                    ngModel
+                    #code="ngModel"
+                    name="code"
+                    required
+                  ></ion-input>
+                </ion-item>
+
+                <!-- <ion-text color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+                  <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
+                  <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+                </ion-text> -->
+    
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <ion-button [disabled]="f.invalid" (click)="sendConfirmation(f)" size="medium" expand="full">
+        Confirm Number
+    </ion-button>
+
+    <ion-button [disabled]="resendButton" color="secondary" (click)="resend()" size="medium" expand="full">
+      Resend Code <span *ngIf="resendButton">&nbsp; {{timer}} </span>
+    </ion-button>
+  </ion-card-content>
+
+</ion-content>
+
+<ion-footer no-shadow>
+  <ion-toolbar text-center position="bottom">
+    <small>Already a member? 
+      <a [href]="'auth'"><strong><ion-text color="primary">Sign In</ion-text></strong></a>
+    </small>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,29 @@
+
+<ion-content padding>
+      
+  <ion-card-content text-center>
+      <ion-text color="primary">
+        <h1 *ngIf="!signIn">Sign Up</h1>
+        <h1 *ngIf="signIn">Sign In</h1>
+      </ion-text>
+        
+        <app-register *ngIf="!signIn" (registered)="toggleAuth()"></app-register>
+
+        <app-login *ngIf="signIn"></app-login>
+
+
+  </ion-card-content>
+
+</ion-content>
+
+<ion-footer no-shadow>
+  <ion-toolbar text-center position="bottom">
+    <small *ngIf="!signIn">Already a member? 
+      <strong (click)="toggleAuth()"><ion-text color="primary">Sign In</ion-text></strong>
+    </small>
+
+    <small *ngIf="signIn">Don't have an account? 
+      <strong ion-text (click)="toggleAuth()"><ion-text color="primary">Sign Up</ion-text></strong>
+    </small>
+  </ion-toolbar>
+</ion-footer>
