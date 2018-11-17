@@ -13,7 +13,7 @@ namespace recharge.Api.Dtos
         [Required]
         public string UserName { get; set; }
 
-        [Required, StringLength(12,MinimumLength=8, ErrorMessage= "Phone length between 8 and 12"),
+        [Required, StringLength(12,MinimumLength=10, ErrorMessage= "Phone length between 10 and 12"),
         RegularExpression("^[\\+\\-]?\\d*\\.?\\d+(?:[Ee][\\+\\-]?\\d+)?$", ErrorMessage = "Phone must be numbers")]
         public string PhoneNumber { get; set; }
 

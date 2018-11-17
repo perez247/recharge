@@ -16,7 +16,11 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: './home/home/home.module#HomePageModule'
-      }
+      },
+      {
+        path: 'mobile',
+        loadChildren: './home/recharge/mobile/mobile.module#MobilePageModule'
+      },
     ]
   },
   {
@@ -27,7 +31,7 @@ const routes: Routes = [
     path: 'confirm-phone',
     loadChildren: './public/_components/confirm-phone/confirm-phone.module#ConfirmPhonePageModule'
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({

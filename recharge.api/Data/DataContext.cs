@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using recharge.api.models;
 using recharge.Api.models;
 
 namespace recharge.Api.Data
@@ -11,6 +12,7 @@ namespace recharge.Api.Data
         IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
         public DbSet<Point> Points { get; set; }
+        public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
         public DataContext(DbContextOptions<DataContext> options)
         : base(options) {}
 

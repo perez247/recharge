@@ -1,4 +1,4 @@
-import { RegisterValidation } from './../../../shared/common/register-validation';
+import { RegisterValidation } from '../../../shared/common/custom-validation/register-validation';
 import { AuthService } from '../../../shared/_services/auth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

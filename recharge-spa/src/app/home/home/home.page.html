@@ -27,7 +27,7 @@
   <ion-grid>
       <ion-row>
           <ion-col width-50>
-            <ion-card text-center class="menu-tab">
+            <ion-card text-center class="menu-tab" (click)="rechargeOptions.open();">
               <ion-card-title>
                   <ion-icon name="flash" class="larger"></ion-icon>
               </ion-card-title>
@@ -62,4 +62,15 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+
+      <ion-item hidden="true">
+        <ion-label>Recharge Type</ion-label>
+        <ion-select #rechargeOptions value="brown" okText="Okay" cancelText="Dismiss" (ionChange)="goToType($event)">
+          <ion-select-option value="mobile">Mobile Top</ion-select-option>
+          <ion-select-option value="utility">Utility</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
 </ion-content>

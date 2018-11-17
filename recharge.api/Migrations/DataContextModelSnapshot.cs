@@ -84,6 +84,30 @@ namespace recharge.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("recharge.api.models.PaymentTransaction", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<string>("PaymentType");
+
+                    b.Property<decimal>("Points");
+
+                    b.Property<decimal>("RefererPoint");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PaymentTransactions");
+                });
+
             modelBuilder.Entity("recharge.Api.models.Point", b =>
                 {
                     b.Property<Guid>("Id")
@@ -156,6 +180,8 @@ namespace recharge.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<Guid?>("RefererId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -171,6 +197,8 @@ namespace recharge.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("RefererId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -228,12 +256,27 @@ namespace recharge.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("recharge.api.models.PaymentTransaction", b =>
+                {
+                    b.HasOne("recharge.Api.models.User", "User")
+                        .WithMany("PaymentTransactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("recharge.Api.models.Point", b =>
                 {
                     b.HasOne("recharge.Api.models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("recharge.Api.models.User", b =>
+                {
+                    b.HasOne("recharge.Api.models.User", "Referer")
+                        .WithMany()
+                        .HasForeignKey("RefererId");
                 });
 
             modelBuilder.Entity("recharge.Api.models.UserRole", b =>

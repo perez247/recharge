@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { RegisterValidation } from '../../../shared/common/register-validation';
+import { RegisterValidation } from '../../../shared/common/custom-validation/register-validation';
 import { AuthService } from '../../../shared/_services/auth.service';
 
 @Component({

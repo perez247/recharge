@@ -10,3 +10,10 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+.message-block > small {
+    // Hidden by default
+    display: none;
+}
+    .message-block > small:first-child {
+    display: block;
+}

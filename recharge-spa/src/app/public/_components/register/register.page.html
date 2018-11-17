@@ -9,7 +9,7 @@
                   ></ion-input>
                 </ion-item>
 
-                <ion-text color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+                <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
                   <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
                   <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
                 </ion-text>
@@ -28,7 +28,7 @@
                   ></ion-input>
                 </ion-item>
 
-                <ion-text color="danger" *ngIf="registerForm.get('phoneNumber').touched && registerForm.get('phoneNumber').invalid">
+                <ion-text class="message-block" color="danger" *ngIf="registerForm.get('phoneNumber').touched && registerForm.get('phoneNumber').invalid">
                     <small *ngIf="registerForm.get('phoneNumber').errors['required']">Phone is required, </small> 
                     <small *ngIf="registerForm.get('phoneNumber').errors['invalidNumber']">Phone is not a number, </small> 
                     <small *ngIf="registerForm.get('phoneNumber').errors['invalidStringRange'] "> between 10 and 12 long,</small>
@@ -50,7 +50,7 @@
                   ></ion-input>
                 </ion-item>
 
-                <ion-text color="danger" *ngIf="registerForm.get('pin').touched && registerForm.get('pin').invalid">
+                <ion-text class="message-block" color="danger" *ngIf="registerForm.get('pin').touched && registerForm.get('pin').invalid">
                   <small *ngIf="registerForm.get('pin').errors['required']">Pin is required, </small> 
                   <small *ngIf="registerForm.get('pin').errors['invalidNumber']">Pin must be numbers, </small> 
                   <small *ngIf="registerForm.get('pin').errors['invalidLenght']">numbers within 8 and 8</small> 

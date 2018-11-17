@@ -1,0 +1,20 @@
+<ion-title>Payment</ion-title>
+<!-- <ion-button href="recharge/type/(mobile:mobile)" >mobile</ion-button> <br>
+<ion-button href="recharge/type/(utility:utility)" >Utility</ion-button> <br> -->
+<ion-grid>
+</ion-grid>
+<ion-content padding>
+    <!-- {{formData | json }}
+    <br>
+    {{formInvalid | json }} -->
+
+    
+    <ion-row>
+        <ion-col size="6"><strong><small>Points:</small></strong></ion-col>
+        <ion-col size="6" text-right><small>{{(formData.amount * 0.05) | number: '.1-3'}}</small></ion-col>
+    </ion-row>
+
+    <ion-button [disabled]="formInvalid" size="medium" (click)="process()" expand="full">
+        Confirm payment
+    </ion-button>
+</ion-content>
