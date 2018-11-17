@@ -17,7 +17,7 @@ export class AuthService {
   constructor(private http: HttpClient, private tokenService: TokenService) {
    }
 
-  user(): Observable<AppToken> {
+  user(): Observable<any> {
     // console.log('token 2');
     return this.tokenService.getAsObject();
   }

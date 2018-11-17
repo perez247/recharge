@@ -1,7 +1,7 @@
 
 export interface AppToken {
-    userId: string;
-    userName: string;
+    nameid: string;
+    unique_name: string;
     phone: string;
     isisPhoneConfirmed: boolean;
     exp: string;

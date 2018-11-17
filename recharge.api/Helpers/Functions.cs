@@ -15,8 +15,8 @@ namespace recharge.Api.Helpers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim("phone", user.PhoneNumber),
-                new Claim("isPhoneConfirmed", user.PhoneNumberConfirmed.ToString())
+                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
+                new Claim(ClaimTypes.HomePhone, user.PhoneNumberConfirmed.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));

@@ -36,6 +36,8 @@ namespace DattingApp.Api.Helpers
 
             CreateMap<User,UserToReturnDto>();
             CreateMap<UserToReturnDto,User>();
+
+            // CreateMap<Point, PointsToReturn>();
         }
     }
 }

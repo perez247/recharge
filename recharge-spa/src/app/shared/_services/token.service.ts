@@ -40,11 +40,14 @@ export class TokenService {
     // return of(tokenObject);
   }
 
-  async getAsString() {
-    const tokenString = await this.storage.get('token');
-    if (!tokenString) {return null; }
+  getAsString() {
+    // const tokenString = await this.storage.get('token');
+    // if (!tokenString) {return from(null); }
 
-    return tokenString;
+    // return from(tokenString);
+    return from(this.storage.get('token').then(x => {
+      if (!x) {return null; } else {return x; }
+    }));
   }
 
   clear() {
