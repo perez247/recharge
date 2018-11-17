@@ -5,7 +5,7 @@ namespace recharge.api.models
 {
     public class PaymentTransaction
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
         public Decimal Amount { get; set; }
