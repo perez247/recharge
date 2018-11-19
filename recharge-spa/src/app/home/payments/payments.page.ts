@@ -10,6 +10,8 @@ export class PaymentsPage {
   @Input() formData: any;
   @Input() formInvalid: boolean;
 
+  paymentFormData: any = {};
+
   constructor(
     private rechargeService: RechargeService
   ) { }
@@ -18,5 +20,10 @@ export class PaymentsPage {
     this.rechargeService.recharge(this.formData, this.formData.type).subscribe(x => {
       console.log(x);
     }, error => {console.log(error); } );
+  }
+
+  setTwoNumberDecimal($event) {
+    $event.target.value = $event.target.value ? parseFloat($event.target.value).toFixed(2) : 0.00;
+    console.log($event.target.value);
   }
 }

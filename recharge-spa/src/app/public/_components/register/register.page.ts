@@ -37,7 +37,7 @@ export class RegisterPage {
                     [
                       Validators.required,
                       this.registerValidation.numeric,
-                      this.registerValidation.stringRange(8, 12),
+                      this.registerValidation.stringRange(10, 12),
                     ],
                     [
                       this.registerValidation.shouldBeUnique.bind(this.registerValidation)

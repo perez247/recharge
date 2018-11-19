@@ -3,8 +3,8 @@
       <ion-row>
           <ion-col>
                <ion-item>
+                  <ion-label color="dark" position="floating">Phone/Username</ion-label>
                   <ion-input
-                    placeholder="Username/Phone"
                     type="text"
                     name="username"
                     [(ngModel)]="user.username"
@@ -23,8 +23,8 @@
       <ion-row>
           <ion-col>
                <ion-item>
+                  <ion-label color="dark" position="floating">Pin</ion-label>
                   <ion-input
-                    placeholder="Pin "
                     type="password"
                     maxlength="8"
                     pattern="[0-9]*"

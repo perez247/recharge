@@ -1,20 +1,57 @@
 <ion-title>Payment</ion-title>
 <!-- <ion-button href="recharge/type/(mobile:mobile)" >mobile</ion-button> <br>
 <ion-button href="recharge/type/(utility:utility)" >Utility</ion-button> <br> -->
-<ion-grid>
-</ion-grid>
-<ion-content padding>
+<ion-content>
     <!-- {{formData | json }}
     <br>
     {{formInvalid | json }} -->
+    <form>
 
+        <ion-grid>
+
+            <ion-row>
+                <ion-col size="6"><strong>Bill:</strong></ion-col>
+                <ion-col size="6" text-right>-{{formData.amount  | number: '.2-2'}}</ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="6"><strong>Use Points</strong></ion-col>
+                <ion-col size="6">
+                    <input 
+                        name="points"
+                        [(ngModel)]="paymentFormData.points"
+                        #point 
+                        class="paymentInput"
+                        type="number"
+                        (change)="setTwoNumberDecimal($event)"
+                        step="0.01"
+                        >
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                        <ion-item>
+                                <ion-label text-left>Use Card</ion-label>
+                                <ion-select id="customPopoverSelect" interface="popover">
+                                  <ion-select-option value="brown">Brown</ion-select-option>
+                                  <ion-select-option value="blonde">Blonde</ion-select-option>
+                                  <ion-select-option value="black">Black</ion-select-option>
+                                  <ion-select-option value="red">Red</ion-select-option>
+                                </ion-select>
+                              </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="6"><strong><small>Points:</small></strong></ion-col>
+                <ion-col size="6" text-right><small>{{(formData.amount * 0.05) | number: '.2-2'}}</small></ion-col>
+            </ion-row>
+
+        </ion-grid>
     
-    <ion-row>
-        <ion-col size="6"><strong><small>Points:</small></strong></ion-col>
-        <ion-col size="6" text-right><small>{{(formData.amount * 0.05) | number: '.1-3'}}</small></ion-col>
-    </ion-row>
-
-    <ion-button [disabled]="formInvalid" size="medium" (click)="process()" expand="full">
-        Confirm payment
-    </ion-button>
+        <ion-button [disabled]="formInvalid" size="medium" (click)="process()" expand="full">
+            Confirm payment
+        </ion-button>
+    </form>
 </ion-content>

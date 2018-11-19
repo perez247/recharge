@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import * as _ from 'lodash';
 
  @Injectable()
 
@@ -24,37 +25,22 @@ import { catchError } from 'rxjs/operators';
 
                     const serverError = error.error;
                     let modelStateEror = '';
-                    let errorMessage: string;
 
-                    if (serverError && typeof serverError === 'object') {
-                        for (const key in serverError) {
-                            if (serverError[key]) {
-
-                                if (typeof serverError[key] === 'object') {
-                                    // console.log(Object.values(serverError[key]));
-                                    modelStateEror += Object.values(serverError[key])[1] + '\n';
-                                    continue;
-                                }
-                                errorMessage = serverError[key] + '';
-                                modelStateEror += errorMessage.toLowerCase() + '\n';
-                            }
+                    _.values(serverError).forEach((element) => {
+                        if (element && typeof element === 'object') {
+                            _.values(element).forEach((ele) => {
+                                modelStateEror += ele + '\n';
+                            });
+                        } else {
+                            modelStateEror += element + '\n';
                         }
-                    }
-                    // console.log(serverError);
+                    });
+
                     return throwError(modelStateEror || serverError || 'Server Error');
                  }
              } )
          );
      }
-
-    //  private loopError(serverError) {
-    //     for (const key in serverError) {
-    //         if (serverError[key]) {
-    //             const errorMessge: string = serverError[key] + '';
-    //             modelStateEror += errorMessge.toLowerCase() + '\n';
-    //         }
-    //     }
-    //  }
 
  }
 
