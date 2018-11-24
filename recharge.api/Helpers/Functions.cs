@@ -39,7 +39,13 @@ namespace recharge.Api.Helpers
         }
 
         public static bool IsOwnerOfAccount(string userId, ClaimsPrincipal User) {
+            
             return userId == User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        }
+
+        public static string GetUserId(ClaimsPrincipal User)
+        {
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
     }
 

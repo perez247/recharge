@@ -1,5 +1,5 @@
 import { AuthService } from './shared/_services/auth.service';
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, AfterContentInit } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: 'app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterContentInit {
   loggedIn = false;
   public appPages = [
     {
@@ -41,9 +41,6 @@ export class AppComponent {
       this.splashScreen.hide();
       this.loggedIn = false;
     });
-    this.authService.user().subscribe(x => {
-      this.tigger();
-    });
 
   }
 
@@ -52,7 +49,11 @@ export class AppComponent {
     this.router.navigate(['auth']);
   }
 
-  tigger() {
-    this.loggedIn = true;
+  ngAfterContentInit() {
+    setTimeout(() => {
+      this.authService.user().subscribe(x => {
+        this.loggedIn = true;
+      });
+    }, 3000);
   }
 }

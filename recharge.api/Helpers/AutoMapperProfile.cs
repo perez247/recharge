@@ -1,5 +1,7 @@
 using System.Linq;
 using AutoMapper;
+using recharge.api.Dtos.Payments;
+using recharge.api.models;
 using recharge.Api.Dtos;
 using recharge.Api.models;
 
@@ -36,6 +38,8 @@ namespace DattingApp.Api.Helpers
 
             CreateMap<User,UserToReturnDto>();
             CreateMap<UserToReturnDto,User>();
+
+            CreateMap<Card,CardDto>();
 
             // CreateMap<Point, PointsToReturn>();
         }

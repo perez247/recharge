@@ -1,26 +1,23 @@
 <ion-title>Payment</ion-title>
 <!-- <ion-button href="recharge/type/(mobile:mobile)" >mobile</ion-button> <br>
 <ion-button href="recharge/type/(utility:utility)" >Utility</ion-button> <br> -->
-<ion-content>
-    <!-- {{formData | json }}
+    <!-- {{outerFormData | json }}
     <br>
     {{formInvalid | json }} -->
-    <form>
+    <form #f="ngForm" [formGroup]="paymentForm">
 
         <ion-grid>
 
             <ion-row>
-                <ion-col size="6"><strong>Bill:</strong></ion-col>
-                <ion-col size="6" text-right>-{{formData.amount  | number: '.2-2'}}</ion-col>
+                <ion-col size="6"><small><strong>Bill:</strong></small></ion-col>
+                <ion-col size="6" text-right><small>-{{ getNumber(outerFormData.amount)  | number: '.2-2' }}</small></ion-col>
             </ion-row>
 
             <ion-row>
-                <ion-col size="6"><strong>Use Points</strong></ion-col>
+                <ion-col size="6"><small><strong>Use Points: <br>(652.00)</strong></small></ion-col>
                 <ion-col size="6">
                     <input 
-                        name="points"
-                        [(ngModel)]="paymentFormData.points"
-                        #point 
+                        formControlName="point"
                         class="paymentInput"
                         type="number"
                         (change)="setTwoNumberDecimal($event)"
@@ -30,28 +27,74 @@
             </ion-row>
 
             <ion-row>
-                <ion-col>
-                        <ion-item>
-                                <ion-label text-left>Use Card</ion-label>
-                                <ion-select id="customPopoverSelect" interface="popover">
-                                  <ion-select-option value="brown">Brown</ion-select-option>
-                                  <ion-select-option value="blonde">Blonde</ion-select-option>
-                                  <ion-select-option value="black">Black</ion-select-option>
-                                  <ion-select-option value="red">Red</ion-select-option>
-                                </ion-select>
-                              </ion-item>
+                <ion-col size="6">
+                    <ion-select 
+                        formControlName="cardId"
+                        #cardSelect 
+                        class="paymentSelect" interface="popover" placeholder="Use card" (ionChange)="CardForm(cardSelect)">
+                        <ion-select-option value="brown">Brown</ion-select-option>
+                        <ion-select-option value='new'><ion-text color="secondary">New Card</ion-text></ion-select-option>
+                      </ion-select>
+                </ion-col>
+                <ion-col size="6">
+                    <input 
+                        formControlName="cardAmount"
+                        class="paymentInput"
+                        type="number"
+                        (change)="setTwoNumberDecimal($event)"
+                        step="0.01"
+                        >
+                </ion-col>
+            </ion-row>
+            <ion-card *ngIf="newCard">
+                <ion-card-content formGroupName="newCard">
+                    <ion-input formControlName="cardNumber" placeholder="Card Number"></ion-input>
+                    <ion-input formControlName="cardHolderName" placeholder="Card Holder Name"></ion-input>
+                    <ion-row>
+                        <ion-col size="6">
+                            <ion-select formControlName="expiryMonth" placeholder="Expiry Month">
+                                <ion-select-option *ngFor="let item of generateArray(1,12)" [value]="item">{{ item }}</ion-select-option>
+                            </ion-select >
+                        </ion-col>
+                        <ion-col size="6">
+                            <ion-select formControlName="expiryYear" placeholder="Expiry Year">
+                                    <ion-select-option *ngFor="let item of generateArray(2018,2050)" [value]="item">{{ item }}</ion-select-option>
+                            </ion-select >
+                        </ion-col>
+                    </ion-row>
+                    <ion-input formControlName="cvvNumber" type="password" maxlength="3" placeholder="CVV Number"></ion-input>
+                    <ion-row>
+                        <ion-col>
+                            <ion-checkbox 
+                            formControlName="saveCard"
+                            color="dark"></ion-checkbox>
+                            <ion-label> Save this card</ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <!-- Keep close to Nature's heart... and break clear away, once in awhile,
+                    and climb a mountain or spend a week in the woods. Wash your spirit clean. -->
+                    <ion-button size="small" color="danger" (click)="toggleCardForm(); cardSelect.value = null">Cancel</ion-button>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-row>
+                <ion-col size="6"><strong>Total:</strong></ion-col>
+                <ion-col size="6" text-right>
+                    <input class="paymentInput" [ngClass]="{invalid: !validTotal, valid: validTotal}" 
+                    [value]="Totalled() | number: '.2-2'" readonly/>
                 </ion-col>
             </ion-row>
 
             <ion-row>
-                <ion-col size="6"><strong><small>Points:</small></strong></ion-col>
-                <ion-col size="6" text-right><small>{{(formData.amount * 0.05) | number: '.2-2'}}</small></ion-col>
+                <ion-col size="6"><small><strong>Points:</strong></small></ion-col>
+                <ion-col size="6" text-right><small>{{(getNumber(outerFormData.amount) * 0.05) | number: '.2-2'}}</small></ion-col>
             </ion-row>
 
         </ion-grid>
     
-        <ion-button [disabled]="formInvalid" size="medium" (click)="process()" expand="full">
+        <ion-button size="medium" [disabled]="formValid()" (click)="process()" expand="full">
             Confirm payment
         </ion-button>
     </form>
-</ion-content>
+
+    

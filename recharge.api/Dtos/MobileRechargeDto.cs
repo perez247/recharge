@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using recharge.api.Dtos.Payments;
 using recharge.api.Helpers.AnnotationValidation;
 
 namespace recharge.api.Dtos
@@ -16,5 +17,6 @@ namespace recharge.api.Dtos
 
         [Required, Range(100, 50000, ErrorMessage="between 100 and 50000")]
         public Decimal amount { get; set; }
+        public PaymentDto Payment { get; set; }
     }
 }

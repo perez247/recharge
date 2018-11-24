@@ -21,6 +21,11 @@ namespace recharge.Api.Data
             _context.Add(entity);
         }
 
+        public void Update<T>(T entity) where T : class
+        {
+            _context.Update(entity);
+        }
+
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
@@ -49,6 +54,21 @@ namespace recharge.Api.Data
                 await SaveAll();
             }
 
+        }
+
+        public void BeginTransaction()
+        {
+            _context.Database.BeginTransaction();
+        }
+
+        public void Commit()
+        {
+            _context.Database.CommitTransaction();
+        }
+
+        public void RollBack()
+        {
+            _context.Database.RollbackTransaction();
         }
     }
 }

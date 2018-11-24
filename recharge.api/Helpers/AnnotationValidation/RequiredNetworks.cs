@@ -16,15 +16,15 @@ namespace recharge.api.Helpers.AnnotationValidation
                                                     "airtel"
                                                 };
 
-    public override bool IsValid(object value)
-    {
-        var network = (String)value;
-        bool result = false;
-        if (_networks.Contains(network))
+        public override bool IsValid(object value)
         {
-            result = true;
+            var network = (String)value;
+            bool result = false;
+            if (_networks.Contains(network))
+            {
+                result = true;
+            }
+            return result;
         }
-        return result;
-    }
     }
 }

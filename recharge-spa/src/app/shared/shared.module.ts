@@ -17,6 +17,7 @@ import { HomeService } from './_services/home.service';
 import { ErrorInterceptorProvider } from './common/error.interceptor';
 import { PaymentsPage } from '../home/payments/payments.page';
 import { RechargeService } from './_services/recharge.service';
+import { PaymentValidation } from './common/custom-validation/payment-validation';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { RechargeService } from './_services/recharge.service';
     ErrorInterceptorProvider,
     JwtInterceptorProvider,
     MobileValidation,
+    PaymentValidation,
     RechargeService
   ],
   declarations: [
@@ -54,7 +56,8 @@ import { RechargeService } from './_services/recharge.service';
     RegisterPage,
     LoginPage,
     ConfirmPhonePage,
-    PaymentsPage
+    PaymentsPage,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

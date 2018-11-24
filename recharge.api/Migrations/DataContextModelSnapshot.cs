@@ -84,9 +84,33 @@ namespace recharge.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("recharge.api.models.Card", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CVVNumber");
+
+                    b.Property<string>("CardHolderName");
+
+                    b.Property<string>("CardNumber");
+
+                    b.Property<string>("ExpiryMonth");
+
+                    b.Property<string>("ExpiryYear");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cards");
+                });
+
             modelBuilder.Entity("recharge.api.models.PaymentTransaction", b =>
                 {
-                    b.Property<Guid?>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("Amount");
@@ -119,7 +143,8 @@ namespace recharge.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Points");
                 });
@@ -256,6 +281,14 @@ namespace recharge.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("recharge.api.models.Card", b =>
+                {
+                    b.HasOne("recharge.Api.models.User", "User")
+                        .WithMany("Cards")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("recharge.api.models.PaymentTransaction", b =>
                 {
                     b.HasOne("recharge.Api.models.User", "User")
@@ -267,8 +300,8 @@ namespace recharge.Migrations
             modelBuilder.Entity("recharge.Api.models.Point", b =>
                 {
                     b.HasOne("recharge.Api.models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Point")
+                        .HasForeignKey("recharge.Api.models.Point", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

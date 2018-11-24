@@ -175,6 +175,29 @@ namespace recharge.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cards",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    CardNumber = table.Column<string>(nullable: true),
+                    CardHolderName = table.Column<string>(nullable: true),
+                    CVVNumber = table.Column<string>(nullable: true),
+                    ExpiryMonth = table.Column<string>(nullable: true),
+                    ExpiryYear = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cards_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentTransactions",
                 columns: table => new
                 {
@@ -269,6 +292,11 @@ namespace recharge.Migrations
                 column: "RefererId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cards_UserId",
+                table: "Cards",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentTransactions_UserId",
                 table: "PaymentTransactions",
                 column: "UserId");
@@ -276,7 +304,8 @@ namespace recharge.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Points_UserId",
                 table: "Points",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -295,6 +324,9 @@ namespace recharge.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "PaymentTransactions");

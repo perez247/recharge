@@ -13,6 +13,7 @@ namespace recharge.Api.Data
     {
         public DbSet<Point> Points { get; set; }
         public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
+        public DbSet<Card> Cards { get; set; }
         public DataContext(DbContextOptions<DataContext> options)
         : base(options) {}
 

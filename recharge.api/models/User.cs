@@ -13,6 +13,8 @@ namespace recharge.Api.models
         public DateTime Expires { get; set; }
         // public string UserId { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+        public Point Point { get; set; }
         public  ICollection<PaymentTransaction> PaymentTransactions { get; set; }
+        public  ICollection<Card> Cards { get; set; }
     }
 }

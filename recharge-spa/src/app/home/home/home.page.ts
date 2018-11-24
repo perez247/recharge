@@ -21,11 +21,9 @@ export class HomePage {
   }
 
   goToType(e) {
-    // console.log(e.target.value);
-    const type = e.target.value || 'mobile';
-    // const url  = `recharge/type/(${type}:${type})`;
-    // console.log(url);
-    this.router.navigate([type]);
+    const url = e.target.value;
+    e.target.value = '';
+    this.router.navigate([url]);
   }
 
 }

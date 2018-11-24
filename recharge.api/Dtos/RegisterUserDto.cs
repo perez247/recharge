@@ -11,6 +11,7 @@ namespace recharge.Api.Dtos
         }
 
         [Required]
+        [RegularExpression("^[a-zA-Z0-9-_ ]+$", ErrorMessage="Only alphabets, numbers _ and - for username ")]
         public string UserName { get; set; }
 
         [Required, StringLength(12,MinimumLength=10, ErrorMessage= "Phone length between 10 and 12"),

@@ -26,15 +26,18 @@ import * as _ from 'lodash';
                     const serverError = error.error;
                     let modelStateEror = '';
 
-                    _.values(serverError).forEach((element) => {
-                        if (element && typeof element === 'object') {
-                            _.values(element).forEach((ele) => {
-                                modelStateEror += ele + '\n';
-                            });
-                        } else {
-                            modelStateEror += element + '\n';
-                        }
-                    });
+                    if (typeof serverError === 'object') {
+
+                        _.values(serverError).forEach((element) => {
+                            if (element && typeof element === 'object') {
+                                _.values(element).forEach((ele) => {
+                                    modelStateEror += ele + '\n';
+                                });
+                            } else {
+                                modelStateEror += element + '\n';
+                            }
+                        });
+                    }
 
                     return throwError(modelStateEror || serverError || 'Server Error');
                  }
