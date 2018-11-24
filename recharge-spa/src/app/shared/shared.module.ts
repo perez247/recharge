@@ -1,3 +1,4 @@
+import { BankService } from './_services/bank.service';
 import { MobileValidation } from './common/custom-validation/mobile-validation';
 import { JwtInterceptorProvider } from './common/jwt.interceptor';
 import { AuthGuardService } from './_guards/auth.gaurd';
@@ -37,7 +38,8 @@ import { PaymentValidation } from './common/custom-validation/payment-validation
     JwtInterceptorProvider,
     MobileValidation,
     PaymentValidation,
-    RechargeService
+    RechargeService,
+    BankService
   ],
   declarations: [
     AuthPage,

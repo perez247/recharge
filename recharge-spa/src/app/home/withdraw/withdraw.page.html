@@ -1,9 +1,96 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>withdraw</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Withdraw</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <form [formGroup]="withdrawFrom">
+    <ion-grid>
+      <ion-row>
+        
+        <ion-col>
+          <ion-item>
+            <ion-input
+              placeholder="Account Number *"
+              maxlength="12"
+              pattern="[0-9]*"
+              formControlName="accountNumber"
+            ></ion-input>
+            </ion-item>
+  
+          <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+            <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
+            <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+          </ion-text> -->
+        </ion-col>
+      </ion-row>
 
+      <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-select formControlName="accountBank" text-left class="expandWith" placeholder="Select Bank">
+                <ion-select-option class="expandWith" *ngFor="let bank of banks" [value]="bank.value"><small>{{ bank.name }}</small></ion-select-option>
+              </ion-select>
+    
+            <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+              <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
+              <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+            </ion-text> -->
+            </ion-item>
+          </ion-col>
+      </ion-row>
+
+      <ion-row>
+        
+          <ion-col>
+            <ion-item>
+              <ion-input
+                placeholder="Account Name *"
+                maxlenght="25"
+                formControlName="accountName"
+              ></ion-input>
+              </ion-item>
+    
+            <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+              <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
+              <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+            </ion-text> -->
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+        
+            <ion-col>
+              <ion-item>
+                <ion-input
+                  placeholder="Amount *"
+                  maxlength="8"
+                  pattern="[0-9]*"
+                  formControlName="amount"
+                ></ion-input>
+                </ion-item>
+
+                <ion-text color="danger">
+                  <sub>Avaliable Points: 50 <br> 
+                    <span>You do not have sufficient point to make a withdrawal. Only 100 and above</span>
+                  </sub></ion-text>
+      
+         <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
+                <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
+                <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+              </ion-text> -->
+            </ion-col>
+          </ion-row>
+
+    </ion-grid>
+    <ion-button [disabled]="!withdrawFrom.valid" size="medium" expand="full">
+        Procced
+    </ion-button>
+  </form>
 </ion-content>
+
+{{ withdrawFrom.invalid | json }}
