@@ -2,7 +2,7 @@ using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace recharge.Api.Helpers
+namespace recharge.api.Helpers
 {
     public static class Extensions
     {

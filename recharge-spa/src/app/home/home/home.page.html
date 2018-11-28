@@ -8,22 +8,25 @@
 </ion-header>
 
 <ion-content>
-  <div class="summary">
-    <ion-grid>
-      <ion-row>
-        <ion-col text-center>
-          <ion-card-title><strong>21.00</strong></ion-card-title>
-          <small>Pts</small>
-        </ion-col>
-        <ion-col>
-          <ion-text>
-            <strong ion-text color="dark"><small>Pere</small></strong><br>
-            <ion-text color="dark"><small>+123456789</small></ion-text>
-          </ion-text>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+    <div class="summary">
+      <ion-grid>
+        <ion-row>
+          <ion-col text-center>
+            <ion-card-title><strong>{{ point.points | number: '.2-2' }}</strong></ion-card-title>
+            <small>Pts</small>
+          </ion-col>
+          <ion-col>
+            <ion-text>
+              <strong ion-text color="dark"><small> {{ user?.userName }} </small></strong><br>
+              <ion-text color="dark"><small>{{ user?.phoneNumber }}</small></ion-text>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div text-center class="summary">
+      <small (click)="ExpireInfo()"><strong>Expires in </strong><span>{{ TimeRemaining }}</span></small>
+    </div>
   <ion-grid>
       <ion-row>
           <ion-col width-50>

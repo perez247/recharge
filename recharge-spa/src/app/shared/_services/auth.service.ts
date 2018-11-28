@@ -17,13 +17,13 @@ export class AuthService {
   constructor(private http: HttpClient, private tokenService: TokenService) {
    }
 
-  user(): Observable<any> {
+  user() {
     // console.log('token 2');
-    return this.tokenService.getAsObject();
+    return this.tokenService.getUserAsObject();
   }
 
   register(user: any) {
-    return this.http.post<AppUser>(`${this.apiUrl}/register`, user);
+    return this.http.post<{user: AppUser, token: string}>(`${this.apiUrl}/register`, user);
   }
 
   exists(name: string) {

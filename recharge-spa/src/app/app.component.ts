@@ -52,8 +52,10 @@ export class AppComponent implements AfterContentInit {
   ngAfterContentInit() {
     setTimeout(() => {
       this.authService.user().subscribe(x => {
+        if (x) {
         this.loggedIn = true;
+        }
       });
-    }, 3000);
+    }, 2000);
   }
 }

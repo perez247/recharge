@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using recharge.Api.models;
+using recharge.api.models;
 
-namespace recharge.Api.Helpers.CustomIdentityValidators
+namespace recharge.api.Helpers.CustomIdentityValidators
 {
     public class UniquePhoneNumber<TUser> : IUserValidator<TUser> where TUser : User
     {

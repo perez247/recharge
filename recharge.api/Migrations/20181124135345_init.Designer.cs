@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using recharge.Api.Data;
+using recharge.api.Data;
 
 namespace recharge.Migrations
 {
@@ -134,7 +134,7 @@ namespace recharge.Migrations
                     b.ToTable("PaymentTransactions");
                 });
 
-            modelBuilder.Entity("recharge.Api.models.Point", b =>
+            modelBuilder.Entity("recharge.api.models.Point", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -151,7 +151,7 @@ namespace recharge.Migrations
                     b.ToTable("Points");
                 });
 
-            modelBuilder.Entity("recharge.Api.models.Role", b =>
+            modelBuilder.Entity("recharge.api.models.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -174,7 +174,7 @@ namespace recharge.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("recharge.Api.models.User", b =>
+            modelBuilder.Entity("recharge.api.models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -230,7 +230,7 @@ namespace recharge.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("recharge.Api.models.UserRole", b =>
+            modelBuilder.Entity("recharge.api.models.UserRole", b =>
                 {
                     b.Property<Guid>("UserId");
 
@@ -253,7 +253,7 @@ namespace recharge.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("recharge.Api.models.Role")
+                    b.HasOne("recharge.api.models.Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -261,7 +261,7 @@ namespace recharge.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("recharge.Api.models.User")
+                    b.HasOne("recharge.api.models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -269,7 +269,7 @@ namespace recharge.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("recharge.Api.models.User")
+                    b.HasOne("recharge.api.models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -277,7 +277,7 @@ namespace recharge.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("recharge.Api.models.User")
+                    b.HasOne("recharge.api.models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -285,7 +285,7 @@ namespace recharge.Migrations
 
             modelBuilder.Entity("recharge.api.models.Card", b =>
                 {
-                    b.HasOne("recharge.Api.models.User", "User")
+                    b.HasOne("recharge.api.models.User", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -293,44 +293,44 @@ namespace recharge.Migrations
 
             modelBuilder.Entity("recharge.api.models.PaymentTransaction", b =>
                 {
-                    b.HasOne("recharge.Api.models.User", "User")
+                    b.HasOne("recharge.api.models.User", "User")
                         .WithMany("PaymentTransactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("recharge.Api.models.Point", b =>
+            modelBuilder.Entity("recharge.api.models.Point", b =>
                 {
-                    b.HasOne("recharge.Api.models.User", "User")
+                    b.HasOne("recharge.api.models.User", "User")
                         .WithOne("Point")
-                        .HasForeignKey("recharge.Api.models.Point", "UserId")
+                        .HasForeignKey("recharge.api.models.Point", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("recharge.Api.models.User", b =>
+            modelBuilder.Entity("recharge.api.models.User", b =>
                 {
-                    b.HasOne("recharge.Api.models.User", "Referer")
+                    b.HasOne("recharge.api.models.User", "Referer")
                         .WithMany()
                         .HasForeignKey("RefererId");
                 });
 
-            modelBuilder.Entity("recharge.Api.models.UserRole", b =>
+            modelBuilder.Entity("recharge.api.models.UserRole", b =>
                 {
-                    b.HasOne("recharge.Api.models.Role")
+                    b.HasOne("recharge.api.models.Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("recharge.Api.models.Role", "Role")
+                    b.HasOne("recharge.api.models.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId1");
 
-                    b.HasOne("recharge.Api.models.User")
+                    b.HasOne("recharge.api.models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("recharge.Api.models.User", "User")
+                    b.HasOne("recharge.api.models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId1");
                 });

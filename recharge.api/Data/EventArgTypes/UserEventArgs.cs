@@ -1,7 +1,7 @@
 using System;
-using recharge.Api.models;
+using recharge.api.models;
 
-namespace recharge.Api.Data.EventArgTypes
+namespace recharge.api.Data.EventArgTypes
 {
     public class UserEventArgs : EventArgs
     {

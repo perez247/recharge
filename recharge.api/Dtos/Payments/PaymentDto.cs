@@ -16,5 +16,10 @@ namespace recharge.api.Dtos.Payments
         public string CardId { get; set; }
         public Card NewCard { get; set; }
         public Boolean SaveCard { get; set; }
+        
+        [Required(ErrorMessage="Pin is required"), 
+        RegularExpression("^[0-9]+$", ErrorMessage="Invalid Pin"),
+        StringLength(8, MinimumLength=8, ErrorMessage="Invalid Pin lenght")]
+        public string Pin { get; set; }
     }
 }

@@ -12,6 +12,7 @@
                 <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
                   <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
                   <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
+                  <small *ngIf="registerForm.get('userName').errors['pattern']"> Only alphabet, numbers, - and _ are allowed</small> 
                 </ion-text>
 
           </ion-col>

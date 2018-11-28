@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { RegisterValidation } from '../../../shared/common/custom-validation/register-validation';
 import { AuthService } from '../../../shared/_services/auth.service';
+import { TokenService } from '../../../shared/_services/token.service';
+import { AppUser } from '../../../shared/model/app-user';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +21,9 @@ export class RegisterPage {
     private fb: FormBuilder,
     private authService: AuthService,
     private registerValidation: RegisterValidation,
-    private router: Router) {
+    private tokenService: TokenService,
+    private router: Router
+    ) {
     this.initForm();
    }
 
@@ -32,7 +36,8 @@ export class RegisterPage {
 
   initForm() {
     this.registerForm = this.fb.group({
-      userName: ['', Validators.required, this.registerValidation.shouldBeUnique.bind(this.registerValidation)],
+      userName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9-_]+$')],
+                      this.registerValidation.shouldBeUnique.bind(this.registerValidation)],
       phoneNumber: ['',
                     [
                       Validators.required,
@@ -48,8 +53,7 @@ export class RegisterPage {
                       Validators.required,
                       this.registerValidation.numeric,
                       this.registerValidation.strLength(8)
-                    ],
-                    []
+                    ]
                 ],
       confirmPin: ['', [Validators.required, this.registerValidation.confirm('pin', 'confirmPin')]],
       referer: ['']
@@ -60,11 +64,12 @@ export class RegisterPage {
   registerUser() {
     this.authService.register(this.registerForm.value).subscribe(x => {
       // this.registered.emit();
+      this.tokenService.save(x.token, x.user as AppUser);
       this.initForm();
       this.router.navigate(['confirm-phone'], {
         queryParams : {
-          userId: x.id,
-          code: x.code
+          userId: x.user.id,
+          code: x.user.code
         }
       });
     }, error => console.log(error));

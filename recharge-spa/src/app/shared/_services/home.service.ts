@@ -16,9 +16,8 @@ export class HomeService {
     ) { }
 
   get() {
-    return this.authService.user().pipe(switchMap(token => {
-      const id: string = token.nameid;
-      return this.http.get(`${this.apiUrl}/${id}`);
+    return this.authService.user().pipe(switchMap(user => {
+      return this.http.get(`${this.apiUrl}/${user.id}`);
     }));
   }
 }

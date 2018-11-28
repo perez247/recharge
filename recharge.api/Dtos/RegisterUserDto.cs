@@ -1,13 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace recharge.Api.Dtos
+namespace recharge.api.Dtos
 {
     public class RegisterUserDto
     {
         public RegisterUserDto()
         {
-            Expires = DateTime.Now.AddDays(30);
+            Expires = DateTime.Now.AddDays(61);
         }
 
         [Required]

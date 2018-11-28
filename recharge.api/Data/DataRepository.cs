@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using recharge.Api.Data.EventArgTypes;
-using recharge.Api.Data.Interfaces;
-using recharge.Api.models;
+using recharge.api.Data.EventArgTypes;
+using recharge.api.Data.Interfaces;
+using recharge.api.models;
 
-namespace recharge.Api.Data
+namespace recharge.api.Data
 {
     public class DataRepository : IDataRepository
     {

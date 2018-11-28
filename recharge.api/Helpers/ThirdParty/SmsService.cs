@@ -1,4 +1,4 @@
-namespace recharge.Api.Helpers.ThirdParty
+namespace recharge.api.Helpers.ThirdParty
 {
     public class SmsService
     {

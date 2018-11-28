@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace recharge.Api.Dtos
+namespace recharge.api.Dtos
 {
     public class LoginUserDto
     {

@@ -1,7 +1,10 @@
+import { ToasterService } from './../../../shared/_services/toaster.service';
+import { TokenService } from './../../../shared/_services/token.service';
 import { AuthService } from '../../../shared/_services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-confirm-phone',
@@ -13,11 +16,14 @@ export class ConfirmPhonePage {
   userId: string;
   resendButton = false;
   timer = 0;
+  token: any;
 
   constructor(
     public authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService,
+    private toast: ToasterService
     ) {}
 
   ionViewWillEnter() {
@@ -26,6 +32,9 @@ export class ConfirmPhonePage {
 
     console.log(this.userId);
     console.log(code);
+    this.tokenService.getTokenAsObject().subscribe(x => {
+      this.token = x;
+    });
     // this.countDown();
     // console.log('hello');
   }
@@ -41,6 +50,13 @@ export class ConfirmPhonePage {
   }
 
   resend() {
+    const time: string = this.token.unique_name;
+    const nextTime = moment(`${time.replace(new RegExp('/', 'g'), '-')}`, 'DD-MM-YYYY h:mm:ss');
+    if (moment().isAfter(nextTime)) {
+      this.toast.display('Wait after 5mins', 'error');
+      return false;
+    }
+
     this.countDown();
     this.authService.resendCode(this.userId).subscribe(code => {
       console.log(code);
@@ -49,7 +65,7 @@ export class ConfirmPhonePage {
 
   countDown() {
     this.resendButton = true;
-    this.timer = 60;
+    this.timer = 300;
     const timer = setInterval(() => {
       this.timer--;
       if (this.timer <= 0) {
@@ -62,7 +78,7 @@ export class ConfirmPhonePage {
   redirect() {
     // You can check if the user is logged in so you redirect to home page
     // else to login page for now redirect to login page;
-    this.router.navigate(['auth']);
+    this.router.navigate(['home']);
   }
 
 }

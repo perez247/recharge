@@ -1,9 +1,9 @@
-import { TokenService } from './../_services/token.service';
+import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
-import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
+import { TokenService } from './../_services/token.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -11,7 +11,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        return this.tokenService.getAsString().pipe(switchMap(token => {
+        return this.tokenService.getToken().pipe(switchMap(token => {
             if (token) {
                     request = request.clone({
                         setHeaders: {

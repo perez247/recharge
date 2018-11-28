@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using recharge.api.models;
-using recharge.Api.models;
+using recharge.api.models;
 
-namespace recharge.Api.Data
+namespace recharge.api.Data
 {
     public class DataContext : IdentityDbContext<User, Role, Guid,
         IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,

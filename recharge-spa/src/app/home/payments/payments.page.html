@@ -90,6 +90,22 @@
                 <ion-col size="6" text-right><small>{{(getNumber(outerFormData.amount) * 0.05) | number: '.2-2'}}</small></ion-col>
             </ion-row>
 
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-input 
+                        maxlength="8"
+                        pattern="[0-9]*"
+                        formControlName="pin" placeholder="Secret Pin"></ion-input>
+
+                        <ion-text class="message-block" color="danger" *ngIf="paymentForm.get('pin').touched && paymentForm.get('pin').invalid">
+                            <small *ngIf="paymentForm.get('pin').errors['required']"> Pin is required</small>
+                            <small *ngIf="paymentForm.get('pin').errors['pattern']"> Should be numberic of length 8</small> 
+                        </ion-text>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
         </ion-grid>
     
         <ion-button size="medium" [disabled]="formValid()" (click)="process()" expand="full">

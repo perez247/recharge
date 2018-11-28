@@ -1,4 +1,4 @@
-namespace recharge.Api.models
+namespace recharge.api.models
 {
     public class VerifyUser
     {

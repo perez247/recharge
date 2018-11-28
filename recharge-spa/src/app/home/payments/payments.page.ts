@@ -88,6 +88,7 @@ export class PaymentsPage implements AfterContentChecked {
                         this.paymentValidation.NullOrNumberRange(100, 500000)
                       ]
                   ],
+      pin: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
       newCard: this.noRequiredCard()
     });
   }

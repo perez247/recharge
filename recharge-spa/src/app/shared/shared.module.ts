@@ -1,3 +1,4 @@
+import { WithdrawService } from './_services/withdraw.service';
 import { BankService } from './_services/bank.service';
 import { MobileValidation } from './common/custom-validation/mobile-validation';
 import { JwtInterceptorProvider } from './common/jwt.interceptor';
@@ -19,6 +20,7 @@ import { ErrorInterceptorProvider } from './common/error.interceptor';
 import { PaymentsPage } from '../home/payments/payments.page';
 import { RechargeService } from './_services/recharge.service';
 import { PaymentValidation } from './common/custom-validation/payment-validation';
+import { ToasterService } from './_services/toaster.service';
 
 @NgModule({
   imports: [
@@ -39,7 +41,9 @@ import { PaymentValidation } from './common/custom-validation/payment-validation
     MobileValidation,
     PaymentValidation,
     RechargeService,
-    BankService
+    BankService,
+    ToasterService,
+    WithdrawService
   ],
   declarations: [
     AuthPage,

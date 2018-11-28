@@ -1,3 +1,4 @@
+import { AppUser } from './../model/app-user';
 import { AppToken } from './../model/app-token';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
@@ -12,45 +13,38 @@ export class TokenService {
 
   constructor(private storage: Storage) { }
 
-  save(token: string) {
+  save(token = null, user = null) {
+    if (token) {
     this.storage.set('token', token);
+    }
+
+    if (user) {
+    this.storage.set('user', JSON.stringify(user));
+    }
   }
 
-  getAsObject() {
-    // return this.storage.get('token');
-    return from(this.storage.get('token').then(tokenString => {
-
-      if (!tokenString) {
-        return null;
-      }
-
-      const tokenObject = this.tokenHelper.decodeToken(tokenString);
-
-      if (!tokenObject) { return null; }
-
-      return tokenObject;
-
+  getUserAsObject() {
+    return from<AppUser>(this.storage.get('user').then(x => {
+      if (!x) {return null; } else {return JSON.parse(x); }
     }));
-    // if (!tokenString) {return of(null); }
-
-    // const tokenObject = this.tokenHelper.decodeToken(tokenString);
-
-    // if (!tokenObject) { return of(null); }
-
-    // return of(tokenObject);
   }
 
-  getAsString() {
-    // const tokenString = await this.storage.get('token');
-    // if (!tokenString) {return from(null); }
-
-    // return from(tokenString);
-    return from(this.storage.get('token').then(x => {
+  getToken() {
+    return from<AppUser>(this.storage.get('token').then(x => {
       if (!x) {return null; } else {return x; }
     }));
   }
 
   clear() {
     this.storage.remove('token');
+    this.storage.remove('user');
+  }
+
+  getTokenAsObject() {
+    return from(this.storage.get('token').then(x => {
+      if (!x) {return null; } else {
+        return this.tokenHelper.decodeToken(x);
+      }
+    }));
   }
 }

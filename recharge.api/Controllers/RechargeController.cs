@@ -6,9 +6,9 @@ using recharge.api.Dtos;
 using recharge.api.Dtos.Payments;
 using recharge.api.Helpers.ThirdParty;
 using recharge.api.models;
-using recharge.Api.Data.Interfaces;
-using recharge.Api.Helpers;
-using recharge.Api.models;
+using recharge.api.Data.Interfaces;
+using recharge.api.Helpers;
+using recharge.api.models;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -23,8 +23,10 @@ namespace recharge.api.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly IDataRepository _repo;
-        public RechargeController(UserManager<User> userManager, IMapper mapper, IDataRepository repo)
+        private readonly IAuthRepository _auth;
+        public RechargeController(UserManager<User> userManager, IMapper mapper, IDataRepository repo, IAuthRepository auth)
         {
+            _auth = auth;
             _repo = repo;
             _mapper = mapper;
             _userManager = userManager;
@@ -34,8 +36,7 @@ namespace recharge.api.Controllers
         public async Task<IActionResult> rechargeMobile(MobileRechargeDto mobileRechargeDto)
         {
 
-            var user = await _userManager.Users.Include(p => p.Point).Include(c => c.Cards)
-                                               .FirstOrDefaultAsync(u => u.Id.ToString() == Functions.GetUserId(User));
+            var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.Name).Value, mobileRechargeDto.Payment.Pin);
 
             if (user == null)
                 return Unauthorized();
@@ -45,11 +46,12 @@ namespace recharge.api.Controllers
 
             if (mobileRechargeDto.amount != (mobileRechargeDto.Payment.Point + mobileRechargeDto.Payment.CardAmount))
                 return BadRequest("Invalid amount requested");
-            
+
             _repo.BeginTransaction();
             _repo.Update(user);
 
-            try{
+            try
+            {
                 if (mobileRechargeDto.Payment.CardAmount > 0)
                 {
                     Card card = user.Cards.SingleOrDefault(c => c.Id.ToString() == mobileRechargeDto.Payment.CardId);
@@ -60,7 +62,7 @@ namespace recharge.api.Controllers
                         return BadRequest(result);
 
                     // All set to take money from user account
-                    if(! CardPayment.Process(cardDto))
+                    if (!CardPayment.Process(cardDto))
                         return BadRequest("Failed to perform card transaction");
 
                     if (mobileRechargeDto.Payment.SaveCard)
@@ -74,7 +76,8 @@ namespace recharge.api.Controllers
 
                 }
 
-                if(mobileRechargeDto.Payment.Point > 0 ) {
+                if (mobileRechargeDto.Payment.Point > 0)
+                {
                     user.Point.Points = user.Point.Points - (Decimal)mobileRechargeDto.Payment.Point;
                 }
 
@@ -90,7 +93,7 @@ namespace recharge.api.Controllers
                 return NoContent();
 
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //
                 _repo.RollBack();

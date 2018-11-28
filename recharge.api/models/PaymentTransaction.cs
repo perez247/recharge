@@ -1,5 +1,5 @@
 using System;
-using recharge.Api.models;
+using recharge.api.models;
 
 namespace recharge.api.models
 {

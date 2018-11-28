@@ -3,21 +3,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using recharge.Api.models;
+using recharge.api.models;
 
-namespace recharge.Api.Helpers
+namespace recharge.api.Helpers
 {
     public static class Functions
     {
-        public static object generateUserToken(User user, IConfiguration _config) {
+        public static string generateUserToken(User user, IConfiguration _config, Boolean confirmPhone = false) {
                         // Create token an sent;
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
-                new Claim(ClaimTypes.HomePhone, user.PhoneNumberConfirmed.ToString())
-            };
+            var claims = (confirmPhone == true) ? ConfirmPhoneTime(user) : defaultClaim(user);
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
         
@@ -33,9 +27,9 @@ namespace recharge.Api.Helpers
 
             var token = tokenhandler.CreateToken(tokenDescriptor);
 
-            var data = new {token = tokenhandler.WriteToken(token)};
+            // var data = new {token = tokenhandler.WriteToken(token)};
 
-            return data;
+            return tokenhandler.WriteToken(token);
         }
 
         public static bool IsOwnerOfAccount(string userId, ClaimsPrincipal User) {
@@ -47,6 +41,26 @@ namespace recharge.Api.Helpers
         {
             return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
+
+        private static Claim[] defaultClaim(User user) {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            return claims;
+        }
+
+        private static Claim[] ConfirmPhoneTime(User user) {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, DateTime.Now.AddMinutes(5).ToString())
+            };
+
+            return claims;
+        }
+
     }
 
 }

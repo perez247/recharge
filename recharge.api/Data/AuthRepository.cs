@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using recharge.Api.Data.EventArgTypes;
-using recharge.Api.Data.Interfaces;
-using recharge.Api.Dtos;
-using recharge.Api.models;
+using recharge.api.Data.EventArgTypes;
+using recharge.api.Data.Interfaces;
+using recharge.api.Dtos;
+using recharge.api.models;
 
-namespace recharge.Api.Data
+namespace recharge.api.Data
 {
     public class AuthRepository : IAuthRepository
     {
@@ -43,7 +43,19 @@ namespace recharge.Api.Data
                 return user;
 
             return null;
+        }
+
+        public async Task<User> LoginWithAllData(string usernameOrPhone, string pin)
+        {
+            var user = await _userManager.Users.Include(p => p.Point).Include(c => c.Cards)
+                                               .FirstOrDefaultAsync(u => u.NormalizedUserName == usernameOrPhone.ToUpper() || u.PhoneNumber == usernameOrPhone);
+            if(user == null)
+                return null;
             
+            if(await _userManager.CheckPasswordAsync(user, pin))
+                return user;
+
+            return null;
         }
 
         public async Task<User> Register(User user, string pin)

@@ -1,6 +1,6 @@
 using System;
 
-namespace recharge.Api.Dtos
+namespace recharge.api.Dtos
 {
     public class UserToReturnDto
     {

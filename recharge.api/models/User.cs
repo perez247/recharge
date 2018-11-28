@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using recharge.api.models;
 
-namespace recharge.Api.models
+namespace recharge.api.models
 {
     public class User : IdentityUser<Guid>
     {

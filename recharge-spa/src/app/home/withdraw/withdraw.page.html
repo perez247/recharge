@@ -22,10 +22,11 @@
             ></ion-input>
             </ion-item>
   
-          <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
-            <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
-            <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
-          </ion-text> -->
+          <ion-text class="message-block" color="danger" *ngIf="withdrawFrom.get('accountNumber').touched && withdrawFrom.get('accountNumber').invalid">
+            <small *ngIf="withdrawFrom.get('accountNumber').errors['required']"> Account Number is required</small>
+            <small *ngIf="withdrawFrom.get('accountNumber').errors['pattern']">Invalid Account Number</small> 
+            <small *ngIf="withdrawFrom.get('accountNumber').errors['invalidStringRange']">Invalid Account Number lenght</small> 
+          </ion-text>
         </ion-col>
       </ion-row>
 
@@ -36,10 +37,10 @@
                 <ion-select-option class="expandWith" *ngFor="let bank of banks" [value]="bank.value"><small>{{ bank.name }}</small></ion-select-option>
               </ion-select>
     
-            <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
-              <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
-              <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
-            </ion-text> -->
+            <ion-text class="message-block" color="danger" *ngIf="withdrawFrom.get('accountBank').touched && withdrawFrom.get('accountBank').invalid">
+              <small *ngIf="withdrawFrom.get('accountBank').errors['required']"> Bank is required</small>
+              <small *ngIf="withdrawFrom.get('accountBank').errors['pattern']"> Invalid Bank entered</small> 
+            </ion-text>
             </ion-item>
           </ion-col>
       </ion-row>
@@ -55,10 +56,10 @@
               ></ion-input>
               </ion-item>
     
-            <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
-              <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
-              <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
-            </ion-text> -->
+              <ion-text class="message-block" color="danger" *ngIf="withdrawFrom.get('accountName').touched && withdrawFrom.get('accountName').invalid">
+                <small *ngIf="withdrawFrom.get('accountName').errors['required']"> Account Name is required</small>
+                <small *ngIf="withdrawFrom.get('accountName').errors['pattern']"> Invalid Name. Only Alphabets, numbers, - and _</small> 
+              </ion-text>
           </ion-col>
         </ion-row>
 
@@ -77,18 +78,20 @@
                 <ion-text color="danger">
                   <sub>Avaliable Points: 50 <br> 
                     <span>You do not have sufficient point to make a withdrawal. Only 100 and above</span>
-                  </sub></ion-text>
+                  </sub>
+                </ion-text> <br>
       
-         <!-- <ion-text class="message-block" color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
-                <small *ngIf="registerForm.get('userName').errors['required']"> Username is required</small>
-                <small *ngIf="registerForm.get('userName').errors['unique']"> Username has been taken</small> 
-              </ion-text> -->
+                  <ion-text class="message-block" color="danger" *ngIf="withdrawFrom.get('amount').touched && withdrawFrom.get('amount').invalid">
+                    <small *ngIf="withdrawFrom.get('amount').errors['required']"> Amount is required</small>
+                    <small *ngIf="withdrawFrom.get('amount').errors['pattern']"> Should be numberic</small> 
+                    <small *ngIf="withdrawFrom.get('amount').errors['invalidNumberRange']">Should be between 100 - 50000</small> 
+                  </ion-text>
             </ion-col>
           </ion-row>
 
     </ion-grid>
-    <ion-button [disabled]="!withdrawFrom.valid" size="medium" expand="full">
-        Procced
+    <ion-button [disabled]="!withdrawFrom.valid" size="medium" expand="full" (click)="proceed()">
+        Proceed
     </ion-button>
   </form>
 </ion-content>

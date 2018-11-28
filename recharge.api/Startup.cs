@@ -22,11 +22,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
-using recharge.Api.Data;
-using recharge.Api.Data.Interfaces;
-using recharge.Api.Helpers;
-using recharge.Api.Helpers.CustomIdentityValidators;
-using recharge.Api.models;
+using recharge.api.Data;
+using recharge.api.Data.Interfaces;
+using recharge.api.Helpers;
+using recharge.api.Helpers.CustomIdentityValidators;
+using recharge.api.models;
 
 namespace recharge
 {

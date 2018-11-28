@@ -4,6 +4,6 @@ export interface AppUser {
     id: string;
     userName: string;
     phoneNumber: string;
-    expires: Datetime;
+    expires: Date;
     code: string;
 }

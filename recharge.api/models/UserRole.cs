@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace recharge.Api.models
+namespace recharge.api.models
 {
     public class UserRole : IdentityUserRole<Guid>
     {

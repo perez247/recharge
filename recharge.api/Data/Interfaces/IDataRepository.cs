@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using recharge.Api.Data.EventArgTypes;
-using recharge.Api.models;
+using recharge.api.Data.EventArgTypes;
+using recharge.api.models;
 
-namespace recharge.Api.Data.Interfaces
+namespace recharge.api.Data.Interfaces
 {
     public interface IDataRepository
     {

@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using recharge.Api.Data.Interfaces;
-using recharge.Api.Dtos;
-using recharge.Api.Helpers;
-using recharge.Api.models;
+using recharge.api.Data.Interfaces;
+using recharge.api.Dtos;
+using recharge.api.Helpers;
+using recharge.api.models;
 
-namespace recharge.Api.Controllers
+namespace recharge.api.Controllers
 {
     [AllowAnonymous]
     [Route("api/[controller]")]
@@ -51,8 +51,10 @@ namespace recharge.Api.Controllers
             var user = await _auth.Login(loginUserDto.Username, loginUserDto.Pin);
             if(user == null)
                 return Unauthorized();
+
+            var userToReturn = _mapper.Map<UserToReturnDto>(user);
             
-            return Ok(Functions.generateUserToken(user,_config));
+            return Ok(new {token =  Functions.generateUserToken(user,_config), user = userToReturn });
         }
 
         [HttpPost("register")]
@@ -70,7 +72,7 @@ namespace recharge.Api.Controllers
             // _repo.SaveCode(userToReturnDto.Id, userToReturnDto.Code);
             // if(await _repo.SaveAll())
             // return CreatedAtRoute(nameof(GetUser), new {UserId = newUser.Id }, userToReturnDto);
-            return Ok(userToReturnDto);
+            return Ok(new {user = userToReturnDto, token = Functions.generateUserToken(user,_config, true)});
         }
 
         [HttpPost("verifyphone")]

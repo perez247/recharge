@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace recharge.Api.models
+namespace recharge.api.models
 {
     public class Role : IdentityRole<Guid>
     {

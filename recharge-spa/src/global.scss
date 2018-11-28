@@ -17,3 +17,15 @@
     .message-block > small:first-child {
     display: block;
 }
+
+ion-toast.success-toast {
+    color: yellowgreen;
+}
+
+ion-toast.warning-toast {
+    color: orange;
+}
+
+ion-toast.error-toast {
+    color: rgb(209, 71, 71);
+}

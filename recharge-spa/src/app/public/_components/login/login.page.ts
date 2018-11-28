@@ -3,6 +3,7 @@ import { TokenService } from './../../../shared/_services/token.service';
 import { AppUser } from './../../../shared/model/app-user';
 import { AuthService } from '../../../shared/_services/auth.service';
 import { Component, } from '@angular/core';
+import { ToasterService } from '../../../shared/_services/toaster.service';
 
 @Component({
   selector: 'app-login',
@@ -17,16 +18,20 @@ export class LoginPage {
     private authService: AuthService,
     private tokenService: TokenService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toast: ToasterService
     ) { }
 
   login() {
     // console.log(this.user);
     this.authService.login(this.user).subscribe((x: any) => {
-      // console.log(x.token);
-      this.tokenService.save(x.token);
+      // console.log(x);
+      this.tokenService.save(x.token, x.user as AppUser);
       this.redirect();
-    }, error => {console.log('failed'); });
+    }, error => {
+      this.toast.display('Invalid credentials', 'error');
+      console.log(error);
+    });
   }
 
   redirect() {
