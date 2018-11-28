@@ -51,16 +51,19 @@ export class ConfirmPhonePage {
 
   resend() {
     const time: string = this.token.unique_name;
-    const nextTime = moment(`${time.replace(new RegExp('/', 'g'), '-')}`, 'DD-MM-YYYY h:mm:ss');
-    if (moment().isAfter(nextTime)) {
-      this.toast.display('Wait after 5mins', 'error');
+    const nextTime = moment(`${time.replace(new RegExp('/', 'g'), '-')}`, 'DD-MM-YYYY h:mm:ss').toDate();
+    // console.log(nextTime);
+    // console.log(moment().toDate());
+    if (moment(moment().toDate()).isBefore(nextTime)) {
+      this.toast.display('Kindly wait for 5mins');
       return false;
     }
 
     this.countDown();
     this.authService.resendCode(this.userId).subscribe(code => {
       console.log(code);
-    }, error => console.log(error));
+      this.tokenService.save(code.token, code.user);
+    }, error => this.toast.display(error) );
   }
 
   countDown() {

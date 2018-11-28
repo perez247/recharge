@@ -13,7 +13,7 @@ export class ToasterService {
 
   constructor(private toaster: ToastController, private alertCtrl: AlertController) { }
 
-  async display(message: string, type: string) {
+  async display(message: string, type = 'normal') {
     const toast = await this.toaster.create({
       message,
       cssClass: `${type}-toast`,

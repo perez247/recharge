@@ -36,7 +36,19 @@ namespace recharge.api.Helpers
             
             return userId == User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
+        
+        public static bool HasPhoneTimeElapse(ClaimsPrincipal User) {
+            
+            DateTime time;
+            if(!DateTime.TryParse(User.FindFirst(ClaimTypes.Name).Value, out time))
+                return false;
 
+            if(!(DateTime.Now >= time))
+                return false;
+
+            return true;
+        }
+        
         public static string GetUserId(ClaimsPrincipal User)
         {
             return User.FindFirst(ClaimTypes.NameIdentifier).Value;

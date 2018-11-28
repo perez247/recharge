@@ -9,6 +9,7 @@ using recharge.api.Data.Interfaces;
 using recharge.api.Dtos;
 using recharge.api.Helpers;
 using recharge.api.models;
+using System.Security.Claims;
 
 namespace recharge.api.Controllers
 {
@@ -89,6 +90,10 @@ namespace recharge.api.Controllers
         // For Dev only, normally it will send as an SMS
         [HttpGet("resendcode/{userId}")]
         public async Task<IActionResult> ResendCode(string userId) {
+
+            if(!Functions.HasPhoneTimeElapse(User))
+                return BadRequest("Kindly wait for 5 mins");
+
             var userFromRepo = await _userManager.FindByIdAsync(userId);
 
             if(userFromRepo == null) {
@@ -98,8 +103,12 @@ namespace recharge.api.Controllers
             if(await _userManager.IsPhoneNumberConfirmedAsync(userFromRepo))
                 return BadRequest("Your Phone has already been confirmed");
 
+            var userToReturnDto = _mapper.Map<UserToReturnDto>(userFromRepo);
+            userToReturnDto.Code = await _auth.GenerateSMSCode(userFromRepo, userFromRepo.PhoneNumber);
+
             //instead of sending the code it will be sent to the phone directly and an Ok will be send back
-            return Ok(await _auth.GenerateSMSCode(userFromRepo, userFromRepo.PhoneNumber));
+             return Ok(new {user = userToReturnDto, token = Functions.generateUserToken(userFromRepo,_config, true)});
+            // return Ok(await _auth.GenerateSMSCode(userFromRepo, userFromRepo.PhoneNumber));
         }
 
 

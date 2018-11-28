@@ -16,6 +16,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [HomePage]
+  declarations: []
 })
 export class HomePageModule {}

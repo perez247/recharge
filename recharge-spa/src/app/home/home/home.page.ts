@@ -54,7 +54,9 @@ export class HomePage {
     setInterval(() => {
       const duration = moment.duration(moment(this.user.expires).diff(moment()));
       this.TimeRemaining =
-        `${duration.months()} month, ${duration.days()} days, ${duration.hours()}:${duration.minutes()}:${duration.seconds()}`;
+        `${duration.months()} month,
+         ${this.checkday(duration.days())},
+         ${duration.hours()}:${duration.minutes()}:${duration.seconds()}`;
     }, 1000);
   }
 
@@ -64,6 +66,10 @@ export class HomePage {
       `You have a timeframe of 60 days after your last recharge and hope you recharge soon
       else you will not be recieving points from your downlinks`, null
     );
+  }
+
+  checkday(day: number) {
+    return day <= 1 ? day + ' day' : day + ' days';
   }
 
 }

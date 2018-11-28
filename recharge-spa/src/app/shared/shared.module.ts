@@ -1,3 +1,4 @@
+import { HomePage } from './../home/home/home.page';
 import { WithdrawService } from './_services/withdraw.service';
 import { BankService } from './_services/bank.service';
 import { MobileValidation } from './common/custom-validation/mobile-validation';
@@ -21,6 +22,7 @@ import { PaymentsPage } from '../home/payments/payments.page';
 import { RechargeService } from './_services/recharge.service';
 import { PaymentValidation } from './common/custom-validation/payment-validation';
 import { ToasterService } from './_services/toaster.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -29,6 +31,7 @@ import { ToasterService } from './_services/toaster.service';
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterModule
   ],
   providers: [
     AuthService,
@@ -51,6 +54,7 @@ import { ToasterService } from './_services/toaster.service';
     LoginPage,
     ConfirmPhonePage,
     PaymentsPage,
+    HomePage
   ],
   exports: [
     FormsModule,
@@ -63,7 +67,8 @@ import { ToasterService } from './_services/toaster.service';
     LoginPage,
     ConfirmPhonePage,
     PaymentsPage,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HomePage
   ]
 })
 export class SharedModule { }

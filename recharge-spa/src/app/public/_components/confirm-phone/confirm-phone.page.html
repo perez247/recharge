@@ -40,12 +40,18 @@
     </ion-button>
   </ion-card-content>
 
+  <div text-center>
+    <ion-col [routerLink]="['/home']">
+        <small ><ion-text color="primary"><strong>Skip</strong></ion-text></small>
+    </ion-col>
+  </div>
+  
 </ion-content>
 
 <ion-footer no-shadow>
   <ion-toolbar text-center position="bottom">
     <small>Already a member? 
-      <a [href]="'auth'"><strong><ion-text color="primary">Sign In</ion-text></strong></a>
+      <a [routerLink]="['/auth']"><strong><ion-text color="primary">Sign In</ion-text></strong></a>
     </small>
   </ion-toolbar>
 </ion-footer>

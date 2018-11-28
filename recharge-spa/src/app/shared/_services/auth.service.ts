@@ -43,6 +43,6 @@ export class AuthService {
   }
 
   resendCode(userId: string) {
-    return this.http.get(`${this.apiUrl}/resendcode/${userId}`);
+    return this.http.get<{token: string, user: AppUser}>(`${this.apiUrl}/resendcode/${userId}`);
   }
 }
