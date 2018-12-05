@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div>
+      <ion-toolbar>
+          <ion-text color="danger"><sub>This number has not been verified. Verify to use other functionalities</sub></ion-text>
+        </ion-toolbar>
+      <ion-card>
+          <ion-card-header>
+            <ion-card-title>Phone Number</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            
+            <ion-item>
+                <ion-input value="Readonly" readonly value="123456789"></ion-input>
+                <ion-fab horizontal="end">
+                    <ion-fab-button mini><ion-icon name="create"></ion-icon></ion-fab-button>
+                </ion-fab>
+            </ion-item>
+
+            <ion-grid>
+                <ion-row>
+                  <ion-col col-6>
+                      <ion-button color="danger" expand="full">Cancel</ion-button>
+                  </ion-col>
+                  <ion-col col-6>
+                      <ion-button color="primary" expand="full">Update</ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+          </ion-card-content>
+        </ion-card>
+  </div>
+
+    <ion-fab vertical="bottom" horizontal="start" id="fab2" slot="fixed">
+        <ion-fab-button color="dark" class="e2eFabBottomRight">
+          <ion-icon name="arrow-dropup"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-button>
+            Banks
+          </ion-button>
+          <ion-button>
+            Cards
+          </ion-button>
+          <ion-button>
+            Phone
+          </ion-button>
+        </ion-fab-list>
+      </ion-fab>
+</ion-content>

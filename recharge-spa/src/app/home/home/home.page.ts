@@ -33,7 +33,7 @@ export class HomePage {
 
     // this.timeSpan();
 
-    this.authService.user().subscribe(user => {
+    this.authService.setUser().subscribe(user => {
       if (user) {
         this.user = user;
         this.timeSpan();
@@ -45,12 +45,13 @@ export class HomePage {
   goToType(e) {
     const url = e.target.value;
     e.target.value = '';
-    this.router.navigate([url]);
+    if (url) {
+      this.router.navigate([url]);
+    }
   }
 
   timeSpan() {
     const data = moment.duration(moment(this.user.expires).diff(moment()));
-    console.log(data);
     setInterval(() => {
       const duration = moment.duration(moment(this.user.expires).diff(moment()));
       this.TimeRemaining =
@@ -62,8 +63,8 @@ export class HomePage {
 
   ExpireInfo() {
     this.toastService.shout(
-      'What is this',
-      `You have a timeframe of 60 days after your last recharge and hope you recharge soon
+      'What is this?',
+      `You have a timeframe of 60 days after your last recharge to recharge
       else you will not be recieving points from your downlinks`, null
     );
   }

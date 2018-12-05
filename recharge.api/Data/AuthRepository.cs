@@ -45,10 +45,10 @@ namespace recharge.api.Data
             return null;
         }
 
-        public async Task<User> LoginWithAllData(string usernameOrPhone, string pin)
+        public async Task<User> LoginWithAllData(string userId, string pin)
         {
-            var user = await _userManager.Users.Include(p => p.Point).Include(c => c.Cards)
-                                               .FirstOrDefaultAsync(u => u.NormalizedUserName == usernameOrPhone.ToUpper() || u.PhoneNumber == usernameOrPhone);
+            var user = await _userManager.Users.Include(p => p.Point).Include(c => c.Cards).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+            
             if(user == null)
                 return null;
             
@@ -58,8 +58,10 @@ namespace recharge.api.Data
             return null;
         }
 
-        public async Task<User> Register(User user, string pin)
+        public async Task<User> Register(User user, string pin, string referer = null)
         {
+            user.Referer = await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == referer.ToUpper() || u.PhoneNumber == referer );
+            
             var result  = await _userManager.CreateAsync(user, pin);
             
 

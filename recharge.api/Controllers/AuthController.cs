@@ -65,7 +65,7 @@ namespace recharge.api.Controllers
 
             _auth.userRegistered  += _repo.CreatePoint;
 
-            var user = await _auth.Register(newUser, registerUserDto.Pin);
+            var user = await _auth.Register(newUser, registerUserDto.Pin, registerUserDto.Referer);
 
             var userToReturnDto = _mapper.Map<UserToReturnDto>(user);
 

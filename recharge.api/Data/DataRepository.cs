@@ -56,6 +56,22 @@ namespace recharge.api.Data
 
         }
 
+        public async void AddReferer(object source, UserEventArgs e)
+        {
+            // var referer = _context.Users.Find
+            var point = new Point() 
+                        {
+                            User = e.User
+                        };
+            _context.Add(point);
+
+            if(!await SaveAll()){
+                Delete(e.User);
+                await SaveAll();
+            }
+
+        }
+
         public void BeginTransaction()
         {
             _context.Database.BeginTransaction();

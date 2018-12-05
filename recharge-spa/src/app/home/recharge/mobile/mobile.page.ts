@@ -8,7 +8,7 @@ import { RegisterValidation } from '../../../shared/common/custom-validation/reg
   templateUrl: './mobile.page.html',
   styleUrls: ['./mobile.page.scss'],
 })
-export class MobilePage implements OnInit {
+export class MobilePage {
 
   topUpForm: FormGroup;
 
@@ -18,9 +18,6 @@ export class MobilePage implements OnInit {
     private mobileValidation: MobileValidation
   ) {
     this.initForm();
-  }
-
-  ngOnInit() {
   }
 
   initForm() {

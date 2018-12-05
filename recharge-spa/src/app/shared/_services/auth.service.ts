@@ -5,7 +5,6 @@ import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppUser } from '../model/app-user';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +12,15 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private apiUrl = environment.baseUrlApi + 'auth';
   token: AppToken;
+  authUser: AppUser;
 
   constructor(private http: HttpClient, private tokenService: TokenService) {
+    // this.tokenService.refresher.subscribe(user => this.authUser = user);
    }
 
-  user() {
+  setUser() {
     // console.log('token 2');
+    // this.tokenService.getUserAsObject().subscribe(x => this.authUser = x);
     return this.tokenService.getUserAsObject();
   }
 

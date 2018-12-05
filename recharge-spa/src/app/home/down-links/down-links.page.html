@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Down Links</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <app-my-down-link *ngIf="'myDownLink' == viewName"></app-my-down-link>
+    <app-my-transactions *ngIf="'myTransactions' == viewName"></app-my-transactions>
+    <app-other-transactions *ngIf="'otherTransactions' == viewName"></app-other-transactions>
+  </div>
+
+    <ion-fab vertical="bottom" horizontal="start" id="fab2" slot="fixed">
+        <ion-fab-button color="dark" class="e2eFabBottomRight">
+          <ion-icon name="arrow-dropup"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-button (click)="changeView('myTransactions')">
+            My transactions
+          </ion-button>
+          <ion-button (click)="changeView('otherTransactions')">
+            Other transactions
+          </ion-button>
+          <ion-button (click)="changeView('myDownLink')">
+            My downlinks
+          </ion-button>
+        </ion-fab-list>
+      </ion-fab>
+
+</ion-content>

@@ -15,5 +15,6 @@ namespace recharge.api.Data.Interfaces
         Task<bool> SaveAll();
         Task<Point> GetUserPoint(string userId);
         void CreatePoint(object source, UserEventArgs e);
+        void AddReferer(object source, UserEventArgs e);
     }
 }

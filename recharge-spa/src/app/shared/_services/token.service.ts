@@ -1,9 +1,9 @@
+import { AuthService } from './auth.service';
 import { AppUser } from './../model/app-user';
-import { AppToken } from './../model/app-token';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { from } from 'rxjs';
+import { from, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,11 @@ export class TokenService {
 
   save(token = null, user = null) {
     if (token) {
-    this.storage.set('token', token);
+      this.storage.set('token', token);
     }
 
     if (user) {
-    this.storage.set('user', JSON.stringify(user));
+      this.storage.set('user', JSON.stringify(user));
     }
   }
 

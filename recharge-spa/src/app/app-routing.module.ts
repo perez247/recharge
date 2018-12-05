@@ -24,6 +24,14 @@ const routes: Routes = [
       {
         path: 'withdraw',
         loadChildren: './home/withdraw/withdraw.module#WithdrawPageModule'
+      },
+      {
+        path: 'down-links',
+        loadChildren: './home/down-links/down-links.module#DownLinksPageModule'
+      },
+      {
+        path: 'settings',
+        loadChildren: './home/settings/settings.module#SettingsPageModule'
       }
     ]
   },
@@ -36,7 +44,6 @@ const routes: Routes = [
     loadChildren: './public/_components/confirm-phone/confirm-phone.module#ConfirmPhonePageModule'
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
-
 ];
 
 @NgModule({

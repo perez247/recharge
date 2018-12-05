@@ -25,7 +25,7 @@
       </ion-grid>
     </div>
     <div text-center class="summary">
-      <small (click)="ExpireInfo()"><strong>Expires in </strong><span>{{ TimeRemaining }}</span></small>
+      <small (click)="ExpireInfo()"><strong>Expires in </strong><span>{{ TimeRemaining }}</span><strong> ?</strong></small>
     </div>
   <ion-grid>
       <ion-row>
@@ -47,7 +47,7 @@
           </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col width-50>
+        <ion-col width-50 [routerLink]="['/down-links']">
             <ion-card text-center class="menu-tab">
               <ion-card-title>
                   <ion-icon name="people" class="larger"></ion-icon>
@@ -55,7 +55,7 @@
               <ion-text><strong>Down Links</strong></ion-text><br>
             </ion-card>
         </ion-col>
-        <ion-col width-50>
+        <ion-col width-50 [routerLink]="['/settings']">
             <ion-card text-center class="menu-tab">
               <ion-card-title>
                   <ion-icon name="settings" class="larger"></ion-icon>

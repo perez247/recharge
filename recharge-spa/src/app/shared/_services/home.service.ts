@@ -16,7 +16,7 @@ export class HomeService {
     ) { }
 
   get() {
-    return this.authService.user().pipe(switchMap(user => {
+    return this.authService.setUser().pipe(switchMap(user => {
       return this.http.get(`${this.apiUrl}/${user.id}`);
     }));
   }

@@ -1,12 +1,17 @@
+import { AuthService } from './../_services/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
  @Injectable()
 
  export class ErrorInterceptor implements HttpInterceptor {
+
+    constructor(private authService: AuthService, private router: Router) {}
+
      intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         //  next.handle(req).subscribe(x => console.log(x));
          return next.handle(req).pipe(
@@ -14,6 +19,8 @@ import * as _ from 'lodash';
                  if (error instanceof HttpErrorResponse) {
                     if (error.status === 401) {
                         console.log(error.statusText);
+                        this.authService.logout();
+                        this.router.navigate(['auth']);
                         return throwError(error.statusText.toLowerCase());
                     }
 
@@ -39,7 +46,8 @@ import * as _ from 'lodash';
                         });
                     }
 
-                    return throwError(modelStateEror || serverError || 'Server Error');
+                    const finalError = modelStateEror || serverError || 'Server Error';
+                    return throwError(finalError);
                  }
              } )
          );

@@ -1,3 +1,8 @@
+import { CardDetailsPage } from './../home/settings/card-details/card-details.page';
+import { BankDetailsPage } from './../home/settings/bank-details/bank-details.page';
+import { PhoneDetailPage } from './../home/settings/phone-detail/phone-detail.page';
+import { MyTransactionsPage } from './../home/down-links/my-transactions/my-transactions.page';
+import { MyDownLinkPage } from './../home/down-links/my-down-link/my-down-link.page';
 import { HomePage } from './../home/home/home.page';
 import { WithdrawService } from './_services/withdraw.service';
 import { BankService } from './_services/bank.service';
@@ -23,6 +28,7 @@ import { RechargeService } from './_services/recharge.service';
 import { PaymentValidation } from './common/custom-validation/payment-validation';
 import { ToasterService } from './_services/toaster.service';
 import { RouterModule } from '@angular/router';
+import { OtherTransactionsPage } from '../home/down-links/other-transactions/other-transactions.page';
 
 @NgModule({
   imports: [
@@ -54,7 +60,13 @@ import { RouterModule } from '@angular/router';
     LoginPage,
     ConfirmPhonePage,
     PaymentsPage,
-    HomePage
+    HomePage,
+    MyDownLinkPage,
+    MyTransactionsPage,
+    OtherTransactionsPage,
+    PhoneDetailPage,
+    BankDetailsPage,
+    CardDetailsPage
   ],
   exports: [
     FormsModule,
@@ -68,7 +80,13 @@ import { RouterModule } from '@angular/router';
     ConfirmPhonePage,
     PaymentsPage,
     ReactiveFormsModule,
-    HomePage
+    HomePage,
+    MyDownLinkPage,
+    MyTransactionsPage,
+    OtherTransactionsPage,
+    PhoneDetailPage,
+    BankDetailsPage,
+    CardDetailsPage
   ]
 })
 export class SharedModule { }

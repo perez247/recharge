@@ -1,5 +1,6 @@
+import { TokenService } from './shared/_services/token.service';
 import { AuthService } from './shared/_services/auth.service';
-import { Component, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, AfterViewInit, AfterContentInit, OnInit } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: 'app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterContentInit {
+export class AppComponent {
   loggedIn = false;
   public appPages = [
     {
@@ -30,7 +31,8 @@ export class AppComponent implements AfterContentInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService
   ) {
     this.initializeApp();
   }
@@ -39,7 +41,6 @@ export class AppComponent implements AfterContentInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.loggedIn = false;
     });
 
   }
@@ -49,13 +50,11 @@ export class AppComponent implements AfterContentInit {
     this.router.navigate(['auth']);
   }
 
-  ngAfterContentInit() {
-    setTimeout(() => {
-      this.authService.user().subscribe(x => {
-        if (x) {
+  checkAuth() {
+    this.authService.setUser().subscribe(x => {
+      if (x) {
         this.loggedIn = true;
-        }
-      });
-    }, 2000);
+      }
+    });
   }
 }

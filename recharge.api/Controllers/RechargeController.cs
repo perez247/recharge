@@ -8,7 +8,6 @@ using recharge.api.Helpers.ThirdParty;
 using recharge.api.models;
 using recharge.api.Data.Interfaces;
 using recharge.api.Helpers;
-using recharge.api.models;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -36,7 +35,7 @@ namespace recharge.api.Controllers
         public async Task<IActionResult> rechargeMobile(MobileRechargeDto mobileRechargeDto)
         {
 
-            var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.Name).Value, mobileRechargeDto.Payment.Pin);
+            var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.NameIdentifier).Value, mobileRechargeDto.Payment.Pin);
 
             if (user == null)
                 return Unauthorized();
@@ -87,7 +86,9 @@ namespace recharge.api.Controllers
 
                 user.Point.Points += Decimal.Round(mobileRechargeDto.amount * 0.05m, 2, MidpointRounding.AwayFromZero);
 
-                await _repo.SaveAll();
+                if(!await _repo.SaveAll()){
+                    //return users money
+                }
                 _repo.Commit();
 
                 return NoContent();

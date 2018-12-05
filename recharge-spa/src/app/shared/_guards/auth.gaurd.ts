@@ -12,7 +12,7 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(route, state: RouterStateSnapshot) {
 
-    return this.auth.user().pipe(map(user => {
+    return this.auth.setUser().pipe(map(user => {
         if (user) {
             return true;
         }

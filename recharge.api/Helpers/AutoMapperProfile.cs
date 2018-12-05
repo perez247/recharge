@@ -33,7 +33,8 @@ namespace DattingApp.Api.Helpers
             // CreateMap<PhotoForCreationDto, Photo>();
 
             CreateMap<User, RegisterUserDto>();
-            CreateMap<RegisterUserDto,User>();
+            CreateMap<RegisterUserDto,User>()
+                .ForMember(u => u.Referer, opt => opt.Ignore());
 
             //Data to return back to the user
             CreateMap<User,UserToReturnDto>();

@@ -10,7 +10,7 @@ namespace recharge.api.Data.Interfaces
     public interface IAuthRepository
     {
         event EventHandler<UserEventArgs> userRegistered;
-        Task<User> Register(User user, string pin);
+        Task<User> Register(User user, string pin, string referer = null);
         Task<User> Login(string username, string pin);
         Task<User> LoginWithAllData(string username, string pin);
         Task<bool> UserExists(string username);

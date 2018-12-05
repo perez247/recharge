@@ -27,9 +27,7 @@ namespace recharge.api.Controllers
 
             if (user == null)
                 return Unauthorized();
-            
-            return Ok(user);
-
+                
             if(!(user.Point.Points >= withdrawDto.Amount))
                 return BadRequest("Insufficient Points");
 

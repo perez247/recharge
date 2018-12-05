@@ -89,9 +89,9 @@
                   ></ion-input>
                 </ion-item>
 
-                <!-- <ion-text color="danger" *ngIf="registerForm.get('userName').touched && registerForm.get('userName').invalid">
-                  <small> Username is required</small> 
-                </ion-text> -->
+                <ion-text class="message-block" color="danger" *ngIf="registerForm.get('referer').touched && registerForm.get('referer').invalid">
+                    <small *ngIf="registerForm.get('referer').errors['pattern']"> Only alphabet, numbers, - and _ are allowed</small> 
+                  </ion-text>
 
           </ion-col>
       </ion-row>

@@ -56,7 +56,7 @@ export class RegisterPage {
                     ]
                 ],
       confirmPin: ['', [Validators.required, this.registerValidation.confirm('pin', 'confirmPin')]],
-      referer: ['']
+      referer: ['', [Validators.pattern('^[a-zA-Z0-9-_]+$')]]
     });
   }
 

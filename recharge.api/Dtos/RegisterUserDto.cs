@@ -22,5 +22,8 @@ namespace recharge.api.Dtos
         RegularExpression("^[\\+\\-]?\\d*\\.?\\d+(?:[Ee][\\+\\-]?\\d+)?$", ErrorMessage = "Pin must be numbers")]
         public string Pin { get; set; }
         public DateTime Expires { get; set; }
+
+        [RegularExpression("^[a-zA-Z0-9-_ ]+$", ErrorMessage="Only alphabets, numbers _ and - for username ")]
+        public string Referer { get; set; }
     }
 }
