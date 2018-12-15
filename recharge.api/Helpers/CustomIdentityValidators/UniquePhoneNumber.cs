@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
 namespace recharge.api.Helpers.CustomIdentityValidators
 {

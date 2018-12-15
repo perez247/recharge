@@ -1,3 +1,4 @@
+import { MobilePage } from './../home/recharge/mobile/mobile.page';
 import { CardDetailsPage } from './../home/settings/card-details/card-details.page';
 import { BankDetailsPage } from './../home/settings/bank-details/bank-details.page';
 import { PhoneDetailPage } from './../home/settings/phone-detail/phone-detail.page';
@@ -66,7 +67,8 @@ import { OtherTransactionsPage } from '../home/down-links/other-transactions/oth
     OtherTransactionsPage,
     PhoneDetailPage,
     BankDetailsPage,
-    CardDetailsPage
+    CardDetailsPage,
+    MobilePage
   ],
   exports: [
     FormsModule,
@@ -86,7 +88,8 @@ import { OtherTransactionsPage } from '../home/down-links/other-transactions/oth
     OtherTransactionsPage,
     PhoneDetailPage,
     BankDetailsPage,
-    CardDetailsPage
+    CardDetailsPage,
+    MobilePage
   ]
 })
 export class SharedModule { }

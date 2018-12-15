@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using recharge.api.Data.Interfaces;
+using recharge.api.Core.Interfaces;
 using recharge.api.Dtos;
 using recharge.api.Helpers;
-using recharge.api.models;
+using recharge.api.Core.Models;
 using System.Security.Claims;
 
 namespace recharge.api.Controllers
@@ -97,7 +97,7 @@ namespace recharge.api.Controllers
             var userFromRepo = await _userManager.FindByIdAsync(userId);
 
             if(userFromRepo == null) {
-                return BadRequest();
+                return BadRequest("Bad Request");
             }
 
             if(await _userManager.IsPhoneNumberConfirmedAsync(userFromRepo))

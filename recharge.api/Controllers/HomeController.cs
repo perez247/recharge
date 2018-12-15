@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using recharge.api.Data.Interfaces;
+using recharge.api.Core.Interfaces;
 using recharge.api.Helpers;
-using recharge.api.models;
+using recharge.api.Core.Models;
 using System.Security.Claims;
 using AutoMapper;
 using recharge.api.Dtos;

@@ -1,9 +1,13 @@
-import { PaymentValidation } from './../../shared/common/custom-validation/payment-validation';
-import { RegisterValidation } from './../../shared/common/custom-validation/register-validation';
-import { MobileValidation } from './../../shared/common/custom-validation/mobile-validation';
-import { Component, Input, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
-import { RechargeService } from '../../shared/_services/recharge.service';
+import { ToasterService } from './../../shared/_services/toaster.service';
+import { TokenService } from './../../shared/_services/token.service';
+import { AppCard } from './../../shared/model/app-card';
+import { AfterContentChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { RechargeService } from '../../shared/_services/recharge.service';
+import { PaymentValidation } from './../../shared/common/custom-validation/payment-validation';
+import { AppUser } from '../../shared/model/app-user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payments',
@@ -11,33 +15,49 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./payments.page.scss'],
 })
 export class PaymentsPage implements AfterContentChecked {
-  @Input() outerFormData: any = {};
-  @Input() outerFormValid: boolean;
 
   paymentouterFormData: any = {};
   validTotal = false;
+  userData = {
+    point: 0.0,
+    cards: [] as AppCard[]
+  };
 
   newCard = false;
   paymentForm: FormGroup;
+  outerFormData: FormGroup;
 
   constructor(
     private rechargeService: RechargeService,
     private cdref: ChangeDetectorRef,
     private fb: FormBuilder,
-    private mobileValidation: MobileValidation,
-    private registerValidation: RegisterValidation,
-    private paymentValidation: PaymentValidation
+    private paymentValidation: PaymentValidation,
+    private tokenService: TokenService,
+    private toastService: ToasterService,
+    private router: Router
   ) {
     this.initForm();
+    this.rechargeService.typeData.subscribe(typeData => {
+      this.outerFormData = typeData;
+    });
+    this.rechargeService.getUser().subscribe((x: any) => {
+      this.userData.point = x.point.points;
+      this.userData.cards = x.cards;
+      this.initForm();
+    });
    }
 
   process() {
-    const data = {...this.outerFormData, payment: this.paymentForm.value};
+    const data = {...this.outerFormData.value, payment: this.paymentForm.value};
     // console.log(data);
     // console.log(this.paymentForm);
-    this.rechargeService.recharge(data, this.outerFormData.type).subscribe(x => {
-      console.log(x);
-    }, error => {console.log(error); } );
+    this.rechargeService.recharge(data, this.outerFormData.get('type').value).subscribe((x: any) => {
+      this.tokenService.save(x.token, x.user as AppUser);
+      this.clear();
+      this.toastService.shout('Payment', 'Transaction Successfull', () => {
+        this.router.navigate(['home']);
+      });
+    });
   }
 
   setTwoNumberDecimal($event) {
@@ -49,7 +69,7 @@ export class PaymentsPage implements AfterContentChecked {
     const card = +this.paymentForm.get('cardAmount').value || 0;
     const total = points + card;
 
-    if (+total !== 0 && +total === +this.outerFormData.amount) { this.validTotal = true; } else { this.validTotal = false; }
+    if (+total !== 0 && +total === +this.outerFormData.get('amount').value) { this.validTotal = true; } else { this.validTotal = false; }
 
     return +total;
   }
@@ -80,8 +100,13 @@ export class PaymentsPage implements AfterContentChecked {
 
   initForm() {
     this.paymentForm = this.fb.group({
-      point: ['', [Validators.pattern('^[0-9]*$'), this.paymentValidation.NullOrNumberRange(100, 500000)]],
-      cardId: ['', [Validators.required]],
+      point: ['', [
+        Validators.pattern('^[0-9]*$'),
+        this.paymentValidation.NullOrNumberRange(100, 500000),
+        this.paymentValidation.checkPoint(this.userData.point)
+        ]
+      ],
+      cardId: ['', []],
       cardAmount: ['',
                       [
                         Validators.pattern('^[0-9]*$'),
@@ -96,7 +121,7 @@ export class PaymentsPage implements AfterContentChecked {
 
   noRequiredCard() {
     const formgroup = this.fb.group({
-      carNumber: [''],
+      cardNumber: [''],
       cardHolderName: [''],
       expiryDate: [''],
       cvvNumber: [''],
@@ -129,10 +154,11 @@ export class PaymentsPage implements AfterContentChecked {
   }
 
   formValid() {
-    const f = this.outerFormValid;
+    const f = this.outerFormData.valid;
     const f2 = this.paymentForm.valid;
     const t = this.validTotal;
-    return !(f && f2 && t);
+    const points = this.userData.point >= this.paymentForm.get('point').value;
+    return !(f && f2 && t && points);
   }
 
   defaultTo(event, value) {
@@ -150,4 +176,8 @@ export class PaymentsPage implements AfterContentChecked {
     return arr;
   }
 
+  clear() {
+    this.initForm();
+    this.outerFormData.reset();
+  }
 }

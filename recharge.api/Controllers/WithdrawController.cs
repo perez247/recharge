@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using recharge.api.Dtos;
 using recharge.api.Helpers.ThirdParty;
-using recharge.api.Data.Interfaces;
+using recharge.api.Core.Interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

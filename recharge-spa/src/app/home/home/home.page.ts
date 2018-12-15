@@ -1,10 +1,11 @@
-import { ToasterService } from './../../shared/_services/toaster.service';
+import { HomeService } from './../../shared/_services/home.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
+import { RechargeService } from '../../shared/_services/recharge.service';
 import { AuthService } from './../../shared/_services/auth.service';
-import { HomeService } from './../../shared/_services/home.service';
+import { ToasterService } from './../../shared/_services/toaster.service';
 import { AppUser } from './../../shared/model/app-user';
 
 @Component({
@@ -25,7 +26,7 @@ export class HomePage {
     ) { }
 
   ionViewWillEnter() {
-    this.homeService.get().subscribe((x: any) => {
+    this.homeService.getPoint().subscribe((x: any) => {
       this.point.points = x.points;
     });
 
@@ -46,7 +47,7 @@ export class HomePage {
     const url = e.target.value;
     e.target.value = '';
     if (url) {
-      this.router.navigate([url]);
+      this.router.navigate(['recharge', url]);
     }
   }
 

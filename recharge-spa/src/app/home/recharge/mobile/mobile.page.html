@@ -1,13 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Mobile Top-up</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content padding>
   <form [formGroup]="topUpForm">
       <ion-grid>
 
@@ -24,10 +15,10 @@
                     </ion-item>
       
                     <ion-text class="message-block" color="danger" *ngIf="topUpForm.get('phoneNumber').touched && topUpForm.get('phoneNumber').invalid">
-                        <small *ngIf="topUpForm.get('phoneNumber').errors['required']">phone is required, </small> 
-                        <small *ngIf="topUpForm.get('phoneNumber').errors['invalidNumber']">phone is not a number, </small> 
-                        <small *ngIf="topUpForm.get('phoneNumber').errors['invalidStringRange'] "> between 10 and 12 long,</small>
-                      </ion-text>
+                      <small *ngIf="topUpForm.get('phoneNumber').errors['required']">Phone is required</small> 
+                      <small *ngIf="topUpForm.get('phoneNumber').errors['invalidNumber']">Invalid phone number</small> 
+                      <small *ngIf="topUpForm.get('phoneNumber').errors['invalidStringRange'] ">Between 10 and 12 long</small>
+                    </ion-text>
                       <!-- <small><ion-checkbox class="checkbox-round" color="dark"></ion-checkbox> Use my number</small> -->
               </ion-col>
           </ion-row>
@@ -47,8 +38,8 @@
                 </ion-item>
       
                     <ion-text class="message-block" color="danger" *ngIf="topUpForm.get('network').touched && topUpForm.get('network').invalid">
-                      <small *ngIf="topUpForm.get('network').errors['required']">network is required, </small>
-                      <small *ngIf="topUpForm.get('network').errors['invalidNetwork']">Invalid Network</small>
+                      <small *ngIf="topUpForm.get('network').errors['required']">Network is required</small>
+                      <small *ngIf="topUpForm.get('network').errors['invalidNetwork']">Invalid network provided</small>
                     </ion-text>
       
               </ion-col>
@@ -69,7 +60,7 @@
                     <ion-text class="message-block" color="danger" *ngIf="topUpForm.get('amount').touched && topUpForm.get('amount').invalid">
                       <small *ngIf="topUpForm.get('amount').errors['required']">Amount is required, </small> 
                       <small *ngIf="topUpForm.get('amount').errors['invalidNumber']">Invalid amount, </small> 
-                      <small *ngIf="topUpForm.get('amount').errors['invalidNumberRange']">between 100 and 50000 </small> 
+                      <small *ngIf="topUpForm.get('amount').errors['invalidNumberRange']">Between 100 and 50000 </small> 
                     </ion-text>
       
               </ion-col>
@@ -79,8 +70,4 @@
         <ion-input type="hidden" value="mobile"></ion-input>
   </form>
   
-<app-payments
-  [outerFormData]="topUpForm.value"
-  [outerFormValid]="topUpForm.valid"
-></app-payments>
-</ion-content>
+<!-- <app-payments></app-payments> -->

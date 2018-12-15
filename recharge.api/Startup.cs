@@ -22,11 +22,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
-using recharge.api.Data;
-using recharge.api.Data.Interfaces;
+using recharge.api.Persistence.Repository;
+using recharge.api.Core.Interfaces;
 using recharge.api.Helpers;
 using recharge.api.Helpers.CustomIdentityValidators;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
 namespace recharge
 {
@@ -63,6 +63,7 @@ namespace recharge
             
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDataRepository, DataRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddCors();
             services.AddMvc(options => {
                 var policy = new AuthorizationPolicyBuilder()

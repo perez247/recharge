@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
              catchError((error) => {
                  if (error instanceof HttpErrorResponse) {
                     if (error.status === 401) {
-                        console.log(error.statusText);
                         this.authService.logout();
                         this.router.navigate(['auth']);
                         return throwError(error.statusText.toLowerCase());

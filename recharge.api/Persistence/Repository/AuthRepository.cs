@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using recharge.api.Data.EventArgTypes;
-using recharge.api.Data.Interfaces;
+using recharge.api.Persistence.Repository.EventArgTypes;
+using recharge.api.Core.Interfaces;
 using recharge.api.Dtos;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
-namespace recharge.api.Data
+namespace recharge.api.Persistence.Repository
 {
     public class AuthRepository : IAuthRepository
     {

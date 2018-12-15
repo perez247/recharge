@@ -1,8 +1,10 @@
 using System.Linq;
 using AutoMapper;
+using recharge.api.Controllers.HttpResource.HttpRequestResource.Payment;
+using recharge.api.Controllers.HttpResource.HttpResponseResource;
 using recharge.api.Dtos;
 using recharge.api.Dtos.Payments;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
 namespace DattingApp.Api.Helpers
 {
@@ -46,6 +48,19 @@ namespace DattingApp.Api.Helpers
             CreateMap<Card,CardDto>();
 
             // CreateMap<Point, PointsToReturn>();
+
+            //------------- From Domain to Resource
+            CreateMap<User, UserResponseResource>();
+            CreateMap<Card, CardResponseResource>()
+                .ForMember(c => c.CardNumber, opt => opt.MapFrom(card => card.CardNumber.Substring(card.CardNumber.Length - 4)));
+            CreateMap<Point, PointResponseResource>();
+            CreateMap<Card, CardRequestResource>();
+
+            //------------- From Resource to Domain
+            CreateMap<CardRequestResource, Card>();
+
+            //------------- From Resource to Resource
+            CreateMap<CardRequestFreeResource, CardRequestResource>();
         }
     }
 }

@@ -1,4 +1,6 @@
-<ion-title>Payment</ion-title>
+<ion-toolbar>
+    <ion-title>Payment</ion-title>
+</ion-toolbar>
 <!-- <ion-button href="recharge/type/(mobile:mobile)" >mobile</ion-button> <br>
 <ion-button href="recharge/type/(utility:utility)" >Utility</ion-button> <br> -->
     <!-- {{outerFormData | json }}
@@ -10,11 +12,13 @@
 
             <ion-row>
                 <ion-col size="6"><small><strong>Bill:</strong></small></ion-col>
-                <ion-col size="6" text-right><small>-{{ getNumber(outerFormData.amount)  | number: '.2-2' }}</small></ion-col>
+                <ion-col size="6" text-right><small>-{{ getNumber(outerFormData.get('amount')?.value)  | number: '.2-2' }}</small></ion-col>
             </ion-row>
 
+
+
             <ion-row>
-                <ion-col size="6"><small><strong>Use Points: <br>(652.00)</strong></small></ion-col>
+                <ion-col size="6"><small><strong>Use Points: <br>({{ userData.point }})</strong></small></ion-col>
                 <ion-col size="6">
                     <input 
                         formControlName="point"
@@ -23,18 +27,40 @@
                         (change)="setTwoNumberDecimal($event)"
                         step="0.01"
                         >
+
+
+                    <ion-text class="message-block" color="danger"
+                        *ngIf="(paymentForm.get('point').touched && paymentForm.get('point').invalid)">
+                        <small *ngIf="paymentForm.get('point').errors['pattern']"> Amount is invalid</small>
+                        <small *ngIf="paymentForm.get('point').errors['invalidNullorNumberRange']"> between 100 - 50000</small>
+                        <small *ngIf="paymentForm.get('point').errors['invalidCheckPoint']">Insufficient Points</small>
+                     </ion-text>
                 </ion-col>
             </ion-row>
+
+
+
 
             <ion-row>
                 <ion-col size="6">
                     <ion-select 
                         formControlName="cardId"
                         #cardSelect 
-                        class="paymentSelect" interface="popover" placeholder="Use card" (ionChange)="CardForm(cardSelect)">
-                        <ion-select-option value="brown">Brown</ion-select-option>
+                        class="paymentSelect"  interface="popover" placeholder="Use card" (ionChange)="CardForm(cardSelect)">
+                        <ion-select-option value="">No card</ion-select-option>
+                        <ion-select-option *ngFor="let cd of userData.cards" [value]="cd.id">**** {{ cd.cardNumber }}</ion-select-option>
                         <ion-select-option value='new'><ion-text color="secondary">New Card</ion-text></ion-select-option>
                       </ion-select>
+
+                      <!-- Error for Card and Amount from card -->
+
+                     <ion-text class="message-block" color="danger"
+                        *ngIf="(paymentForm.get('cardAmount').touched && paymentForm.get('cardAmount').invalid)"
+                        >
+                        <small *ngIf="paymentForm.get('cardAmount').errors['pattern']"> Amount is invalid</small>
+                        <small *ngIf="paymentForm.get('cardAmount').errors['invalidNullorNumberRange']"> Between 100 and 50000</small>
+                     </ion-text>
+
                 </ion-col>
                 <ion-col size="6">
                     <input 
@@ -45,35 +71,95 @@
                         step="0.01"
                         >
                 </ion-col>
+
             </ion-row>
+
+
+
+
+
             <ion-card *ngIf="newCard">
                 <ion-card-content formGroupName="newCard">
+
+
+
                     <ion-input formControlName="cardNumber" placeholder="Card Number"></ion-input>
+                    <ion-text class="message-block" color="danger"
+                        *ngIf="(paymentForm.get(['newCard', 'cardNumber']).touched && paymentForm.get(['newCard', 'cardNumber']).invalid)"
+                        >
+                        <small *ngIf="paymentForm.get(['newCard', 'cardNumber']).errors['required']">Card Number is required</small>
+                        <small *ngIf="paymentForm.get(['newCard', 'cardNumber']).errors['pattern']"> Invalid Card Number</small>
+                    </ion-text>
+
+
+
+
                     <ion-input formControlName="cardHolderName" placeholder="Card Holder Name"></ion-input>
+                    <ion-text class="message-block" color="danger"
+                        *ngIf="(paymentForm.get(['newCard', 'cardHolderName']).touched && paymentForm.get(['newCard', 'cardHolderName']).invalid)"
+                        >
+                        <small *ngIf="paymentForm.get(['newCard', 'cardHolderName']).errors['required']">Name is required</small>
+                        <small *ngIf="paymentForm.get(['newCard', 'cardHolderName']).errors['pattern']">Only letters, number, - and _</small>
+                    </ion-text>
+
+
+
+
                     <ion-row>
                         <ion-col size="6">
                             <ion-select formControlName="expiryMonth" placeholder="Expiry Month">
                                 <ion-select-option *ngFor="let item of generateArray(1,12)" [value]="item">{{ item }}</ion-select-option>
                             </ion-select >
+
+                            <ion-text class="message-block" color="danger"
+                                *ngIf="(paymentForm.get(['newCard', 'expiryMonth']).touched && paymentForm.get(['newCard', 'expiryMonth']).invalid)"
+                                >
+                                <small *ngIf="paymentForm.get(['newCard', 'expiryMonth']).errors['required']">Month is required</small>
+                                <small *ngIf="paymentForm.get(['newCard', 'expiryMonth']).errors['pattern']">Invalid Month</small>
+                            </ion-text>
+
                         </ion-col>
                         <ion-col size="6">
                             <ion-select formControlName="expiryYear" placeholder="Expiry Year">
                                     <ion-select-option *ngFor="let item of generateArray(2018,2050)" [value]="item">{{ item }}</ion-select-option>
                             </ion-select >
+
+                            <ion-text class="message-block" color="danger"
+                                *ngIf="(paymentForm.get(['newCard', 'expiryYear']).touched && paymentForm.get(['newCard', 'expiryYear']).invalid)"
+                                >
+                                <small *ngIf="paymentForm.get(['newCard', 'expiryYear']).errors['required']">Year is required</small>
+                                <small *ngIf="paymentForm.get(['newCard', 'expiryYear']).errors['pattern']">Invalid Year</small>
+                            </ion-text>
+
                         </ion-col>
                     </ion-row>
+
+
+
+
                     <ion-input formControlName="cvvNumber" type="password" maxlength="3" placeholder="CVV Number"></ion-input>
+                    <ion-text class="message-block" color="danger"
+                        *ngIf="(paymentForm.get(['newCard', 'cvvNumber']).touched && paymentForm.get(['newCard', 'cvvNumber']).invalid)"
+                        >
+                        <small *ngIf="paymentForm.get(['newCard', 'cvvNumber']).errors['required']">CVV is required</small>
+                        <small *ngIf="paymentForm.get(['newCard', 'cvvNumber']).errors['pattern']">Invalid CVV</small>
+                    </ion-text>
+
+
+
+                    
                     <ion-row>
                         <ion-col>
-                            <ion-checkbox 
-                            formControlName="saveCard"
-                            color="dark"></ion-checkbox>
-                            <ion-label> Save this card</ion-label>
+                            <input type="checkbox" formControlName="saveCard">
+                            <ion-label><small> Save this card</small></ion-label>
                         </ion-col>
                     </ion-row>
-                    <!-- Keep close to Nature's heart... and break clear away, once in awhile,
-                    and climb a mountain or spend a week in the woods. Wash your spirit clean. -->
+
+
+
+
                     <ion-button size="small" color="danger" (click)="toggleCardForm(); cardSelect.value = null">Cancel</ion-button>
+                
                 </ion-card-content>
             </ion-card>
 
@@ -85,10 +171,14 @@
                 </ion-col>
             </ion-row>
 
+
+
             <ion-row>
                 <ion-col size="6"><small><strong>Points:</strong></small></ion-col>
-                <ion-col size="6" text-right><small>{{(getNumber(outerFormData.amount) * 0.05) | number: '.2-2'}}</small></ion-col>
+                <ion-col size="6" text-right><small>{{(getNumber(outerFormData.get('amount')?.value) * 0.05) | number: '.2-2'}}</small></ion-col>
             </ion-row>
+
+
 
             <ion-row>
                 <ion-col>
@@ -96,6 +186,7 @@
                         <ion-input 
                         maxlength="8"
                         pattern="[0-9]*"
+                        type="password"
                         formControlName="pin" placeholder="Secret Pin"></ion-input>
 
                         <ion-text class="message-block" color="danger" *ngIf="paymentForm.get('pin').touched && paymentForm.get('pin').invalid">
@@ -106,7 +197,11 @@
                 </ion-col>
             </ion-row>
 
+
+
+
         </ion-grid>
+
     
         <ion-button size="medium" [disabled]="formValid()" (click)="process()" expand="full">
             Confirm payment

@@ -18,6 +18,14 @@
     display: block;
 }
 
+ion-toast {
+    --background:#f9f9f9!important;
+}
+
+.toast-container {
+    background-color:#fff!important;
+}
+
 ion-toast.success-toast {
     color: yellowgreen;
 }

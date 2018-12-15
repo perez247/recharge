@@ -28,9 +28,6 @@ export class LoginPage {
       // console.log(x);
       this.tokenService.save(x.token, x.user as AppUser);
       this.redirect();
-    }, error => {
-      this.toast.display('Invalid credentials', 'error');
-      console.log(error);
     });
   }
 

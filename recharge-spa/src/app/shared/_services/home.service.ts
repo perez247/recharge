@@ -15,7 +15,7 @@ export class HomeService {
     private authService: AuthService
     ) { }
 
-  get() {
+  getPoint() {
     return this.authService.setUser().pipe(switchMap(user => {
       return this.http.get(`${this.apiUrl}/${user.id}`);
     }));

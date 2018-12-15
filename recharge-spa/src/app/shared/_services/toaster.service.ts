@@ -7,7 +7,7 @@ import { ToastController, AlertController } from '@ionic/angular';
 export class ToasterService {
 
   config: any = {
-    duration: 5000,
+    duration: 50000,
     position: 'top'
   };
 
@@ -17,7 +17,8 @@ export class ToasterService {
     const toast = await this.toaster.create({
       message,
       cssClass: `${type}-toast`,
-      ...this.config
+      ...this.config,
+      background: '#fff'
     });
 
     toast.present();

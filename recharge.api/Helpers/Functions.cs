@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
 namespace recharge.api.Helpers
 {

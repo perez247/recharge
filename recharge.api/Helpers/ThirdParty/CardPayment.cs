@@ -1,4 +1,5 @@
 using System;
+using recharge.api.Controllers.HttpResource.HttpRequestResource.Payment;
 using recharge.api.Dtos;
 using recharge.api.Dtos.Payments;
 
@@ -6,7 +7,7 @@ namespace recharge.api.Helpers.ThirdParty
 {
     public static class CardPayment
     {
-        public static Boolean Process(CardDto card) {
+        public static Boolean Process(CardRequestResource card) {
             return true;
         }
 

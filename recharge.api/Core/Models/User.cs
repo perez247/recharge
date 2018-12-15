@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
-namespace recharge.api.models
+namespace recharge.api.Core.Models
 {
     public class User : IdentityUser<Guid>
     {

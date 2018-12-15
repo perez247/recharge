@@ -6,4 +6,5 @@ export interface AppUser {
     phoneNumber: string;
     expires: Date;
     code: string;
+    point: number;
 }

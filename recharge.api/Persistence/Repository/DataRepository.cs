@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using recharge.api.Data.EventArgTypes;
-using recharge.api.Data.Interfaces;
-using recharge.api.models;
+using recharge.api.Persistence.Repository.EventArgTypes;
+using recharge.api.Core.Interfaces;
+using recharge.api.Core.Models;
 
-namespace recharge.api.Data
+namespace recharge.api.Persistence.Repository
 {
     public class DataRepository : IDataRepository
     {
@@ -70,21 +70,6 @@ namespace recharge.api.Data
                 await SaveAll();
             }
 
-        }
-
-        public void BeginTransaction()
-        {
-            _context.Database.BeginTransaction();
-        }
-
-        public void Commit()
-        {
-            _context.Database.CommitTransaction();
-        }
-
-        public void RollBack()
-        {
-            _context.Database.RollbackTransaction();
         }
     }
 }

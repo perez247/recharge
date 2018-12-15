@@ -5,13 +5,16 @@ using Microsoft.EntityFrameworkCore;
 using recharge.api.Dtos;
 using recharge.api.Dtos.Payments;
 using recharge.api.Helpers.ThirdParty;
-using recharge.api.models;
-using recharge.api.Data.Interfaces;
+using recharge.api.Core.Models;
+using recharge.api.Core.Interfaces;
 using recharge.api.Helpers;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using recharge.api.Controllers.HttpResource.HttpResponseResource;
+using recharge.api.Controllers.HttpResource.HttpRequestResource.Payment;
+using Microsoft.Extensions.Configuration;
 
 namespace recharge.api.Controllers
 {
@@ -23,85 +26,56 @@ namespace recharge.api.Controllers
         private readonly IMapper _mapper;
         private readonly IDataRepository _repo;
         private readonly IAuthRepository _auth;
-        public RechargeController(UserManager<User> userManager, IMapper mapper, IDataRepository repo, IAuthRepository auth)
+        private readonly IConfiguration _config;
+        private readonly IPaymentRepository _payment;
+
+        public RechargeController(
+            UserManager<User> userManager, 
+            IMapper mapper, 
+            IDataRepository repo, 
+            IAuthRepository auth,
+            IConfiguration config,
+            IPaymentRepository payment
+            )
         {
             _auth = auth;
             _repo = repo;
             _mapper = mapper;
             _userManager = userManager;
+            _config = config;
+            _payment = payment;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> getUser() {
+            var user = await _userManager.Users
+                            .Include(u => u.Cards).Include(u => u.Point)
+                            .FirstOrDefaultAsync(u => u.Id.ToString() == User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            return Ok(_mapper.Map<UserResponseResource>(user));
         }
 
         [HttpPost("mobile")]
-        public async Task<IActionResult> rechargeMobile(MobileRechargeDto mobileRechargeDto)
+        public async Task<IActionResult> rechargeMobile(MobileRechargeRequestResourse mobileRechargeRequestResource)
         {
-
-            var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.NameIdentifier).Value, mobileRechargeDto.Payment.Pin);
+            var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.NameIdentifier).Value, mobileRechargeRequestResource.Payment.Pin);
 
             if (user == null)
                 return Unauthorized();
 
-            if (user.Point.Points < mobileRechargeDto.Payment.Point)
-                return BadRequest("Insufficient Points");
+            user = _payment.ProcessDatabasePayment(mobileRechargeRequestResource, user);
 
-            if (mobileRechargeDto.amount != (mobileRechargeDto.Payment.Point + mobileRechargeDto.Payment.CardAmount))
-                return BadRequest("Invalid amount requested");
+            //top up users phone
+            //checked if it worked else
+            //rollback all operations
 
-            _repo.BeginTransaction();
-            _repo.Update(user);
-
-            try
-            {
-                if (mobileRechargeDto.Payment.CardAmount > 0)
-                {
-                    Card card = user.Cards.SingleOrDefault(c => c.Id.ToString() == mobileRechargeDto.Payment.CardId);
-                    CardDto cardDto = (card != null) ? _mapper.Map<CardDto>(card) : _mapper.Map<CardDto>(mobileRechargeDto.Payment.NewCard);
-                    var result = cardDto.Validate();
-
-                    if (result != null)
-                        return BadRequest(result);
-
-                    // All set to take money from user account
-                    if (!CardPayment.Process(cardDto))
-                        return BadRequest("Failed to perform card transaction");
-
-                    if (mobileRechargeDto.Payment.SaveCard)
-                    {
-                        var newCard = user.Cards.FirstOrDefault(c => c.CardNumber == mobileRechargeDto.Payment.NewCard.CardNumber);
-                        if (newCard == null)
-                        {
-                            user.Cards.Add(mobileRechargeDto.Payment.NewCard);
-                        }
-                    }
-
-                }
-
-                if (mobileRechargeDto.Payment.Point > 0)
-                {
-                    user.Point.Points = user.Point.Points - (Decimal)mobileRechargeDto.Payment.Point;
-                }
-
-                //top up users phone
-                //checked if it worked else
-                //rollback all operations
-
-                user.Point.Points += Decimal.Round(mobileRechargeDto.amount * 0.05m, 2, MidpointRounding.AwayFromZero);
-
-                if(!await _repo.SaveAll()){
-                    //return users money
-                }
-                _repo.Commit();
-
-                return NoContent();
-
-            }
-            catch (Exception)
-            {
-                //
-                _repo.RollBack();
-                return BadRequest("Unknown error occured");
+            if(!await _repo.SaveAll()){
+                //return users money
             }
 
-            //start with the card
+
+            return Ok(new {user = _mapper.Map<User, UserResponseResource>(user), token = Functions.generateUserToken(user,_config, true)});
+        //start with the card
         }
     }
 }

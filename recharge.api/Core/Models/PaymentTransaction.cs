@@ -1,7 +1,7 @@
 using System;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
-namespace recharge.api.models
+namespace recharge.api.Core.Models
 {
     public class PaymentTransaction
     {

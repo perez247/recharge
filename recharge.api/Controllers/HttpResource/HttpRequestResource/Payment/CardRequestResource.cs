@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace recharge.api.Dtos.Payments
+namespace recharge.api.Controllers.HttpResource.HttpRequestResource.Payment
 {
-    public class CardDto
+    public class CardRequestResource
     {
         [Required, CreditCard(ErrorMessage="Inalid credit card number")]
         public string CardNumber { get; set; }

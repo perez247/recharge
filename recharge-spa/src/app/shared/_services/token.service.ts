@@ -1,4 +1,3 @@
-import { AuthService } from './auth.service';
 import { AppUser } from './../model/app-user';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';

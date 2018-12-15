@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using recharge.api.Data.EventArgTypes;
+using recharge.api.Persistence.Repository.EventArgTypes;
 using recharge.api.Dtos;
-using recharge.api.models;
+using recharge.api.Core.Models;
 
-namespace recharge.api.Data.Interfaces
+namespace recharge.api.Core.Interfaces
 {
     public interface IAuthRepository
     {

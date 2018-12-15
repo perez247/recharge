@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { AppErrorHandler } from './shared/common/app.error.handler';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -43,6 +44,7 @@ import { Storage } from '@ionic/storage';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {provide: ErrorHandler, useClass: AppErrorHandler},
   ],
   bootstrap: [AppComponent]
 })

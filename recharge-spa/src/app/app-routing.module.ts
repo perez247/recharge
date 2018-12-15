@@ -18,8 +18,8 @@ const routes: Routes = [
         loadChildren: './home/home/home.module#HomePageModule'
       },
       {
-        path: 'mobile',
-        loadChildren: './home/recharge/mobile/mobile.module#MobilePageModule'
+        path: 'recharge/:type',
+        loadChildren: './home/recharge/recharge.module#RechargePageModule'
       },
       {
         path: 'withdraw',

@@ -1,6 +1,6 @@
 using System;
 
-namespace recharge.api.models
+namespace recharge.api.Core.Models
 {
     public class Point
     {
