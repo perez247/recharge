@@ -30,6 +30,8 @@ import { PaymentValidation } from './common/custom-validation/payment-validation
 import { ToasterService } from './_services/toaster.service';
 import { RouterModule } from '@angular/router';
 import { OtherTransactionsPage } from '../home/down-links/other-transactions/other-transactions.page';
+import { FormattedAmountDirective } from './directives/formatted-amount.directive';
+import { FormattedAmountPipe } from './pipes/formatted-amount.pipe';
 
 @NgModule({
   imports: [
@@ -68,7 +70,10 @@ import { OtherTransactionsPage } from '../home/down-links/other-transactions/oth
     PhoneDetailPage,
     BankDetailsPage,
     CardDetailsPage,
-    MobilePage
+    MobilePage,
+    FormattedAmountDirective,
+    FormattedAmountPipe,
+    FormattedAmountPipe
   ],
   exports: [
     FormsModule,
@@ -89,7 +94,9 @@ import { OtherTransactionsPage } from '../home/down-links/other-transactions/oth
     PhoneDetailPage,
     BankDetailsPage,
     CardDetailsPage,
-    MobilePage
+    MobilePage,
+    FormattedAmountDirective,
+    FormattedAmountPipe
   ]
 })
 export class SharedModule { }

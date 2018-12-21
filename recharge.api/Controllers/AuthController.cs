@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using recharge.api.Core.Interfaces;
-using recharge.api.Dtos;
 using recharge.api.Helpers;
 using recharge.api.Core.Models;
 using System.Security.Claims;
+using recharge.api.Controllers.HttpResource.HttpRequestResource.Authentication;
+using recharge.api.Controllers.HttpResource.HttpResponseResource;
+using recharge.api.Dtos;
 
 namespace recharge.api.Controllers
 {
@@ -23,18 +25,21 @@ namespace recharge.api.Controllers
         private readonly IAuthRepository _auth;
         private readonly IDataRepository _repo;
         private readonly IConfiguration _config;
+        private readonly IPointRepository _point;
 
         public AuthController(
             UserManager<User> userManager, 
             IMapper mapper, 
             IAuthRepository auth,
             IDataRepository repo,
-            IConfiguration config
+            IConfiguration config,
+            IPointRepository point
             )
         {
             _auth = auth;
             _repo = repo;
             _config = config;
+            _point = point;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -47,33 +52,33 @@ namespace recharge.api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserDto loginUserDto)
+        public async Task<IActionResult> Login(LoginRequestResource loginRequestResource)
         {
-            var user = await _auth.Login(loginUserDto.Username, loginUserDto.Pin);
+            var user = await _auth.Login(loginRequestResource.Username, loginRequestResource.Pin);
             if(user == null)
                 return Unauthorized();
 
-            var userToReturn = _mapper.Map<UserToReturnDto>(user);
+            var userResponseResource = _mapper.Map<UserResponseResource>(user);
             
-            return Ok(new {token =  Functions.generateUserToken(user,_config), user = userToReturn });
+            return Ok(new {token =  Functions.generateUserToken(user,_config), user = userResponseResource });
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
+        public async Task<IActionResult> Register(RegisterRequestResource registerRequestResource)
         {
-            User newUser = _mapper.Map<User>(registerUserDto);
+            User newUser = _mapper.Map<User>(registerRequestResource);
 
-            _auth.userRegistered  += _repo.CreatePoint;
+            _auth.userRegistered  += _point.CreatePoint;
 
-            var user = await _auth.Register(newUser, registerUserDto.Pin, registerUserDto.Referer);
+            var user = await _auth.Register(newUser, registerRequestResource.Pin, registerRequestResource.Referer);
 
-            var userToReturnDto = _mapper.Map<UserToReturnDto>(user);
+            var userResponseResource = _mapper.Map<UserResponseResource>(user);
 
-            userToReturnDto.Code = await _auth.GenerateSMSCode(user, user.PhoneNumber);
-            // _repo.SaveCode(userToReturnDto.Id, userToReturnDto.Code);
+            userResponseResource.Code = await _auth.GenerateSMSCode(user, user.PhoneNumber);
+            // _repo.SaveCode(userResponseResource.Id, userResponseResource.Code);
             // if(await _repo.SaveAll())
-            // return CreatedAtRoute(nameof(GetUser), new {UserId = newUser.Id }, userToReturnDto);
-            return Ok(new {user = userToReturnDto, token = Functions.generateUserToken(user,_config, true)});
+            // return CreatedAtRoute(nameof(GetUser), new {UserId = newUser.Id }, userResponseResource);
+            return Ok(new {user = userResponseResource, token = Functions.generateUserToken(user,_config, true)});
         }
 
         [HttpPost("verifyphone")]

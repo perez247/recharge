@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { Storage } from '@ionic/storage';
+import { FormattedAmountDirective } from './shared/directives/formatted-amount.directive';
 
 // const storage = new Storage({
 //   name: 'myapp',

@@ -1,11 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace recharge.api.Dtos
+namespace recharge.api.Controllers.HttpResource.HttpRequestResource.Authentication
 {
-    public class RegisterUserDto
+    public class RegisterRequestResource
     {
-        public RegisterUserDto()
+        public RegisterRequestResource()
         {
             Expires = DateTime.Now.AddDays(61);
         }

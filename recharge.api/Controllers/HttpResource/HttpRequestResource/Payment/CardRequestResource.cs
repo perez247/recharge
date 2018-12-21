@@ -30,14 +30,19 @@ namespace recharge.api.Controllers.HttpResource.HttpRequestResource.Payment
             bool isValid = Validator.TryValidateObject(this, context, results, true);
 
             if (isValid == false) {
-                StringBuilder sbrErrors = new StringBuilder();
+                // StringBuilder sbrErrors = new StringBuilder();
+                // var errorList = new List<string>();
+                string errorList = "";
                 foreach (var validationResult in results) {
-                    sbrErrors.AppendLine(validationResult.ErrorMessage);
+                    errorList += validationResult.ErrorMessage + "%n%";
+                    // errorList.Add(validationResult.ErrorMessage);
+                    // sbrErrors.AppendJoin(",", validationResult.ErrorMessage);
                 }
                 // throw new Exception(sbrErrors.ToString());
-                return sbrErrors.ToString();
+                return errorList;
             }
-            return null;
+            else
+                return null;
         }
     }
 }

@@ -9,6 +9,9 @@ namespace recharge.api.Helpers
 {
     public static class Functions
     {
+        private static Decimal UserBonus = 0.05m;
+        private static Decimal ReferersBonus = 0.05m;
+
         public static string generateUserToken(User user, IConfiguration _config, Boolean confirmPhone = false) {
                         // Create token an sent;
             var claims = (confirmPhone == true) ? ConfirmPhoneTime(user) : defaultClaim(user);
@@ -71,6 +74,10 @@ namespace recharge.api.Helpers
             };
 
             return claims;
+        }
+
+        public static Decimal GetBonus(Decimal amount, Boolean isUser = true){
+            return isUser ? Decimal.Round(amount * UserBonus, 2, MidpointRounding.AwayFromZero) : Decimal.Round(amount * ReferersBonus, 2, MidpointRounding.AwayFromZero);
         }
 
     }

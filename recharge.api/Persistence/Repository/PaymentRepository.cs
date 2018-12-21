@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
+using System.Transactions;
 using AutoMapper;
+using recharge.api.Controllers.HttpResource.HttpRequestResource.Internal;
 using recharge.api.Controllers.HttpResource.HttpRequestResource.Payment;
 using recharge.api.Core.Interfaces;
 using recharge.api.Core.Models;
+using recharge.api.Helpers.CustomDataTypes.EventArgTypes;
 using recharge.api.Helpers.ThirdParty;
 
 namespace recharge.api.Persistence.Repository
@@ -11,27 +14,41 @@ namespace recharge.api.Persistence.Repository
     public class PaymentRepository : IPaymentRepository
     {
         private readonly IMapper _mapper;
+        private readonly IPointRepository _point;
 
-        public PaymentRepository(IMapper mapper)
+        public event EventHandler<CustomTransactionEventArgs> transactionMade;
+
+        public PaymentRepository(IMapper mapper, IPointRepository point)
         {
             _mapper = mapper;
+            _point = point;
         }
-        public void ValidatePayementDetail(MobileRechargeRequestResourse mobileRechargeRequestResource, User user) {
-            if (user.Point.Points < mobileRechargeRequestResource.Payment.Point)
+
+        protected virtual void OnTransactionMade(RechargeRequestResource rechargeRequestResource, User user) {
+            if(transactionMade != null){
+                transactionMade(this, new CustomTransactionEventArgs() {
+                    User = user,
+                    Transaction = rechargeRequestResource
+                });
+            }
+        }
+
+        public void ValidatePayementDetail(RechargeRequestResource paymentRequest, User user) {
+            if (user.Point.Points < paymentRequest.Payment.Point)
                 throw new Exception("Insufficient Points");
 
-            if (mobileRechargeRequestResource.amount != (mobileRechargeRequestResource.Payment.Point + mobileRechargeRequestResource.Payment.CardAmount))
+            if (paymentRequest.amount != (paymentRequest.Payment.Point + paymentRequest.Payment.CardAmount))
                 throw new Exception("Invalid amount requested");
         }
 
-        public User ProcessDatabasePayment(MobileRechargeRequestResourse mobileRechargeRequestResource, User user) {
+        public User ProcessDatabasePayment(RechargeRequestResource paymentRequest, User user) {
 
-            ValidatePayementDetail(mobileRechargeRequestResource, user);
+            ValidatePayementDetail(paymentRequest, user);
 
-            if (mobileRechargeRequestResource.Payment.CardAmount > 0)
+            if (paymentRequest.Payment.CardAmount > 0)
             {
-                Card card = user.Cards.SingleOrDefault(c => c.Id.ToString() == mobileRechargeRequestResource.Payment.CardId);
-                CardRequestResource cardRequestResource = (card != null) ? _mapper.Map<CardRequestResource>(card) : _mapper.Map<CardRequestResource>(mobileRechargeRequestResource.Payment.NewCard);
+                Card card = user.Cards.SingleOrDefault(c => c.Id.ToString() == paymentRequest.Payment.CardId);
+                CardRequestResource cardRequestResource = (card != null) ? _mapper.Map<CardRequestResource>(card) : _mapper.Map<CardRequestResource>(paymentRequest.Payment.NewCard);
                 var result = cardRequestResource.Validate();
 
                 if (result != null)
@@ -47,22 +64,23 @@ namespace recharge.api.Persistence.Repository
                     if (newCard == null)
                     {
                         user.Cards.Add(_mapper.Map<Card>(cardRequestResource));
-                        // return Ok(_mapper.Map<Card>(mobileRechargeRequestResource.Payment.NewCard));
                     }
                 }
 
             }
 
-            if (mobileRechargeRequestResource.Payment.Point > 0)
+            if (paymentRequest.Payment.Point > 0)
             {
-                user.Point.Points = user.Point.Points - (Decimal)mobileRechargeRequestResource.Payment.Point;
+                user.Point.Points = user.Point.Points - (Decimal)paymentRequest.Payment.Point;
             }
 
-            user.Point.Points += Decimal.Round(mobileRechargeRequestResource.amount * 0.05m, 2, MidpointRounding.AwayFromZero);
-            user.Expires = DateTime.Now.AddDays(61);
+            _point.AddPoint(paymentRequest.amount, user);
+            OnTransactionMade(paymentRequest, user);
+
+            // user.Point.Points += Decimal.Round(paymentRequest.amount * 0.05m, 2, MidpointRounding.AwayFromZero);
+            // user.Expires = DateTime.Now.AddDays(61);
 
             return user;
-
         }
     }
 }

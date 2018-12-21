@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace recharge.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -180,11 +180,11 @@ namespace recharge.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
-                    CardNumber = table.Column<string>(nullable: true),
-                    CardHolderName = table.Column<string>(nullable: true),
-                    CVVNumber = table.Column<string>(nullable: true),
-                    ExpiryMonth = table.Column<string>(nullable: true),
-                    ExpiryYear = table.Column<string>(nullable: true)
+                    CardNumber = table.Column<string>(maxLength: 255, nullable: true),
+                    CardHolderName = table.Column<string>(maxLength: 255, nullable: true),
+                    CVVNumber = table.Column<string>(maxLength: 5, nullable: true),
+                    ExpiryMonth = table.Column<string>(maxLength: 2, nullable: true),
+                    ExpiryYear = table.Column<string>(maxLength: 4, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,10 +203,12 @@ namespace recharge.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
+                    RefererId = table.Column<Guid>(nullable: true),
                     Amount = table.Column<decimal>(nullable: false),
                     Points = table.Column<decimal>(nullable: false),
                     RefererPoint = table.Column<decimal>(nullable: false),
-                    PaymentType = table.Column<string>(nullable: true),
+                    PaymentType = table.Column<string>(maxLength: 255, nullable: true),
+                    AdditionalInformation = table.Column<string>(maxLength: 255, nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

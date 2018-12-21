@@ -89,15 +89,20 @@ namespace recharge.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CVVNumber");
+                    b.Property<string>("CVVNumber")
+                        .HasMaxLength(5);
 
-                    b.Property<string>("CardHolderName");
+                    b.Property<string>("CardHolderName")
+                        .HasMaxLength(255);
 
-                    b.Property<string>("CardNumber");
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(255);
 
-                    b.Property<string>("ExpiryMonth");
+                    b.Property<string>("ExpiryMonth")
+                        .HasMaxLength(2);
 
-                    b.Property<string>("ExpiryYear");
+                    b.Property<string>("ExpiryYear")
+                        .HasMaxLength(4);
 
                     b.Property<Guid>("UserId");
 
@@ -113,13 +118,19 @@ namespace recharge.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AdditionalInformation")
+                        .HasMaxLength(255);
+
                     b.Property<decimal>("Amount");
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<string>("PaymentType");
+                    b.Property<string>("PaymentType")
+                        .HasMaxLength(255);
 
                     b.Property<decimal>("Points");
+
+                    b.Property<Guid?>("RefererId");
 
                     b.Property<decimal>("RefererPoint");
 

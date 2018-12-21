@@ -60,10 +60,6 @@ export class PaymentsPage implements AfterContentChecked {
     });
   }
 
-  setTwoNumberDecimal($event) {
-    $event.target.value = $event.target.value ? parseFloat($event.target.value).toFixed(2) : 0.00;
-  }
-
   Totalled() {
     const points = +this.paymentForm.get('point').value || 0;
     const card = +this.paymentForm.get('cardAmount').value || 0;
@@ -76,10 +72,6 @@ export class PaymentsPage implements AfterContentChecked {
 
   ngAfterContentChecked() {
     this.cdref.detectChanges();
-  }
-
-  getNumber(data) {
-    return (typeof +data === 'number') ? +data : 0;
   }
 
   toggleCardForm() {
@@ -106,7 +98,7 @@ export class PaymentsPage implements AfterContentChecked {
         this.paymentValidation.checkPoint(this.userData.point)
         ]
       ],
-      cardId: ['', []],
+      cardId: ['', [Validators.required]],
       cardAmount: ['',
                       [
                         Validators.pattern('^[0-9]*$'),

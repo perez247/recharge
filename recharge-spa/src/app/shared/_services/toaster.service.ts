@@ -7,7 +7,7 @@ import { ToastController, AlertController } from '@ionic/angular';
 export class ToasterService {
 
   config: any = {
-    duration: 50000,
+    duration: 10000,
     position: 'top'
   };
 

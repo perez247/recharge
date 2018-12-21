@@ -64,6 +64,8 @@ namespace recharge
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDataRepository, DataRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IPointRepository, PointRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddCors();
             services.AddMvc(options => {
                 var policy = new AuthorizationPolicyBuilder()
@@ -101,6 +103,7 @@ namespace recharge
             {
                 app.UseExceptionHandler(IappBuilder => {
                     IappBuilder.Run(async context => {
+                        
                         context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
                         var error = context.Features.Get<IExceptionHandlerFeature>();

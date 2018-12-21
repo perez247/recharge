@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using recharge.api.Persistence.Repository.EventArgTypes;
+using recharge.api.Helpers.CustomDataTypes.EventArgTypes;
 using recharge.api.Core.Interfaces;
 using recharge.api.Dtos;
 using recharge.api.Core.Models;
@@ -47,7 +47,12 @@ namespace recharge.api.Persistence.Repository
 
         public async Task<User> LoginWithAllData(string userId, string pin)
         {
-            var user = await _userManager.Users.Include(p => p.Point).Include(c => c.Cards).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+            var user = await _userManager.Users
+                            .Include(p => p.Point)
+                            .Include(c => c.Cards)
+                            .Include(u => u.Referer)
+                                .ThenInclude(p => p.Point)
+                            .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
             
             if(user == null)
                 return null;

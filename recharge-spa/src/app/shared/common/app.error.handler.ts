@@ -7,9 +7,10 @@ export class AppErrorHandler implements ErrorHandler {
 
     }
 
-    handleError(error: any): void {
+    handleError(error: string): void {
         // console.log(error);
-        this.toastService.display(error, 'error');
+        const result = error.replace(new RegExp('%n%', 'g'), '\n');
+        this.toastService.display(result, 'error');
     }
 
 }

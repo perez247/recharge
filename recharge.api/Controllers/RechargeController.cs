@@ -20,7 +20,7 @@ namespace recharge.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RechargeController : ControllerBase
+    public class RechargeController : ControllerBase 
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
@@ -28,6 +28,8 @@ namespace recharge.api.Controllers
         private readonly IAuthRepository _auth;
         private readonly IConfiguration _config;
         private readonly IPaymentRepository _payment;
+        private readonly IPointRepository _point;
+        private readonly ITransactionRepository _transaction;
 
         public RechargeController(
             UserManager<User> userManager, 
@@ -35,7 +37,9 @@ namespace recharge.api.Controllers
             IDataRepository repo, 
             IAuthRepository auth,
             IConfiguration config,
-            IPaymentRepository payment
+            IPaymentRepository payment,
+            IPointRepository point,
+            ITransactionRepository transaction
             )
         {
             _auth = auth;
@@ -44,6 +48,8 @@ namespace recharge.api.Controllers
             _userManager = userManager;
             _config = config;
             _payment = payment;
+            _point = point;
+            _transaction = transaction;
         }
 
         [HttpGet]
@@ -62,6 +68,8 @@ namespace recharge.api.Controllers
 
             if (user == null)
                 return Unauthorized();
+
+            _payment.transactionMade += _transaction.RecordTransaction;
 
             user = _payment.ProcessDatabasePayment(mobileRechargeRequestResource, user);
 

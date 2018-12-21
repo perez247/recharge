@@ -13,6 +13,7 @@ namespace recharge.api.Controllers.HttpResource.HttpRequestResource.Payment
         [RequiredAmount(ErrorMessage="Card should be either 0 or 100 - 50000")]
         public Decimal? CardAmount { get; set; }
 
+        [Required]
         public string CardId { get; set; }
         public CardRequestFreeResource NewCard { get; set; }
         
