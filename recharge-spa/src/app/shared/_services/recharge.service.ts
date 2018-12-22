@@ -24,7 +24,7 @@ export class RechargeService {
   }
 
   getUser() {
-    return this.http.get(`${this.apiUrl}`);
+    return this.http.get(`${this.apiUrl}/with-card`);
   }
 
   refreshTypeData(data: FormGroup) {

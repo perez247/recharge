@@ -3,12 +3,14 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { TokenService } from '../_services/token.service';
+import { Router } from '@angular/router';
 
  @Injectable()
 
  export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor() {}
+    constructor(private tokenService: TokenService, private router: Router) {}
 
      intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         //  next.handle(req).subscribe(x => console.log(x));
@@ -16,6 +18,8 @@ import * as _ from 'lodash';
              catchError((error) => {
                  if (error instanceof HttpErrorResponse) {
                     if (error.status === 401) {
+                        this.tokenService.clear();
+                        this.router.navigate(['auth']);
                         return throwError(error.statusText.toLowerCase());
                     }
 

@@ -26,19 +26,19 @@ namespace recharge.api.Controllers
             var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.Name).Value, withdrawDto.Pin);
 
             if (user == null)
-                return Unauthorized();
+                return BadRequest("Incorrect Secret Pin");
                 
-            if(!(user.Point.Points >= withdrawDto.Amount))
-                return BadRequest("Insufficient Points");
+            // if(!(user.Point.Points >= withdrawDto.Amount))
+            //     return BadRequest("Insufficient Points");
 
-            if (!CardPayment.PayClient(withdrawDto))
-                return BadRequest("Transaction failed, please try again later");
+            // if (!CardPayment.PayClient(withdrawDto))
+            //     return BadRequest("Transaction failed, please try again later");
 
-            _repo.Update(user);
+            // _repo.Update(user);
 
-            user.Point.Points -= withdrawDto.Amount;
-            if(!await _repo.SaveAll())
-                return BadRequest("Failed to save transaction");
+            // user.Point.Points -= withdrawDto.Amount;
+            // if(!await _repo.SaveAll())
+            //     return BadRequest("Failed to save transaction");
 
             return NoContent();
         }

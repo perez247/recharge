@@ -64,8 +64,8 @@ namespace recharge
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDataRepository, DataRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IPointRepository, PointRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddCors();
             services.AddMvc(options => {
                 var policy = new AuthorizationPolicyBuilder()

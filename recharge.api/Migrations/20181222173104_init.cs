@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace recharge.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -198,24 +198,23 @@ namespace recharge.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PaymentTransactions",
+                name: "UsersTransactions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
-                    RefererId = table.Column<Guid>(nullable: true),
                     Amount = table.Column<decimal>(nullable: false),
-                    Points = table.Column<decimal>(nullable: false),
-                    RefererPoint = table.Column<decimal>(nullable: false),
-                    PaymentType = table.Column<string>(maxLength: 255, nullable: true),
+                    UserPoint = table.Column<decimal>(nullable: false),
+                    Balance = table.Column<decimal>(nullable: false),
                     AdditionalInformation = table.Column<string>(maxLength: 255, nullable: true),
+                    TransactionFee = table.Column<decimal>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentTransactions", x => x.Id);
+                    table.PrimaryKey("PK_UsersTransactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentTransactions_AspNetUsers_UserId",
+                        name: "FK_UsersTransactions_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -223,23 +222,30 @@ namespace recharge.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Points",
+                name: "AppTransaction",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    Points = table.Column<decimal>(nullable: false)
+                    CardNumber = table.Column<string>(nullable: true),
+                    Other = table.Column<string>(nullable: true),
+                    Amount = table.Column<decimal>(nullable: false),
+                    UserTransactionId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Points", x => x.Id);
+                    table.PrimaryKey("PK_AppTransaction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Points_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_AppTransaction_UsersTransactions_UserTransactionId",
+                        column: x => x.UserTransactionId,
+                        principalTable: "UsersTransactions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppTransaction_UserTransactionId",
+                table: "AppTransaction",
+                column: "UserTransactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -299,19 +305,16 @@ namespace recharge.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentTransactions_UserId",
-                table: "PaymentTransactions",
+                name: "IX_UsersTransactions_UserId",
+                table: "UsersTransactions",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Points_UserId",
-                table: "Points",
-                column: "UserId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppTransaction");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -331,10 +334,7 @@ namespace recharge.Migrations
                 name: "Cards");
 
             migrationBuilder.DropTable(
-                name: "PaymentTransactions");
-
-            migrationBuilder.DropTable(
-                name: "Points");
+                name: "UsersTransactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -1,3 +1,4 @@
+import { HomeService } from './../../../shared/_services/home.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyTransactionsPage implements OnInit {
 
-  constructor() { }
+  constructor(private homeService: HomeService) { }
 
   ngOnInit() {
+    this.homeService.getUserTransactions().subscribe(transactions => {
+      console.log(transactions);
+    });
   }
 
+  ionViewWillEnter() {
+  }
 }

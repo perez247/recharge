@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using recharge.api.Controllers.HttpResource.HttpResponseResource;
 using recharge.api.Controllers.HttpResource.HttpRequestResource.Payment;
 using Microsoft.Extensions.Configuration;
+using recharge.api.Helpers.Functions;
 
 namespace recharge.api.Controllers
 {
@@ -22,43 +23,41 @@ namespace recharge.api.Controllers
     [ApiController]
     public class RechargeController : ControllerBase 
     {
-        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly IDataRepository _repo;
         private readonly IAuthRepository _auth;
         private readonly IConfiguration _config;
         private readonly IPaymentRepository _payment;
-        private readonly IPointRepository _point;
         private readonly ITransactionRepository _transaction;
+        private readonly IUserRepository _user;
 
         public RechargeController(
-            UserManager<User> userManager, 
             IMapper mapper, 
             IDataRepository repo, 
             IAuthRepository auth,
             IConfiguration config,
             IPaymentRepository payment,
-            IPointRepository point,
-            ITransactionRepository transaction
+            ITransactionRepository transaction,
+            IUserRepository user
             )
         {
             _auth = auth;
             _repo = repo;
             _mapper = mapper;
-            _userManager = userManager;
             _config = config;
             _payment = payment;
-            _point = point;
             _transaction = transaction;
+            _user = user;
         }
 
         [HttpGet]
-        public async Task<IActionResult> getUser() {
-            var user = await _userManager.Users
-                            .Include(u => u.Cards).Include(u => u.Point)
-                            .FirstOrDefaultAsync(u => u.Id.ToString() == User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        public async Task<IActionResult> getUserPoint() {
+            return Ok(await _user.UsersPoint(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+        }
 
-            return Ok(_mapper.Map<UserResponseResource>(user));
+        [HttpGet("with-card")]
+        public async Task<IActionResult> getUserWithCard() {
+            return Ok(await _user.UserPointAndCards(User.FindFirst(ClaimTypes.NameIdentifier).Value));
         }
 
         [HttpPost("mobile")]
@@ -67,9 +66,9 @@ namespace recharge.api.Controllers
             var user = await _auth.LoginWithAllData(User.FindFirst(ClaimTypes.NameIdentifier).Value, mobileRechargeRequestResource.Payment.Pin);
 
             if (user == null)
-                return Unauthorized();
+                return BadRequest("Incorrect Secret Pin");
 
-            _payment.transactionMade += _transaction.RecordTransaction;
+            // _payment.transactionMade += _transaction.RecordTransaction;
 
             user = _payment.ProcessDatabasePayment(mobileRechargeRequestResource, user);
 
@@ -82,7 +81,7 @@ namespace recharge.api.Controllers
             }
 
 
-            return Ok(new {user = _mapper.Map<User, UserResponseResource>(user), token = Functions.generateUserToken(user,_config, true)});
+            return Ok(new {user = _mapper.Map<User, UserResponseResource>(user), token = TokenFunctions.generateUserToken(user,_config, true)});
         //start with the card
         }
     }

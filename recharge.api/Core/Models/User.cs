@@ -13,14 +13,13 @@ namespace recharge.api.Core.Models
         public DateTime Expires { get; set; }
         // public string UserId { get; set; }
         public ICollection<UserRole> UserRoles { get; private set; }
-        public Point Point { get; set; }
-        public  ICollection<PaymentTransaction> PaymentTransactions { get; private set; }
+        public  ICollection<UserTransaction> UserTransactions { get; private set; }
         public  ICollection<Card> Cards { get; private set; }
 
         public User()
         {
             UserRoles = new List<UserRole>(); 
-            PaymentTransactions = new List<PaymentTransaction>();
+            UserTransactions = new List<UserTransaction>();
             Cards = new List<Card>();
         }
     }

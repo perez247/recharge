@@ -41,7 +41,7 @@ export class PaymentsPage implements AfterContentChecked {
       this.outerFormData = typeData;
     });
     this.rechargeService.getUser().subscribe((x: any) => {
-      this.userData.point = x.point.points;
+      this.userData.point = x.point;
       this.userData.cards = x.cards;
       this.initForm();
     });

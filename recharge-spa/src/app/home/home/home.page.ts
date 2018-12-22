@@ -27,7 +27,7 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.homeService.getPoint().subscribe((x: any) => {
-      this.point.points = x.points;
+      this.point.points = x;
     });
 
     // this.user = this.authService.user();

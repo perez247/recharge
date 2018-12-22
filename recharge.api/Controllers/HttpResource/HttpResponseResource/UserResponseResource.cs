@@ -14,7 +14,7 @@ namespace recharge.api.Controllers.HttpResource.HttpResponseResource
         public DateTime Expires { get; set; }
 
         public string Code { get; set; }
-        public PointResponseResource Point { get; set; }
+        public Decimal Point { get; set; }
         public  ICollection<CardResponseResource> Cards { get; private set; }
 
         public UserResponseResource()

@@ -1,8 +1,7 @@
-import { AuthService } from './auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { environment } from '../../../environments/environment';
-import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +11,13 @@ export class HomeService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
     ) { }
 
   getPoint() {
-    return this.authService.setUser().pipe(switchMap(user => {
-      return this.http.get(`${this.apiUrl}/${user.id}`);
-    }));
+    return this.http.get(`${this.apiUrl}`);
+  }
+
+  getUserTransactions() {
+    return this.http.get(`${this.apiUrl}/mytransactions`);
   }
 }

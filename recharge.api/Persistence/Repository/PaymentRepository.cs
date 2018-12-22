@@ -7,6 +7,7 @@ using recharge.api.Controllers.HttpResource.HttpRequestResource.Payment;
 using recharge.api.Core.Interfaces;
 using recharge.api.Core.Models;
 using recharge.api.Helpers.CustomDataTypes.EventArgTypes;
+using recharge.api.Helpers.Functions;
 using recharge.api.Helpers.ThirdParty;
 
 namespace recharge.api.Persistence.Repository
@@ -14,36 +15,39 @@ namespace recharge.api.Persistence.Repository
     public class PaymentRepository : IPaymentRepository
     {
         private readonly IMapper _mapper;
-        private readonly IPointRepository _point;
+        private readonly ITransactionRepository _trans;
+        private readonly IDataRepository _repo;
 
         public event EventHandler<CustomTransactionEventArgs> transactionMade;
 
-        public PaymentRepository(IMapper mapper, IPointRepository point)
+        public PaymentRepository(IMapper mapper, ITransactionRepository trans, IDataRepository repo)
         {
             _mapper = mapper;
-            _point = point;
+            _trans = trans;
+            _repo = repo;
         }
 
-        protected virtual void OnTransactionMade(RechargeRequestResource rechargeRequestResource, User user) {
+        protected virtual void OnTransactionMade(UserTransaction userTransaction) {
             if(transactionMade != null){
                 transactionMade(this, new CustomTransactionEventArgs() {
-                    User = user,
-                    Transaction = rechargeRequestResource
+                    UserTransaction = userTransaction
                 });
             }
         }
 
-        public void ValidatePayementDetail(RechargeRequestResource paymentRequest, User user) {
-            if (user.Point.Points < paymentRequest.Payment.Point)
+        public async void ValidatePayementDetail(RechargeRequestResource paymentRequest, User user) {
+            var Points = await _trans.GetUsersPoint(user.Id.ToString());
+            if (Points < paymentRequest.Payment.Point)
                 throw new Exception("Insufficient Points");
 
-            if (paymentRequest.amount != (paymentRequest.Payment.Point + paymentRequest.Payment.CardAmount))
+            if (paymentRequest.Amount != (paymentRequest.Payment.Point + paymentRequest.Payment.CardAmount))
                 throw new Exception("Invalid amount requested");
         }
 
         public User ProcessDatabasePayment(RechargeRequestResource paymentRequest, User user) {
 
             ValidatePayementDetail(paymentRequest, user);
+            var userTransaction = TransactionFunctions.GenerateUserTransaction(paymentRequest.Amount, user);
 
             if (paymentRequest.Payment.CardAmount > 0)
             {
@@ -66,19 +70,25 @@ namespace recharge.api.Persistence.Repository
                         user.Cards.Add(_mapper.Map<Card>(cardRequestResource));
                     }
                 }
+                var newTransaction = TransactionFunctions.GenerateAppTransaction(cardRequestResource.CardNumber, (Decimal)paymentRequest.Payment.CardAmount);
+
+                userTransaction.Transactions.Add(newTransaction);
+
+                // _repo.SaveAll();
 
             }
 
             if (paymentRequest.Payment.Point > 0)
             {
-                user.Point.Points = user.Point.Points - (Decimal)paymentRequest.Payment.Point;
+                var pointTransaction = TransactionFunctions.GenerateAppTransaction("Points", (Decimal)paymentRequest.Payment.Point, false);
+
+                userTransaction.Transactions.Add(pointTransaction);
             }
 
-            _point.AddPoint(paymentRequest.amount, user);
-            OnTransactionMade(paymentRequest, user);
 
-            // user.Point.Points += Decimal.Round(paymentRequest.amount * 0.05m, 2, MidpointRounding.AwayFromZero);
-            // user.Expires = DateTime.Now.AddDays(61);
+            _trans.RecordTransaction(userTransaction, paymentRequest);
+            // _point.AddPoint(paymentRequest.Amount, user);
+            // OnTransactionMade(userTransaction);
 
             return user;
         }

@@ -48,10 +48,8 @@ namespace recharge.api.Persistence.Repository
         public async Task<User> LoginWithAllData(string userId, string pin)
         {
             var user = await _userManager.Users
-                            .Include(p => p.Point)
                             .Include(c => c.Cards)
                             .Include(u => u.Referer)
-                                .ThenInclude(p => p.Point)
                             .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
             
             if(user == null)
@@ -73,8 +71,6 @@ namespace recharge.api.Persistence.Repository
             if(!result.Succeeded){
                 throw new Exception(String.Join("\n", result.Errors.Select(x=>x.Description)));
             }
-
-            OnUserRegistered(user);
             return user;
         }
 

@@ -9,8 +9,8 @@ using recharge.api.Persistence.Repository;
 namespace recharge.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181216185840_Init")]
-    partial class Init
+    [Migration("20181222173104_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,26 @@ namespace recharge.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("recharge.api.Core.Models.AppTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<string>("CardNumber");
+
+                    b.Property<string>("Other");
+
+                    b.Property<Guid?>("UserTransactionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserTransactionId");
+
+                    b.ToTable("AppTransaction");
+                });
+
             modelBuilder.Entity("recharge.api.Core.Models.Card", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,53 +133,6 @@ namespace recharge.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Cards");
-                });
-
-            modelBuilder.Entity("recharge.api.Core.Models.PaymentTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AdditionalInformation")
-                        .HasMaxLength(255);
-
-                    b.Property<decimal>("Amount");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<string>("PaymentType")
-                        .HasMaxLength(255);
-
-                    b.Property<decimal>("Points");
-
-                    b.Property<Guid?>("RefererId");
-
-                    b.Property<decimal>("RefererPoint");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PaymentTransactions");
-                });
-
-            modelBuilder.Entity("recharge.api.Core.Models.Point", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("Points");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Points");
                 });
 
             modelBuilder.Entity("recharge.api.Core.Models.Role", b =>
@@ -262,6 +235,33 @@ namespace recharge.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("recharge.api.Core.Models.UserTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdditionalInformation")
+                        .HasMaxLength(255);
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<decimal>("Balance");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<decimal>("TransactionFee");
+
+                    b.Property<Guid>("UserId");
+
+                    b.Property<decimal>("UserPoint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UsersTransactions");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("recharge.api.Core.Models.Role")
@@ -294,27 +294,18 @@ namespace recharge.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("recharge.api.Core.Models.AppTransaction", b =>
+                {
+                    b.HasOne("recharge.api.Core.Models.UserTransaction")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserTransactionId");
+                });
+
             modelBuilder.Entity("recharge.api.Core.Models.Card", b =>
                 {
                     b.HasOne("recharge.api.Core.Models.User", "User")
                         .WithMany("Cards")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("recharge.api.Core.Models.PaymentTransaction", b =>
-                {
-                    b.HasOne("recharge.api.Core.Models.User", "User")
-                        .WithMany("PaymentTransactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("recharge.api.Core.Models.Point", b =>
-                {
-                    b.HasOne("recharge.api.Core.Models.User", "User")
-                        .WithOne("Point")
-                        .HasForeignKey("recharge.api.Core.Models.Point", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -344,6 +335,14 @@ namespace recharge.Migrations
                     b.HasOne("recharge.api.Core.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("recharge.api.Core.Models.UserTransaction", b =>
+                {
+                    b.HasOne("recharge.api.Core.Models.User", "User")
+                        .WithMany("UserTransactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

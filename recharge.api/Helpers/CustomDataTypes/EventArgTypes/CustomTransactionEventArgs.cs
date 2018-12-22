@@ -6,7 +6,6 @@ namespace recharge.api.Helpers.CustomDataTypes.EventArgTypes
 {
     public class CustomTransactionEventArgs : EventArgs
     {
-        public User User { get; set; }
-        public RechargeRequestResource Transaction { get; set; }
+        public UserTransaction UserTransaction { get; set; }
     }
 }

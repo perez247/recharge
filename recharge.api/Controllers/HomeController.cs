@@ -7,6 +7,9 @@ using recharge.api.Core.Models;
 using System.Security.Claims;
 using AutoMapper;
 using recharge.api.Controllers.HttpResource.HttpResponseResource;
+using recharge.api.Persistence.Repository;
+using Microsoft.AspNetCore.Authorization;
+using recharge.api.Helpers.Functions;
 
 namespace recharge.api.Controllers
 {
@@ -15,28 +18,43 @@ namespace recharge.api.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IPointRepository _point;
         private readonly SignInManager<User> _singInManager;
         private readonly IMapper _mapper;
-        public HomeController(IPointRepository point, SignInManager<User> singInManager, IMapper mapper)
+        private readonly ITransactionRepository _transaction;
+
+        public HomeController(
+            SignInManager<User> singInManager, 
+            IMapper mapper,
+            ITransactionRepository transaction)
         {
             _mapper = mapper;
+            _transaction = transaction;
             _singInManager = singInManager;
-            _point = point;
 
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetPoints(string userId)
+        [HttpGet]
+        public async Task<IActionResult> GetPoints()
         {
-            if (!Functions.IsOwnerOfAccount(userId, User))
+            // if (!TokenFunctions.IsOwnerOfAccount(userId, User))
+            //     return Unauthorized();
+
+            var point = await _transaction.GetUsersPoint(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return Ok(point);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("mytransactions")]
+        public IActionResult GetUserTransactions(string userId)
+        {
+            var value = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (value == null)
                 return Unauthorized();
 
-            var point = await _point.GetUserPoint(userId);
-            if (point == null)
-                return BadRequest();
+            var transactions = _transaction.GetUserTransaction(value);
 
-            return Ok(_mapper.Map<PointResponseResource>(point));
+            return Ok(transactions);
         }
+
     }
 }

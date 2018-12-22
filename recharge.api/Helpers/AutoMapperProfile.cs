@@ -7,6 +7,7 @@ using recharge.api.Dtos.Payments;
 using recharge.api.Core.Models;
 using recharge.api.Controllers.HttpResource.HttpRequestResource.Authentication;
 using recharge.api.Controllers.HttpResource.HttpRequestResource.Internal;
+using recharge.api.Controllers.HttpResource.HttpResponseResource.Transactions;
 
 namespace DattingApp.Api.Helpers
 {
@@ -45,7 +46,6 @@ namespace DattingApp.Api.Helpers
             // CreateMap<UserToReturnDto,User>();
 
             //Point to send to the User
-            CreateMap<Point, PointToReturnDto>();
 
             CreateMap<Card,CardDto>();
 
@@ -55,8 +55,8 @@ namespace DattingApp.Api.Helpers
             CreateMap<User, UserResponseResource>();
             CreateMap<Card, CardResponseResource>()
                 .ForMember(c => c.CardNumber, opt => opt.MapFrom(card => card.CardNumber.Substring(card.CardNumber.Length - 4)));
-            CreateMap<Point, PointResponseResource>();
             CreateMap<Card, CardRequestResource>();
+            CreateMap<UserTransaction, UserTransactionResponseResource>();
 
             //------------- From Resource to Domain
             CreateMap<CardRequestResource, Card>();
@@ -66,6 +66,7 @@ namespace DattingApp.Api.Helpers
             //------------- From Resource to Resource
             CreateMap<CardRequestFreeResource, CardRequestResource>();
             CreateMap<PaymentRequestResource, PaymentRequestResource>();
+            CreateMap<UserTransaction, UserTransaction>();
 
             //------------- From Object to resource
             CreateMap<object, PaymentRequest>();
