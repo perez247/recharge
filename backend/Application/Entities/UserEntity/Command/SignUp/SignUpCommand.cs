@@ -1,8 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
+using Application.Infrastructure.Token;
 using Application.Interfaces.IRepositories;
 using Domain.Entities;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.Entities.UserEntity.Command.SignUp
@@ -13,7 +15,6 @@ namespace Application.Entities.UserEntity.Command.SignUp
         public string Username { get; set; }
 
         public string Phone { get; set; }
-        public string CountryCode { get; set; }
     }
 
     public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpDto>
@@ -28,7 +29,6 @@ namespace Application.Entities.UserEntity.Command.SignUp
         {
             var newUser = new User() {
                 UserName = request.Username,
-                Email = "null@gmail.com",
                 PhoneNumber = request.Phone
             };
 
@@ -37,7 +37,12 @@ namespace Application.Entities.UserEntity.Command.SignUp
             if (result.User == null)
                 throw new CreationFailureException(nameof(User), result.Errors);
 
-            return SignUpDto.Create(newUser);
+            var response = SignUpDto.Create(newUser);
+
+            // Add token for authorization
+            response.Token = TokenFunctions.generateUserToken(newUser);
+
+            return response;
 
         }
     }

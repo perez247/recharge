@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities

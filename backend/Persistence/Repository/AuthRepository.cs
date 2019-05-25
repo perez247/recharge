@@ -5,6 +5,8 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Application.Entities.UserEntity.Command.SignUp;
+using Domain.ValueObjects;
+using Application.Entities.UserEntity.Command.GeneratePhoneToken;
 
 namespace Persistence.Repository
 {
@@ -47,7 +49,20 @@ namespace Persistence.Repository
                 return null;
 
             return user;
-            // var user = _signInManager.()
+        }
+
+        public async Task<PhoneToken> GeneratePhoneToken(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return null;
+            
+            var token = await _userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
+            return new PhoneToken() {
+                Token = token,
+                PhoneNumber = (PhoneNumber)user.PhoneNumber
+            };
         }
     }
 }

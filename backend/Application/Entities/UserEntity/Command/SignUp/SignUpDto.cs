@@ -7,6 +7,7 @@ namespace Application.Entities.UserEntity.Command.SignUp
     public class SignUpDto
     {
         public Guid Id { get; set; }
+        public string Token { get; set; }
 
         public static Expression<Func<User, SignUpDto>> Projection
         {

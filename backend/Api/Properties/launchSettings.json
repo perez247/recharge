@@ -24,7 +24,7 @@
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT" : "Development",
-        "DefaultConnection" : "server=localhost,3200;Database=eco-appDb;user id=sa;password=noPassword@247"
+        "AUTHORIZATION_TOKEN" : "This is ment to be the super secret password"
       }
     }
   }

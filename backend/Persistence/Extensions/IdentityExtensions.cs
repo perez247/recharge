@@ -2,6 +2,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Repository;
+using Persistence.Validations;
 
 namespace Persistence.Extensions
 {
@@ -16,7 +17,8 @@ namespace Persistence.Extensions
                 opts.Password.RequireNonAlphanumeric = false;
                 opts.Password.RequireUppercase = false;
                 opts.Password.RequireLowercase = false;
-            });
+            })
+            .AddUserValidator<UniquePhoneNumber<User>>();
             // .AddUserValidator<UniqueEmail<User>>();
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);

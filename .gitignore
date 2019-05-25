@@ -23,7 +23,7 @@ bld/
 [Oo]ut/
 
 # Visual Studio Code
-.vscode/
+# .vscode/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -263,17 +263,5 @@ paket-files/
 __pycache__/
 *.pyc
 
-    © 2019 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
 
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
 

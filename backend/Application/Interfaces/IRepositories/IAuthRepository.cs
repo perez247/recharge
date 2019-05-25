@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Domain.Entities;
 using Application.Entities.UserEntity.Command.SignUp;
+using Application.Entities.UserEntity.Command.GeneratePhoneToken;
 
 namespace Application.Interfaces.IRepositories
 {
@@ -12,5 +13,7 @@ namespace Application.Interfaces.IRepositories
         Task<SignUpResult> SignUp(User newUser, string Password);
 
         Task<User> SignIn(string userName, string Password);
+
+        Task<PhoneToken> GeneratePhoneToken(string userId);
     }
 }

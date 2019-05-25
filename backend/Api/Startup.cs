@@ -12,10 +12,12 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Extensions;
 using MediatR;
 using MediatR.Pipeline;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -80,6 +82,9 @@ namespace Api
                     c.SwaggerDoc("v1", new Info { Title = "ECO API", Version = "v1" });
                 });
             }
+
+            // Check for JWT authentication where neccessary
+            services.AddJwtAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +113,7 @@ namespace Api
             app.EnsureDatabaseAndMigrationsExtension();
 
             // app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
