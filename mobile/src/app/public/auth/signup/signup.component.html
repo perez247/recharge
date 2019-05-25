@@ -1,0 +1,89 @@
+
+      
+      <ion-card-content text-center>
+
+        <ion-text color="primary">
+          <h1>Rechargeless Logo</h1>
+          <h2>Sign Up</h2>
+        </ion-text>
+          
+        <div>
+
+          <form>
+              <div>
+                <mat-form-field>
+                  <input required matInput placeholder="Username">
+                </mat-form-field>
+              </div>
+    
+                <ion-grid no-padding>
+                  <ion-row no-padding>
+                    <ion-col size="4" no-padding>
+                        <mat-form-field>
+                            <select matNativeControl required placeholder="Country Code">
+                              <option value="">---</option>
+                              <option value="234">+234</option>
+                            </select>
+                          </mat-form-field>
+                    </ion-col>
+                    <ion-col size="8" no-padding class="ion-padding-start">
+
+                      <mat-form-field>
+                        <input matInput placeholder="Phone Number">
+                      </mat-form-field>
+
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+    
+              <div>
+                <mat-form-field>
+                  <input matInput placeholder="Pin">
+                </mat-form-field>
+              </div>
+    
+              <div>
+                <mat-form-field>
+                  <input matInput placeholder="Confirm Pin">
+                </mat-form-field>
+              </div>
+    
+              <ion-grid no-padding text-left>
+                  <mat-label >Referer's Phone Number</mat-label>
+                  <ion-row no-padding>
+                    <ion-col size="4" no-padding>
+                        <mat-form-field>
+                            <select matNativeControl required placeholder="Country Code">
+                              <option value="">---</option>
+                              <option value="234">+234</option>
+                            </select>
+                          </mat-form-field>
+                    </ion-col>
+                    <ion-col size="8" no-padding class="ion-padding-start">
+
+                      <mat-form-field>
+                        <input matInput placeholder="Phone Number">
+                      </mat-form-field>
+
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+          </form>
+
+        </div>
+    
+      </ion-card-content>
+      
+      <ion-footer no-shadow class="footer">
+        <ion-toolbar text-center position="bottom">
+      
+          <small>Already have an account? 
+              <a [routerLink]="['/auth', 'signin']" >Sign In </a>
+          </small>
+        </ion-toolbar>
+      </ion-footer>
+      
+
+
+
+

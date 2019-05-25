@@ -9,9 +9,13 @@ namespace Persistence.Extensions
     {
         public static void ConfigureIdentity(this IServiceCollection services) {
             IdentityBuilder builder = services.AddIdentityCore<User>(opts => {
-                opts.SignIn.RequireConfirmedEmail = true;
                 opts.Lockout.MaxFailedAccessAttempts = 10;
-                opts.User.RequireUniqueEmail = true;
+                opts.User.RequireUniqueEmail = false;
+                opts.Password.RequiredLength = 7;
+                opts.Password.RequiredUniqueChars = 0;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireLowercase = false;
             });
             // .AddUserValidator<UniqueEmail<User>>();
 

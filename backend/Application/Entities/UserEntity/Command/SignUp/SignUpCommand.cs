@@ -9,11 +9,11 @@ namespace Application.Entities.UserEntity.Command.SignUp
 {
     public class SignUpCommand : IRequest<SignUpDto>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
         public string Password { get; set; }
         public string Username { get; set; }
+
+        public string Phone { get; set; }
+        public string CountryCode { get; set; }
     }
 
     public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpDto>
@@ -27,12 +27,9 @@ namespace Application.Entities.UserEntity.Command.SignUp
         public async Task<SignUpDto> Handle(SignUpCommand request, CancellationToken cancellationToken)
         {
             var newUser = new User() {
-                Email = request.Email,
                 UserName = request.Username,
-                UserDetail = new UserDetail() {
-                    FirstName = request.FirstName,
-                    LastName = request.LastName
-                }
+                Email = "null@gmail.com",
+                PhoneNumber = request.Phone
             };
 
             var result = await _auth.SignUp(newUser,request.Password);

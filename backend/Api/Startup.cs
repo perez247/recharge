@@ -66,7 +66,7 @@ namespace Api
              // Add DataContext implementation of Application interfaces
             services.ImplementApplicationDatabaseInterfaces();
             //
-            // Add Infrastructure implementation of Application interfaces
+            // Add Infrastructure implementation of Application interfaces // 
             services.AddInfractureServices();
 
             // Add AutoMapper
