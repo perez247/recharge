@@ -11,10 +11,11 @@ namespace Application.Entities.UserEntity.Command.SignUp
 {
     public class SignUpCommand : IRequest<SignUpDto>
     {
-        public string Password { get; set; }
+        public string Pin { get; set; }
         public string Username { get; set; }
 
         public string Phone { get; set; }
+        public string ReferersPhone { get; set; }
     }
 
     public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpDto>
@@ -32,7 +33,7 @@ namespace Application.Entities.UserEntity.Command.SignUp
                 PhoneNumber = request.Phone
             };
 
-            var result = await _auth.SignUp(newUser,request.Password);
+            var result = await _auth.SignUp(newUser, request.Pin, request.ReferersPhone);
 
             if (result.User == null)
                 throw new CreationFailureException(nameof(User), result.Errors);

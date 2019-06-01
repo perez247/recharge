@@ -9,65 +9,132 @@
           
         <div>
 
-          <form>
-              <div>
-                <mat-form-field>
-                  <input required matInput placeholder="Username">
-                </mat-form-field>
-              </div>
-    
-                <ion-grid no-padding>
-                  <ion-row no-padding>
-                    <ion-col size="4" no-padding>
-                        <mat-form-field>
-                            <select matNativeControl required placeholder="Country Code">
-                              <option value="">---</option>
-                              <option value="234">+234</option>
-                            </select>
-                          </mat-form-field>
-                    </ion-col>
-                    <ion-col size="8" no-padding class="ion-padding-start">
+          <form [formGroup]="signUpForm">
 
-                      <mat-form-field>
-                        <input matInput placeholder="Phone Number">
-                      </mat-form-field>
+            <!-- ------------------Username----------------------- -->
+            <div>
+              <mat-form-field>
+                <input 
+                  matInput 
+                  placeholder="Username"
+                  formControlName="username"
+                  name="username"
+                >
 
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
+
+                <mat-error class="error-block" *ngIf="signUpForm.get('username').touched && signUpForm.get('username').invalid">
+                  <small *ngIf="signUpForm.get('username').hasError('required')">Username is required</small>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <!-- --------------------Country Code--------------- -->
+            <ion-grid no-padding>
+              <ion-row no-padding>
+
+
+                <ion-col size="4" no-padding>
+                  <mat-form-field>
+                    <mat-select 
+                      placeholder="Country Code"
+                      formControlName="countryCode"
+                      >
+                      <mat-option value="">---</mat-option>
+                      <mat-option value="234">+234</mat-option>
+                    </mat-select>
+
+                    <mat-error class="error-block" *ngIf="signUpForm.get('countryCode').touched && signUpForm.get('countryCode').invalid">
+                      <small *ngIf="signUpForm.get('countryCode').hasError('required')">Country Code is required</small>
+                    </mat-error>
+
+                  </mat-form-field>
+                </ion-col>
+
+                <!-- --------------------Phone Number--------------- -->
+                <ion-col size="8" no-padding class="ion-padding-start">
+                  <mat-form-field>
+                    <input 
+                      matInput 
+                      placeholder="Phone Number"
+                      formControlName="phoneNumber"
+                    >
+
+                    <mat-error class="error-block" *ngIf="signUpForm.get('phoneNumber').touched && signUpForm.get('phoneNumber').invalid">
+                      <small *ngIf="signUpForm.get('phoneNumber').hasError('required')">Phone Number is required</small>
+                    </mat-error>
+                  </mat-form-field>
+                </ion-col>
+
+
+              </ion-row>
+            </ion-grid>
     
+            <!-- --------------------Pin--------------- -->
               <div>
                 <mat-form-field>
-                  <input matInput placeholder="Pin">
+                  <input 
+                    matInput 
+                    placeholder="Pin"
+                    formControlName="pin"
+                  >
+
+                  <mat-error class="error-block" *ngIf="signUpForm.get('pin').touched && signUpForm.get('pin').invalid">
+                    <small *ngIf="signUpForm.get('pin').hasError('required')">Pin is required</small>
+                  </mat-error>
                 </mat-form-field>
               </div>
-    
+
+            <!-- --------------------Confirm Pin--------------- -->
               <div>
                 <mat-form-field>
-                  <input matInput placeholder="Confirm Pin">
+                  <input 
+                    matInput 
+                    placeholder="Confirm Pin"
+                    formControlName="confirmPin"
+                  >
                 </mat-form-field>
               </div>
+
+
     
               <ion-grid no-padding text-left>
-                  <mat-label >Referer's Phone Number</mat-label>
-                  <ion-row no-padding>
-                    <ion-col size="4" no-padding>
-                        <mat-form-field>
-                            <select matNativeControl required placeholder="Country Code">
-                              <option value="">---</option>
-                              <option value="234">+234</option>
-                            </select>
-                          </mat-form-field>
-                    </ion-col>
-                    <ion-col size="8" no-padding class="ion-padding-start">
 
+                <mat-label>Referers Phone Number <small>(optional)</small> </mat-label>
+                <ion-row no-padding>
+                  <!-- --------------------Referers Country Code--------------- -->
+                  <ion-col size="4" no-padding>
                       <mat-form-field>
-                        <input matInput placeholder="Phone Number">
-                      </mat-form-field>
+                          <mat-select 
+                            placeholder="Country Code"
+                            formControlName="referersCountryCode"
+                            >
+                            <mat-option value="">---</mat-option>
+                            <mat-option value="234">+234</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                  </ion-col>
 
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
+                  <!-- --------------------Referers Phone Number--------------- -->
+                  <ion-col size="8" no-padding class="ion-padding-start">
+
+                    <mat-form-field>
+                      <input 
+                        matInput 
+                        placeholder="Phone Number"
+                        formControlName="referersPhoneNumber"
+                      >
+                    </mat-form-field>
+
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+
+              <!-- Submit button -->
+              <ion-button expand="full" (click)="SignUp()" [disabled]="signUpForm.invalid" >Sign Up</ion-button>
+
+
           </form>
 
         </div>

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Entities.UserEntity.Command.SignUp;
 using Domain.ValueObjects;
 using Application.Entities.UserEntity.Command.GeneratePhoneToken;
+using System;
 
 namespace Persistence.Repository
 {
@@ -21,7 +22,10 @@ namespace Persistence.Repository
             _signInManager = signInManager;
         }
 
-        public async Task<SignUpResult> SignUp(User user, string Password) {
+        public async Task<SignUpResult> SignUp(User user, string Password, string referersPhoneNumber = null) {
+
+            user.Referer = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == referersPhoneNumber);
+
             var result = await _userManager.CreateAsync(user, Password);
 
             if (result.Succeeded)

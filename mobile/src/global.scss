@@ -15,3 +15,11 @@
 mat-form-field {
     width: 100%;
 }
+
+.error-block > small {
+    display: none;
+}
+
+.error-block > small:first-child {
+    display: block;
+}

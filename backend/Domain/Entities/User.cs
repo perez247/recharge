@@ -7,6 +7,8 @@ namespace Domain.Entities
 {
     public class User : IdentityUser<Guid>
     {
+        public User Referer { get; set; }
+        public Guid? RefererId { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
         
         public User()

@@ -74,6 +74,8 @@ namespace Api.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<Guid?>("RefererId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -90,6 +92,8 @@ namespace Api.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RefererId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -183,6 +187,13 @@ namespace Api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "Referer")
+                        .WithMany()
+                        .HasForeignKey("RefererId");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserRole", b =>
