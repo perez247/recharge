@@ -12,7 +12,7 @@ namespace Domain.ValueObjects
 
         public override string ToString()
         {
-            return $"{Phone}-{CountryCode}";
+            return $"{CountryCode}-{Phone}";
         }
 
         private PhoneNumber() {}

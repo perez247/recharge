@@ -8,21 +8,27 @@ namespace Application.Infrastructure.Validations
     public static class AppPhone
     {
         private static readonly Dictionary<string, Regex> _codeNumbers = new Dictionary<string, Regex>() {
-            {"234", new Regex(@"^([0]{1})([7-9]{1})([0|1]{1})([\d]{1})([\d]{7,8})$")}
+            // {"234", new Regex(@"^([0]{1})([7-9]{1})([0|1]{1})([\d]{1})([\d]{7,8})$")},
+            {"234", new Regex(@"^([7-9]{1})([0|1]{1})([\d]{1})([\d]{7,8})$")}
         };
 
-        public static bool BeAValidMobileNumber(string phoneNumberString) {
-            var phoneNumber = (PhoneNumber)phoneNumberString;
+        public static bool BeAValidCountryCode(string countryCode) {
+            countryCode = string.IsNullOrEmpty(countryCode) ? "" : countryCode;
+            return _codeNumbers.ContainsKey(countryCode);
+        }
 
-            if (!_codeNumbers.ContainsKey(phoneNumber.CountryCode))
+        public static bool BeAValidMobileNumber(string countryCode, string phoneNumberString) {
+            
+            countryCode = string.IsNullOrEmpty(countryCode) ? "" : countryCode;
+            if (!_codeNumbers.ContainsKey(countryCode))
                 return false;
 
-            var validator = _codeNumbers.GetValueOrDefault(phoneNumber.CountryCode);
+            var validator = _codeNumbers.GetValueOrDefault(countryCode);
 
             if(validator == null) 
                 return false;
             
-            return validator.Match(phoneNumber.Phone).Success;
+            return validator.Match(phoneNumberString).Success;
         }
 
         public static bool HaveEqualCountryCode(SignUpCommand signUpCommand) {

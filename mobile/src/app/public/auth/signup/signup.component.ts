@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SignUpModel } from './signup-form-model';
 
 @Component({
   selector: 'app-signup',
@@ -30,7 +29,7 @@ export class SignupComponent implements OnInit {
   }
 
   SignUp() {
-    console.log(new SignUpModel(this.signUpForm.value).createFormData());
+    console.log(this.signUpForm.value);
   }
 
 }

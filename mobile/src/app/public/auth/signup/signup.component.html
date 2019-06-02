@@ -55,7 +55,8 @@
                 <ion-col size="8" no-padding class="ion-padding-start">
                   <mat-form-field>
                     <input 
-                      matInput 
+                      matInput
+                      maxlength= "10"
                       placeholder="Phone Number"
                       formControlName="phoneNumber"
                     >
@@ -76,6 +77,7 @@
                   <input 
                     matInput 
                     placeholder="Pin"
+                    type="password"
                     formControlName="pin"
                   >
 
@@ -89,7 +91,8 @@
               <div>
                 <mat-form-field>
                   <input 
-                    matInput 
+                    matInput
+                    type="password"
                     placeholder="Confirm Pin"
                     formControlName="confirmPin"
                   >
@@ -120,7 +123,8 @@
 
                     <mat-form-field>
                       <input 
-                        matInput 
+                        matInput
+                        maxlength= "10"
                         placeholder="Phone Number"
                         formControlName="referersPhoneNumber"
                       >

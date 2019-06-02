@@ -22,9 +22,11 @@ namespace Persistence.Repository
             _signInManager = signInManager;
         }
 
-        public async Task<SignUpResult> SignUp(User user, string Password, string referersPhoneNumber = null) {
+        public async Task<SignUpResult> SignUp(User user, string Password, string referersPhoneNumber) {
 
             user.Referer = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == referersPhoneNumber);
+
+            // throw new Exception(user.Referer.Id.ToString());
 
             var result = await _userManager.CreateAsync(user, Password);
 

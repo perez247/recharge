@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
@@ -13,6 +14,10 @@ namespace Application.Entities.UserEntity.Command.SignUp
     {
         public string Pin { get; set; }
         public string Username { get; set; }
+        public string CountryCode { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ReferersCountryCode { get; set; }
+        public string ReferersPhoneNumber { get; set; }
 
         public string Phone { get; set; }
         public string ReferersPhone { get; set; }
@@ -27,13 +32,25 @@ namespace Application.Entities.UserEntity.Command.SignUp
             _auth = auth;
         }
         public async Task<SignUpDto> Handle(SignUpCommand request, CancellationToken cancellationToken)
-        {
+        {   
+            var phoneNumber = (PhoneNumber)$"${request.CountryCode}-${request.PhoneNumber}";
+            string referersPhoneNumber;
+
+            // Try getting referers phone number
+            try {
+                var ReferersPhoneNumber = request.ReferersCountryCode+"-"+request.ReferersPhoneNumber;
+                referersPhoneNumber = ReferersPhoneNumber.ToString();
+            }
+            catch(Exception) {
+                referersPhoneNumber = null;
+            }
+
             var newUser = new User() {
                 UserName = request.Username,
-                PhoneNumber = request.Phone
+                PhoneNumber = $"{request.CountryCode}-{request.PhoneNumber}"
             };
 
-            var result = await _auth.SignUp(newUser, request.Pin, request.ReferersPhone);
+            var result = await _auth.SignUp(newUser, request.Pin, referersPhoneNumber);
 
             if (result.User == null)
                 throw new CreationFailureException(nameof(User), result.Errors);
