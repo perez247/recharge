@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Application.Entities.UserEntity.Command.GeneratePhoneToken;
 using Application.Entities.UserEntity.Command.SignUp;
 using Application.Entities.UserEntity.Query.SignIn;
+using Application.Entities.UserEntity.Query.Unique;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,13 @@ namespace Api.Controllers
         [HttpGet("generate-phone-token")]
         public async Task<IActionResult> GeneratePhoneToken() {
             return Ok(await Mediator.Send(new GeneratePhoneTokenCommand(User) ));
+            // return Ok(User);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("unique")]
+        public async Task<IActionResult> UniqueField([FromQuery] UniqueCommand command) {
+            return Ok(await Mediator.Send(command));
             // return Ok(User);
         }
     }

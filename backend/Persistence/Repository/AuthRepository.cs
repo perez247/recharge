@@ -70,5 +70,12 @@ namespace Persistence.Repository
                 PhoneNumber = (PhoneNumber)user.PhoneNumber
             };
         }
+
+        public async Task<bool> Unique(string Value)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == Value || u.PhoneNumber == Value);
+
+            return user == null;
+        }
     }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RequestValidations } from 'src/app/shared/validations/request-validations';
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +11,7 @@ export class SignupComponent implements OnInit {
 
   signUpForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private requestV: RequestValidations) { }
 
   ngOnInit() {
     this.initializeSignUpForm();
@@ -18,7 +19,7 @@ export class SignupComponent implements OnInit {
 
   initializeSignUpForm() {
     this.signUpForm  = this.fb.group({
-      username : [null, Validators.required],
+      username : [null, [Validators.required], [this.requestV.unique(null)]],
       countryCode : [null, Validators.required],
       phoneNumber : [null, Validators.required],
       pin : [null, Validators.required],

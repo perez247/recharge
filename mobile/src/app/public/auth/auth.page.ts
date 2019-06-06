@@ -21,9 +21,7 @@ export class AuthPage implements OnInit, OnDestroy {
 
   checkUrls() {
     this.subscription = this.route.params.subscribe((e: any) => {
-      console.log(e);
       this.state = (this.availableState.indexOf(e.state) > -1) ? e.state : 'signin';
-      console.log(this.state);
     });
     // this.subscription = this.router.events
     // .pipe(

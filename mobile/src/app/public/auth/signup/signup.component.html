@@ -24,6 +24,7 @@
 
                 <mat-error class="error-block" *ngIf="signUpForm.get('username').touched && signUpForm.get('username').invalid">
                   <small *ngIf="signUpForm.get('username').hasError('required')">Username is required</small>
+                  <small *ngIf="signUpForm.get('username').hasError('unique')">Username has already been taken</small>
                 </mat-error>
               </mat-form-field>
             </div>

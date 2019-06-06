@@ -113,6 +113,7 @@ namespace Api
             app.EnsureDatabaseAndMigrationsExtension();
 
             // app.UseHttpsRedirection();
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseAuthentication();
             app.UseMvc();
         }
