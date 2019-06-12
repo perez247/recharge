@@ -16,6 +16,6 @@ namespace Application.Interfaces.IRepositories
 
         Task<PhoneToken> GeneratePhoneToken(string userId);
 
-        Task<bool> Unique(string Value);
+        Task<bool> UniquePhoneNumber(string Value);
     }
 }

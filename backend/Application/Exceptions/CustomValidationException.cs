@@ -13,7 +13,7 @@ namespace Application.Exceptions
             Failures = new Dictionary<string, string[]>();
         }
 
-        public CustomValidationException(List<ValidationFailure> failures)
+        public CustomValidationException(IList<ValidationFailure> failures)
             : this()
         {
             var propertyNames = failures

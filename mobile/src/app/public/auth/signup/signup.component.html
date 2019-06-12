@@ -12,7 +12,7 @@
           <form [formGroup]="signUpForm">
 
             <!-- ------------------Username----------------------- -->
-            <div>
+            <!-- <div>
               <mat-form-field>
                 <input 
                   matInput 
@@ -27,7 +27,7 @@
                   <small *ngIf="signUpForm.get('username').hasError('unique')">Username has already been taken</small>
                 </mat-error>
               </mat-form-field>
-            </div>
+            </div> -->
 
 
             <!-- --------------------Country Code--------------- -->
@@ -45,7 +45,9 @@
                       <mat-option value="234">+234</mat-option>
                     </mat-select>
 
-                    <mat-error class="error-block" *ngIf="signUpForm.get('countryCode').touched && signUpForm.get('countryCode').invalid">
+                    <mat-error class="error-block" 
+                      *ngIf="(signUpForm.get('countryCode').touched && signUpForm.get('countryCode').invalid)"
+                      >
                       <small *ngIf="signUpForm.get('countryCode').hasError('required')">Country Code is required</small>
                     </mat-error>
 
@@ -62,8 +64,11 @@
                       formControlName="phoneNumber"
                     >
 
-                    <mat-error class="error-block" *ngIf="signUpForm.get('phoneNumber').touched && signUpForm.get('phoneNumber').invalid">
+                    <mat-error class="error-block" 
+                      *ngIf="(signUpForm.get('phoneNumber').touched && signUpForm.get('phoneNumber').invalid) || signUpForm.get('phoneNumber').hasError('phoneNumber')">
                       <small *ngIf="signUpForm.get('phoneNumber').hasError('required')">Phone Number is required</small>
+                      <small *ngIf="signUpForm.get('phoneNumber').hasError('invalidPhoneNumber')">Phone Number is invalid</small>
+                      <small *ngIf="signUpForm.get('phoneNumber').hasError('phoneNumber')">{{signUpForm.get('phoneNumber').getError('phoneNumber').error}}</small>
                     </mat-error>
                   </mat-form-field>
                 </ion-col>
@@ -80,10 +85,12 @@
                     placeholder="Pin"
                     type="password"
                     formControlName="pin"
+                    maxlength="5"
                   >
 
                   <mat-error class="error-block" *ngIf="signUpForm.get('pin').touched && signUpForm.get('pin').invalid">
                     <small *ngIf="signUpForm.get('pin').hasError('required')">Pin is required</small>
+                    <small *ngIf="signUpForm.get('pin').hasError('invalidPin')">Pin must only contain numbers</small>
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -96,7 +103,11 @@
                     type="password"
                     placeholder="Confirm Pin"
                     formControlName="confirmPin"
+                    maxlength="5"
                   >
+                  <mat-error class="error-block" *ngIf="signUpForm.get('confirmPin').touched && signUpForm.get('confirmPin').invalid">
+                    <small *ngIf="signUpForm.get('confirmPin').hasError('invalidConfirmation')">Pins do not match</small>
+                  </mat-error>
                 </mat-form-field>
               </div>
 

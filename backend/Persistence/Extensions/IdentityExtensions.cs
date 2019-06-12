@@ -12,7 +12,7 @@ namespace Persistence.Extensions
             IdentityBuilder builder = services.AddIdentityCore<User>(opts => {
                 opts.Lockout.MaxFailedAccessAttempts = 10;
                 opts.User.RequireUniqueEmail = false;
-                opts.Password.RequiredLength = 7;
+                opts.Password.RequiredLength = 5;
                 opts.Password.RequiredUniqueChars = 0;
                 opts.Password.RequireNonAlphanumeric = false;
                 opts.Password.RequireUppercase = false;

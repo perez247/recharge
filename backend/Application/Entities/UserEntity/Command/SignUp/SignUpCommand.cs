@@ -13,7 +13,6 @@ namespace Application.Entities.UserEntity.Command.SignUp
     public class SignUpCommand : IRequest<SignUpDto>
     {
         public string Pin { get; set; }
-        public string Username { get; set; }
         public string CountryCode { get; set; }
         public string PhoneNumber { get; set; }
         public string ReferersCountryCode { get; set; }
@@ -46,7 +45,7 @@ namespace Application.Entities.UserEntity.Command.SignUp
             }
 
             var newUser = new User() {
-                UserName = request.Username,
+                UserName = $"{request.CountryCode}-{request.PhoneNumber}",
                 PhoneNumber = $"{request.CountryCode}-{request.PhoneNumber}"
             };
 

@@ -12,20 +12,35 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using FluentValidation.Results;
+using Application.Infrastructure.RequestResponsePipeline;
+using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Api.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class WebCustomExceptionFilter : ExceptionFilterAttribute
     {
+        private readonly IHostingEnvironment _env;
+
+        public WebCustomExceptionFilter(IHostingEnvironment ienv)
+        {
+            _env = ienv;
+        }
         public override void OnException(ExceptionContext context)
         {
-            if (context.Exception is CustomValidationException)
+            var jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            if (context.Exception is Application.Exceptions.CustomValidationException)
             {
                 context.HttpContext.Response.ContentType = "application/json";
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Result = new JsonResult(
-                ((CustomValidationException)context.Exception).Failures);
+                    new ErrorResponse() {
+                        Errors = ((Application.Exceptions.CustomValidationException)context.Exception).Failures
+                    },
+                    jsonSerializerSettings
+                );
 
                 return;
             }
@@ -42,13 +57,13 @@ namespace Api.Filters
                 code = HttpStatusCode.BadRequest;
             }
 
+            var errorresponse = new ErrorResponse() { Error =  context.Exception.Message };
+
+            errorresponse.StackTrace = _env.IsDevelopment() || _env.IsStaging() ? context.Exception.StackTrace : null;
+
             context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)code;
-            context.Result = new JsonResult(new
-            {
-                error = new[] { context.Exception.Message },
-                stackTrace = context.Exception.StackTrace
-            });
+            context.Result = new JsonResult(errorresponse, jsonSerializerSettings);
         }
     }
 }

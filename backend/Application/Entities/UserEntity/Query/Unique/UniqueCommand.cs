@@ -20,7 +20,7 @@ namespace Application.Entities.UserEntity.Query.Unique
         }
         public async Task<bool> Handle(UniqueCommand request, CancellationToken cancellationToken)
         {
-            return await _auth.Unique(request.Value);
+            return await _auth.UniquePhoneNumber(request.Value);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Api.Extensions;
 using Api.Filters;
 using Application.Entities.UserEntity.Command.SignUp;
 using Application.Infrastructure.AutoMapper;
@@ -59,6 +60,9 @@ namespace Api
             // For performing validation of user data before using in the application
             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SignUpValidator>());
 
+            // Handle Model state errors
+            services.AddScoped<IValidatorInterceptor, ValidatorInterceptor>();
+
              //Add Mediator
             services.AddMediatR();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
@@ -74,13 +78,10 @@ namespace Api
             // Add AutoMapper
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
 
-            if (env.IsDevelopment())
+            // Add swagger
+            if (env.IsDevelopment() || env.IsStaging())
             {
-                // Add swagger
-                services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new Info { Title = "Rechargeless API", Version = "v1" });
-                });
+                services.AddSwaggerDocumentation();
             }
 
             // Check for JWT authentication where neccessary
@@ -94,20 +95,17 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwagger();
-                // specifying the Swagger JSON endpoint.
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("swagger/v1/swagger.json", "My API V1");
-                    c.RoutePrefix = string.Empty;
-                });
-
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            if (env.IsDevelopment() || env.IsStaging()) {
+                app.UseSwaggerDocumentation();
+            }
+
 
             // Make sure the database is created and the migration that was created is up to date..
             app.EnsureDatabaseAndMigrationsExtension();
