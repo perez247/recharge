@@ -31,6 +31,7 @@ For Development, the following tools are required:
 * [Visual Studio Code](https://code.visualstudio.com/) or your preferred IDE.
 * [.NET Core SDK 2.2](https://www.microsoft.com/net/download/dotnet-core/2.2).
 * [Nodejs](https://nodejs.org/en/) LTS version please.
+* [Ionic](https://ionicframework.com/getting-started#cli)
 * SQL Server for the Database (Default). This is required and is neccesary for migrations. 
 
 
@@ -53,9 +54,9 @@ Follow these steps to get your environment set up. For Mac or Linux user, you ma
      ```
      docker-compose -f docker-compose.local_prod.yml up --build
      ```
+  3. Start the ionic app by
 
-
-Go to `http://localhost:4000` on your browser. If a react app shows, you are good to go else kindly contact [Perez247](https://github.com/perez247) detailing your issue.
+Go to `http://localhost` on your browser. If a react app shows, you are good to go else kindly contact [Perez247](https://github.com/perez247) detailing your issue.
 
 3. This is the most important part. kindly press Ctrl+c or CMD+c to end the application and `docker-compose -f <name of docker-compose file>.yml down` to clean up. Ensure this is done everytime an application is down.
 
@@ -63,14 +64,16 @@ Go to `http://localhost:4000` on your browser. If a react app shows, you are goo
 
 Three (3) addresses are avaliable in development mode:
 
-*   Frontend which is `http://localhost:3000`.
+*   Mobile which is `http://localhost:8100`.
 *   Backend which is `http://localhost:5000`.
-*   Nginx Which is `http://localhost:4000`.
+*   Nginx Which is `http://localhost`.
 
-Nginx connects directly to both the backend and the frontend. You can connect to the backend api via `localhost:5000/api` or `localhost:4000/api` but its is recommended to use `localhost:4000/api` and all react app api calls should follow this convention for development. Production should be set to `/api`.
+Nginx connects directly to both the backend and the frontend. You can connect to the backend api via `localhost:5000/api` or `localhost/api` but its is recommended to use `localhost/api` and all react app api calls should follow this convention for development. In Production, the api in the react app should be set to `/api`.
 
-To view all the api simple go to `localhost:5000/` and it will be shown thanks to Swagger.
+To view all the api documentation simple go to `localhost/api/docs` and it will be shown thanks to Swagger.
+
+When using the dcoker-compose.dev.yml, access to the MSSQL database is on port 3200
 
 Happy Coding...
 
-Cheers Eco Team
+Cheers Excellence
