@@ -68,7 +68,7 @@ Three (3) addresses are avaliable in development mode:
 *   Backend which is `http://localhost:5000`.
 *   Nginx Which is `http://localhost`.
 
-Nginx connects directly to both the backend and the frontend. You can connect to the backend api via `localhost:5000/api` or `localhost/api` but its is recommended to use `localhost/api` and all app api calls should follow this convention for development. In Production, the api in the react app should be set to `/api`.
+Nginx connects directly to both the backend and the frontend. You can connect to the backend api via `localhost:5000/api` or `localhost/api` but its is recommended to use `localhost/api` and all app api calls should follow this convention for development. In Production, the api in the app should be set to `/api`.
 
 To view all the api documentation simple go to `localhost/api/docs` and it will be shown thanks to Swagger.
 
