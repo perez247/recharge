@@ -10,7 +10,7 @@ export class CoreValidation {
             return null;
         }
 
-        return { invalidPin: true };
+        return { invalidPin: true, message: `Must be a 5 digit pin` };
     }
 
     static confirmation(field: string): ValidatorFn {
@@ -25,7 +25,7 @@ export class CoreValidation {
                 return null;
             }
 
-            return { invalidConfirmation: true };
+            return { invalidConfirmation: true, message: `Field must match ${field}` };
         };
     }
 }

@@ -20,17 +20,17 @@ namespace Application.Infrastructure.Token
 
         private void SetUserId(ClaimsPrincipal User)
         {
-            UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            UserId = User.FindFirst(TokenFunctions.claims.userId.ToString()).Value;
         }
 
         public void SetPhoneTokenCreatedDate(ClaimsPrincipal User) {
             
             
-            if(!User.HasClaim(c => c.Type == ClaimTypes.MobilePhone))
+            if(!User.HasClaim(c => c.Type == TokenFunctions.claims.mobileExpiry.ToString()))
                 return;
 
             DateTime time;
-            if(!DateTime.TryParse(User.FindFirst(ClaimTypes.MobilePhone).Value, out time))
+            if(!DateTime.TryParse(User.FindFirst(TokenFunctions.claims.mobileExpiry.ToString()).Value, out time))
                 return;
 
             PhoneTokenCreatedDate = time;

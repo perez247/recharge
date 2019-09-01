@@ -10,16 +10,17 @@ export class MobileValidation {
     static validPhoneNumber(countryCodeField: string, required = true): ValidatorFn {
         return (c: AbstractControl) => {
             const parent = c.parent;
+
+            if (!required && !c.value) {
+                return null;
+            }
+
             if (!parent) {
                 return null;
             }
 
             if (!parent.get(countryCodeField).value) {
-                return null;
-            }
-
-            if (!required && !c.value) {
-                return null;
+                return {invalidPhoneNumber: true, message: `Country code is required`};
             }
 
             const countryCode = parent.get(countryCodeField).value;
@@ -28,7 +29,7 @@ export class MobileValidation {
             if (pattern.test(c.value)) {
                 return null;
             } else {
-                return {invalidPhoneNumber: true};
+                return {invalidPhoneNumber: true, message: `Phone number is invalid`};
             }
         };
     }

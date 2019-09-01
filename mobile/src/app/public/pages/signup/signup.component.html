@@ -1,0 +1,168 @@
+
+      
+      <ion-card-content text-center>
+
+        <app-logo-heading [field]="'Sign Up'" ></app-logo-heading>
+          
+        <div>
+
+          <form [formGroup]="signUpForm">
+
+            <!-- ------------------Username----------------------- -->
+            <!-- <div>
+              <mat-form-field>
+                <input 
+                  matInput 
+                  placeholder="Username"
+                  formControlName="username"
+                  name="username"
+                >
+
+
+                <mat-error class="error-block" *ngIf="signUpForm.get('username').touched && signUpForm.get('username').invalid">
+                  <small *ngIf="signUpForm.get('username').hasError('required')">Username is required</small>
+                  <small *ngIf="signUpForm.get('username').hasError('unique')">Username has already been taken</small>
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+
+            <!-- --------------------Country Code--------------- -->
+            <ion-grid no-padding>
+              <ion-row no-padding>
+
+
+                <ion-col size="4" no-padding>
+                  <mat-form-field>
+                    <mat-select 
+                      placeholder="Country Code"
+                      formControlName="countryCode"
+                      >
+                      <mat-option value="">---</mat-option>
+                      <mat-option value="234">+234</mat-option>
+                    </mat-select>
+
+                    <mat-error class="error-block">
+
+                      <app-validator-error-message [form]="signUpForm" [field]="'countryCode'" ></app-validator-error-message>
+                    </mat-error>
+
+                  </mat-form-field>
+                </ion-col>
+
+                <!-- --------------------Phone Number--------------- -->
+                <ion-col size="8" no-padding class="ion-padding-start">
+                  <mat-form-field>
+                    <input 
+                      matInput
+                      maxlength= "10"
+                      placeholder="Phone Number"
+                      formControlName="phoneNumber"
+                    >
+
+                    <mat-error class="error-block" >
+                      <app-validator-error-message [form]="signUpForm" [field]="'phoneNumber'" ></app-validator-error-message>
+                    </mat-error>
+                    
+                  </mat-form-field>
+                </ion-col>
+
+
+              </ion-row>
+            </ion-grid>
+    
+            <!-- --------------------Pin--------------- -->
+              <div>
+                <mat-form-field>
+                  <input 
+                    matInput 
+                    placeholder="Pin"
+                    type="password"
+                    formControlName="pin"
+                    maxlength="5"
+                  >
+
+                  <mat-error class="error-block" >
+                    <app-validator-error-message [form]="signUpForm" [field]="'pin'" ></app-validator-error-message>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+            <!-- --------------------Confirm Pin--------------- -->
+              <div>
+                <mat-form-field>
+                  <input 
+                    matInput
+                    type="password"
+                    placeholder="Confirm Pin"
+                    formControlName="confirmPin"
+                    maxlength="5"
+                  >
+                  <mat-error class="error-block" >
+                    <app-validator-error-message [form]="signUpForm" [field]="'confirmPin'" ></app-validator-error-message>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+
+    
+              <ion-grid no-padding text-left>
+
+                <mat-label>Referers Phone Number <small>(optional)</small> </mat-label>
+                <ion-row no-padding>
+                  <!-- --------------------Referers Country Code--------------- -->
+                  <ion-col size="4" no-padding>
+                      <mat-form-field>
+                          <mat-select 
+                            placeholder="Country Code"
+                            formControlName="referersCountryCode"
+                            >
+                            <mat-option value="">---</mat-option>
+                            <mat-option value="234">+234</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                  </ion-col>
+
+                  <!-- --------------------Referers Phone Number--------------- -->
+                  <ion-col size="8" no-padding class="ion-padding-start">
+
+                    <mat-form-field>
+                      <input 
+                        matInput
+                        maxlength= "10"
+                        placeholder="Phone Number"
+                        formControlName="referersPhoneNumber"
+                      >
+
+                      <mat-error class="error-block" >
+                        <app-validator-error-message [form]="signUpForm" [field]="'referersPhoneNumber'" ></app-validator-error-message>
+                      </mat-error>
+                    </mat-form-field>
+
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+
+              <!-- Submit button -->
+              <ion-button expand="full" (click)="SignUp()" [disabled]="signUpForm.invalid" >Sign Up</ion-button>
+
+
+          </form>
+
+        </div>
+    
+      </ion-card-content>
+      
+      <ion-footer no-shadow class="footer">
+        <ion-toolbar text-center position="bottom">
+      
+          <small>Already have an account? 
+              <a [routerLink]="['/'+ appRoutes.public.signIn.path]" >Sign In </a>
+          </small>
+        </ion-toolbar>
+      </ion-footer>
+      
+
+
+
+

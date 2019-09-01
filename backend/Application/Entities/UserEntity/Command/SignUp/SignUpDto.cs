@@ -6,8 +6,9 @@ namespace Application.Entities.UserEntity.Command.SignUp
 {
     public class SignUpDto
     {
-        public Guid Id { get; set; }
+        // public Guid Id { get; set; }
         public string Token { get; set; }
+        public string PhoneToken { get; set; }
 
         public static Expression<Func<User, SignUpDto>> Projection
         {
@@ -15,7 +16,7 @@ namespace Application.Entities.UserEntity.Command.SignUp
             {
                 return User => new SignUpDto
                 {
-                    Id = User.Id
+                    // Id = User.Id
                 };
             }
         }

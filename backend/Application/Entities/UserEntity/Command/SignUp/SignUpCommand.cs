@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Entities.UserEntity.Command.GeneratePhoneToken;
 using Application.Exceptions;
 using Application.Infrastructure.Token;
 using Application.Interfaces.IRepositories;
@@ -25,10 +26,13 @@ namespace Application.Entities.UserEntity.Command.SignUp
     public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpDto>
     {
         private readonly IAuthRepository _auth;
+        
+        private readonly IMediator _mediator;
 
-        public SignUpHandler(IAuthRepository auth)
+        public SignUpHandler(IAuthRepository auth, IMediator mediator)
         {
             _auth = auth;
+            _mediator = mediator;
         }
         public async Task<SignUpDto> Handle(SignUpCommand request, CancellationToken cancellationToken)
         {   
@@ -37,7 +41,7 @@ namespace Application.Entities.UserEntity.Command.SignUp
 
             // Try getting referers phone number
             try {
-                var ReferersPhoneNumber = request.ReferersCountryCode+"-"+request.ReferersPhoneNumber;
+                var ReferersPhoneNumber = (PhoneNumber)$"${request.ReferersCountryCode}-${request.ReferersPhoneNumber}";
                 referersPhoneNumber = ReferersPhoneNumber.ToString();
             }
             catch(Exception) {
@@ -54,10 +58,13 @@ namespace Application.Entities.UserEntity.Command.SignUp
             if (result.User == null)
                 throw new CreationFailureException(nameof(User), result.Errors);
 
-            var response = SignUpDto.Create(newUser);
+            var response = SignUpDto.Create(result.User);
+            response.PhoneToken = result.ConfirmPhoneNumberToken;
 
             // Add token for authorization
             response.Token = TokenFunctions.generateUserToken(newUser);
+            
+            await _mediator.Publish(new PhoneTokenGenerated() { Token = result.ConfirmPhoneNumberToken, User = result.User });
 
             return response;
 
@@ -68,5 +75,6 @@ namespace Application.Entities.UserEntity.Command.SignUp
     {
         public string Errors { get; set; }
         public User User { get; set; }
+        public string ConfirmPhoneNumberToken { get; set; }
     }
 }

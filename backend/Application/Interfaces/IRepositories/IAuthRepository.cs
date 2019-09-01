@@ -14,7 +14,7 @@ namespace Application.Interfaces.IRepositories
 
         Task<User> SignIn(string userName, string Password);
 
-        Task<PhoneToken> GeneratePhoneToken(string userId);
+        Task<PhoneTokenGenerated> GeneratePhoneToken(string userId);
 
         Task<bool> UniquePhoneNumber(string Value);
     }

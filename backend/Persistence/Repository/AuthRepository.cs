@@ -31,7 +31,8 @@ namespace Persistence.Repository
             var result = await _userManager.CreateAsync(user, Password);
 
             if (result.Succeeded)
-                return new SignUpResult() { Errors = null, User = user };
+                return new SignUpResult() { Errors = null, User = user, 
+                ConfirmPhoneNumberToken = await _userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber) };
 
             return new SignUpResult() {
                 Errors = string.Join(',', result.Errors.Select(x=>x.Description)),
@@ -57,7 +58,7 @@ namespace Persistence.Repository
             return user;
         }
 
-        public async Task<PhoneToken> GeneratePhoneToken(string userId)
+        public async Task<PhoneTokenGenerated> GeneratePhoneToken(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -65,9 +66,9 @@ namespace Persistence.Repository
                 return null;
             
             var token = await _userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
-            return new PhoneToken() {
+            return new PhoneTokenGenerated() {
                 Token = token,
-                PhoneNumber = (PhoneNumber)user.PhoneNumber
+                User = user
             };
         }
 

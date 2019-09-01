@@ -11,7 +11,7 @@ namespace Infrastructure.Implementation
 
         public async Task SendAsync(PhoneTokenGenerated PhoneDetails)
         {
-            await WriteToFile(PhoneDetails.PhoneToken.Token);
+            await WriteToFile(PhoneDetails.Token);
         }
 
         public async Task WriteToFile(string data) {

@@ -36,7 +36,7 @@ namespace Application.Entities.UserEntity.Command.GeneratePhoneToken
             if(phoneToken == null)
                 throw new NotFoundException(nameof(User), request.UserId);
 
-            await _mediator.Publish(new PhoneTokenGenerated() { PhoneToken = phoneToken });
+            await _mediator.Publish(phoneToken);
 
             return Unit.Value;
             // return phoneToken;
@@ -45,6 +45,6 @@ namespace Application.Entities.UserEntity.Command.GeneratePhoneToken
 
     public class PhoneToken {
         public string Token { get; set; }
-        public PhoneNumber PhoneNumber { get; set; }
+        public User User { get; set; }
     }
 }

@@ -9,9 +9,10 @@ namespace Application.Infrastructure.Token
 {
     public class TokenFunctions
     {
-        public static string generateUserToken(User user, bool confirmPhone = false) {
+        public enum claims { userId,  mobileExpiry, isConfirmed};
+        public static string generateUserToken(User user) {
                         // Create token an sent;
-            var claims = (confirmPhone == true) ? ConfirmPhoneTime(user) : defaultClaim(user);
+            var claims = ConfirmPhoneTime(user);
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("AUTHORIZATION_TOKEN")));
         
@@ -59,20 +60,12 @@ namespace Application.Infrastructure.Token
             return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
-        private static Claim[] defaultClaim(User user) {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-
-            return claims;
-        }
-
         private static Claim[] ConfirmPhoneTime(User user) {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, DateTime.Now.AddMinutes(5).ToString())
+                new Claim(TokenFunctions.claims.userId.ToString(), user.Id.ToString()),
+                new Claim(TokenFunctions.claims.mobileExpiry.ToString(), DateTime.Now.AddMinutes(5).ToString()),
+                new Claim(TokenFunctions.claims.isConfirmed.ToString(), user.PhoneNumberConfirmed.ToString()),
             };
 
             return claims;

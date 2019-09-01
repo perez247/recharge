@@ -1,0 +1,20 @@
+
+      
+        <ion-card-content text-center>
+            <app-logo-heading [field]="'Sign In'" ></app-logo-heading>
+              
+              Login details
+      
+      
+        </ion-card-content>
+      
+      <ion-footer no-shadow class="footer">
+        <ion-toolbar text-center position="bottom">
+      
+          <small>Don't have an account? 
+              <a [routerLink]="['/'+appRoutes.public.signUp.path]" >Register </a>
+            <!-- <strong ion-text (click)="toggleAuth()"><ion-text color="primary">Sign Up</ion-text></strong> -->
+          </small>
+        </ion-toolbar>
+      </ion-footer>
+      
