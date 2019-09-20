@@ -3,7 +3,77 @@
         <ion-card-content text-center>
             <app-logo-heading [field]="'Sign In'" ></app-logo-heading>
               
-              Login details
+              <div>
+
+                <form [formGroup]="signInForm" >
+
+                  <!---------------------------------------- Phone Number ---------------------------------->
+                  <ion-grid no-padding>
+                    <ion-row no-padding>
+      
+                      <!-- Country Code -------------------------------------->
+                      <ion-col size="4" no-padding>
+                        <mat-form-field>
+                          <mat-select 
+                            placeholder="Code"
+                            formControlName="countryCode"
+                            >
+                            <mat-option value="">---</mat-option>
+                            <mat-option value="234">+234</mat-option>
+                          </mat-select>
+      
+                          <mat-error class="error-block">
+      
+                            <app-validator-error-message [form]="signInForm" [field]="'countryCode'" ></app-validator-error-message>
+                          </mat-error>
+      
+                        </mat-form-field>
+                      </ion-col>
+      
+                      <!-- --------------------Phone Number--------------- -->
+                      <ion-col size="8" no-padding class="ion-padding-start">
+                        <mat-form-field>
+                          <input 
+                            matInput
+                            maxlength= "10"
+                            placeholder="Phone Number"
+                            formControlName="phoneNumber"
+                          >
+      
+                          <mat-error class="error-block" >
+                            <app-validator-error-message [form]="signInForm" [field]="'phoneNumber'" ></app-validator-error-message>
+                          </mat-error>
+                          
+                        </mat-form-field>
+                      </ion-col>
+      
+      
+                    </ion-row>
+                  </ion-grid>
+
+                  <!-- --------------------Pin--------------- -->
+                  <div>
+                    <mat-form-field>
+                      <input 
+                        matInput 
+                        placeholder="Pin"
+                        type="password"
+                        formControlName="pin"
+                        maxlength="5"
+                      >
+
+                      <mat-error class="error-block" >
+                        <app-validator-error-message [form]="signInForm" [field]="'pin'" ></app-validator-error-message>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Submit button -->
+              <ion-button expand="full" (click)="signIn()" [disabled]="signInForm.invalid" >Sign In</ion-button>
+
+                </form>
+
+              </div>
       
       
         </ion-card-content>

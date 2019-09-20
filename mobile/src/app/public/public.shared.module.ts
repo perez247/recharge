@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SigninComponent } from './pages/signin/signin.component';
+import { ConfirmPhoneComponent } from './pages/confirm-phone/confirm-phone.component';
 
 @NgModule({
     declarations: [
         SignupComponent,
         SigninComponent,
+        ConfirmPhoneComponent
     ],
     imports: [
         SharedModule
@@ -15,6 +17,7 @@ import { SigninComponent } from './pages/signin/signin.component';
         SignupComponent,
         SigninComponent,
         SharedModule,
+        ConfirmPhoneComponent
     ]
 })
 

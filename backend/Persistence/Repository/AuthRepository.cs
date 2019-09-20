@@ -41,11 +41,11 @@ namespace Persistence.Repository
         }
 
         public async Task<User> SignIn(string userNameOrEmail, string Password) {
+
             var user = await _userManager.Users
                 .FirstOrDefaultAsync(u => 
-                    u.Email.ToUpper() == userNameOrEmail.ToUpper() ||
                     u.UserName.ToUpper() == userNameOrEmail.ToUpper()
-                    );
+                );
 
             if (user == null)
                 return null;

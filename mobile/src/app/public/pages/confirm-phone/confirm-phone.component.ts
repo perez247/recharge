@@ -14,6 +14,7 @@ export class ConfirmPhoneComponent implements OnInit {
   appRoutes = AppRoutes.generateRoutes();
 
   appToken: AppToken;
+  changePhoneNumber = false;
 
   constructor(
     private redux: NgRedux<IAppState>,

@@ -4,7 +4,7 @@ export interface AppToken {
     isExpired: boolean;
     userId: string;
     mobileExpiry: Date;
-    isConfirmed: boolean;
+    isConfirmed: string;
     nbf: string;
     exp: string;
     iat: string;

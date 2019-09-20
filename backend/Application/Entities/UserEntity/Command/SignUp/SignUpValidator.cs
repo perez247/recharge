@@ -13,7 +13,7 @@ namespace Application.Entities.UserEntity.Command.SignUp
         {
             // for pin
             RuleFor(x => x.Pin).NotEmpty()
-                .Matches(@"^\d{5}$").WithMessage("Enter a valid numeric pin of lenght 7");
+                .Matches(@"^\d{5}$").WithMessage("Enter a valid numeric pin of lenght 5");
 
             // for user's phone number
             RuleFor(x => x.CountryCode)

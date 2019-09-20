@@ -50,12 +50,6 @@ export class AppRoutes {
             path: `private`,
             name: `private`,
 
-            // Confirm Phone Number for public
-            confirmPhone: {
-                name: 'confirm-phonenumber',
-                path: `private/confirm-phonenumber`
-            },
-
             // Home
             home: {
                 name: `home`,

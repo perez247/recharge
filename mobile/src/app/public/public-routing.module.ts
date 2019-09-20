@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { AppRoutes } from '../shared/routes/app.routes';
+import { ConfirmPhoneComponent } from './pages/confirm-phone/confirm-phone.component';
 
 
 const appRoutes = AppRoutes.generateRoutes();
@@ -15,6 +16,7 @@ const routes: Routes = [
     },
     { path: appRoutes.public.signIn.name, component: SigninComponent },
     { path: appRoutes.public.signUp.name, component: SignupComponent },
+    { path: appRoutes.public.confirmPhone.name, component: ConfirmPhoneComponent },
     { path: '**', redirectTo: appRoutes.public.signIn.name, pathMatch: 'full'},
 ];
 

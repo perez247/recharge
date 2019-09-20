@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using Application.Exceptions;
 using Application.Infrastructure.Token;
 using Application.Interfaces.IRepositories;
-using Domain.Entities;
 using MediatR;
 
 namespace Application.Entities.UserEntity.Query.SignIn
 {
     public class SignInCommand : IRequest<SignInModel>
     {
-        public string UserNameEmail { get; set; }
-        public string Password { get; set; }
+        public string PhoneNumber { get; set; }
+        public string CountryCode { get; set; }
+        public string Pin { get; set; }
     }
 
     public class SignInCommandHandler : IRequestHandler<SignInCommand, SignInModel>
@@ -24,10 +24,10 @@ namespace Application.Entities.UserEntity.Query.SignIn
         }
         public async Task<SignInModel> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
-            var user  = await _auth.SignIn(request.UserNameEmail, request.Password);
+            var user  = await _auth.SignIn($"{request.CountryCode}-{request.PhoneNumber}", request.Pin);
 
             if (user == null)
-                throw new NotFoundException(nameof(User), request.UserNameEmail);
+                throw new CustomMessageException("Invalid login credentials");
 
             var response = SignInModel.Create(user);
 

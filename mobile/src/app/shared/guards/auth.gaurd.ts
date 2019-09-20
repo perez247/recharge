@@ -24,10 +24,10 @@ export class AuthGuard implements CanActivate {
             this.router.navigate(['/' + this.appRoutes.public.signIn.path ], { queryParams: { returnUrl: state.url } });
 
             return false;
-        } else if (!_.isEmpty(token) && !token.isExpired && !token.isConfirmed) {
+        } else if (!_.isEmpty(token) && !token.isExpired && token.isConfirmed.toLowerCase() === 'false') {
 
-            this.router.navigate(['/' + this.appRoutes.private.confirmPhone.path ], { queryParams: { returnUrl: state.url } });
-
+            this.router.navigate(['/' + this.appRoutes.public.confirmPhone.path ]);
+            console.log(token);
             return false;
         }
 

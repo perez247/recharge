@@ -4,7 +4,7 @@
 
           <app-logo-heading [field]="'Confirm Phone Number'" ></app-logo-heading>
             
-            <ion-text>Enter code sent to your phone</ion-text>
+            <ion-text>Kindly verify your phone number</ion-text>
 
             <mat-form-field>
               <input
@@ -18,14 +18,14 @@
             <ion-text>10:00</ion-text>
 
             <div class="border-top border-bottom mt-3">
-              <ion-item detail lines="none" >
+              <ion-item detail lines="none" (click)="changePhoneNumber = !changePhoneNumber">
                 <ion-label color="primary">
                   Change Phone number ?
                 </ion-label>
               </ion-item>
 
               <!-- --------------------Country Code--------------- -->
-            <ion-grid no-padding>
+            <ion-grid no-padding *ngIf="changePhoneNumber">
               <ion-row no-padding>
 
 

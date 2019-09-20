@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import * as lodash from 'lodash';
 import { ServerError } from '../../interceptors/app-error-handler';
+import { ToasterService } from '../toaster/toaster.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppErrorService {
 
-  constructor() { }
+  constructor(private toast: ToasterService) { }
 
 
-  setError(error: ServerError, reactiveForm: FormGroup) {
+  async setError(error: ServerError, reactiveForm: FormGroup) {
     if (error.error) {
-        // this.toast.error(error.error);
+        await this.toast.error(error.error);
         console.log(error);
         return;
 

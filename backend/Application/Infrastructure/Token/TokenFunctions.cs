@@ -10,9 +10,10 @@ namespace Application.Infrastructure.Token
     public class TokenFunctions
     {
         public enum claims { userId,  mobileExpiry, isConfirmed};
-        public static string generateUserToken(User user) {
+        public enum type { defaultSetting, withPhoneExpiry }
+        public static string generateUserToken(User user, type type = TokenFunctions.type.defaultSetting) {
                         // Create token an sent;
-            var claims = ConfirmPhoneTime(user);
+            var claims = type == TokenFunctions.type.defaultSetting ? SetDefaultClaims(user) : ConfirmPhoneTime(user);
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("AUTHORIZATION_TOKEN")));
         
@@ -65,6 +66,16 @@ namespace Application.Infrastructure.Token
             {
                 new Claim(TokenFunctions.claims.userId.ToString(), user.Id.ToString()),
                 new Claim(TokenFunctions.claims.mobileExpiry.ToString(), DateTime.Now.AddMinutes(5).ToString()),
+                new Claim(TokenFunctions.claims.isConfirmed.ToString(), user.PhoneNumberConfirmed.ToString()),
+            };
+
+            return claims;
+        }
+
+        private static Claim[] SetDefaultClaims(User user) {
+            var claims = new[]
+            {
+                new Claim(TokenFunctions.claims.userId.ToString(), user.Id.ToString()),
                 new Claim(TokenFunctions.claims.isConfirmed.ToString(), user.PhoneNumberConfirmed.ToString()),
             };
 

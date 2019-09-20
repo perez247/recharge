@@ -49,26 +49,27 @@ export class SignupComponent implements OnInit {
 
   SignUp() {
     this.authService.signUp(this.signUpForm.value).subscribe((x: any) => {
-      this.redux.dispatch({ type: UserActionConstant.SAVE_AUTH_USER, payload: x.token });
-      // console.log('created', x);
+      // this.redux.dispatch({ type: UserActionConstant.SAVE_AUTH_USER, payload: x.token });
+      // // console.log('created', x);
 
-      this.redux.select((token) => token.user.token).subscribe(storedTokenPromise => {
-        storedTokenPromise
-          .then(storedToken => {
+      // this.redux.select((token) => token.user.token).subscribe(storedTokenPromise => {
+      //   storedTokenPromise
+      //     .then(storedToken => {
 
-            if (!_.isEmpty(storedToken)) {
-              this.router.navigate([this.appRoutes.private.confirmPhone.path]);
-            } else {
-              console.log('it seems something went wrong');
-            }
+      //       if (!_.isEmpty(storedToken)) {
+      //         this.router.navigate([this.appRoutes.private.confirmPhone.path]);
+      //       } else {
+      //         console.log('it seems something went wrong');
+      //       }
 
-          })
-          .catch((e) => { console.log(e, 'it seems something went wrong'); } );
-      });
+      //     })
+      //     .catch((e) => { console.log(e, 'it seems something went wrong'); } );
+      // });
 
       // this.redux.getState().user.token
       //   .then(() => { this.router.navigate([this.appRoutes.private.confirmPhone.path]); })
       //   .catch((e) => { console.log(e, 'it seems something went wrong'); });
+      this.router.navigate([this.appRoutes.public.signIn.path]);
 
     },
       (error: any) => { this.errorService.setError(error.error as ServerError, this.signUpForm); }

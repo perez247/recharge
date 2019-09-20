@@ -20,6 +20,10 @@ export class AuthService {
     return this.http.post(`${this.api}/signup`, data);
   }
 
+  signIn(data: any) {
+    return this.http.post(`${this.api}/signin`, data);
+  }
+
   unique(value: string) {
     return this.http.get(`${this.api}/unique?value=${value}`);
   }

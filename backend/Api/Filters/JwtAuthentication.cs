@@ -20,7 +20,11 @@ namespace Api.Filters
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("AUTHORIZATION_TOKEN"))),
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                    };
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = CustomTokenValidatiors.IsPhoneConfirmValidator
                     };
                 });
             services.AddMvc(options => {

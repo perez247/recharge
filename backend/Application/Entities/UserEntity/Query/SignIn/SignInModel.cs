@@ -6,7 +6,7 @@ namespace Application.Entities.UserEntity.Query.SignIn
 {
     public class SignInModel
     {
-        public Guid Id { get; set; }
+        // public Guid Id { get; set; }
         public string Token { get; set; }
 
         public static Expression<Func<User, SignInModel>> Projection
@@ -15,7 +15,7 @@ namespace Application.Entities.UserEntity.Query.SignIn
             {
                 return User => new SignInModel
                 {
-                    Id = User.Id
+                    // Id = User.Id
                 };
             }
         }
