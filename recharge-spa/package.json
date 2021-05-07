@@ -28,7 +28,7 @@
     "@ionic/storage": "^2.2.0",
     "cordova-sqlite-storage": "2.5.1",
     "core-js": "^2.5.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.22.2",
     "rxjs": "6.2.2",
     "zone.js": "^0.8.26"
